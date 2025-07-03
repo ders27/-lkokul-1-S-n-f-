@@ -2,97 +2,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>İlkokul 1. Sınıf Öğrenme Uygulaması</title>
+  <title>1. Sınıf Eğitim Uygulaması</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f8ff;
-      margin: 0;
-      padding: 20px;
+      background: #f0f8ff;
+      margin: 0; padding: 0;
       text-align: center;
     }
-    h1 {
-      color: #2a5d9f;
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 20px 10px;
+      font-size: 1.8em;
     }
-    .category-container {
+    main {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 20px;
-      margin-top: 30px;
+      padding: 20px;
     }
-    .category {
+    .card {
       background: white;
       border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
       cursor: pointer;
+      transition: transform 0.2s;
     }
-    .category:hover {
+    .card:hover {
       transform: scale(1.05);
     }
-    .category-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-    .category-title {
+    .card h3 {
+      margin-top: 0;
       font-size: 1.2em;
-      font-weight: bold;
-      color: #2a5d9f;
+      color: #333;
+    }
+    footer {
+      padding: 10px;
+      font-size: 0.9em;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <h1>📚 İlkokul 1. Sınıf Öğrenme</h1>
-  <div class="category-container">
-    <div class="category" onclick="alert('Harfler ve Sesler')">
-      <div class="category-icon">🔤</div>
-      <div class="category-title">Harfler ve Sesler</div>
-    </div>
-    <div class="category" onclick="alert('Renkler')">
-      <div class="category-icon">🎨</div>
-      <div class="category-title">Renkler</div>
-    </div>
-    <div class="category" onclick="alert('Şekiller')">
-      <div class="category-icon">🔷</div>
-      <div class="category-title">Şekiller</div>
-    </div>
-    <div class="category" onclick="alert('Sayılar')">
-      <div class="category-icon">🔢</div>
-      <div class="category-title">Sayılar</div>
-    </div>
-    <div class="category" onclick="alert('Hayvanlar')">
-      <div class="category-icon">🐶</div>
-      <div class="category-title">Hayvanlar</div>
-    </div>
-    <div class="category" onclick="alert('Meyve ve Sebzeler')">
-      <div class="category-icon">🍎</div>
-      <div class="category-title">Meyve & Sebze</div>
-    </div>
-    <div class="category" onclick="alert('Duygular')">
-      <div class="category-icon">😊</div>
-      <div class="category-title">Duygular</div>
-    </div>
-    <div class="category" onclick="alert('Mevsimler ve Hava')">
-      <div class="category-icon">☀️</div>
-      <div class="category-title">Mevsim & Hava</div>
-    </div>
-    <div class="category" onclick="alert('Zıt Kavramlar')">
-      <div class="category-icon">↕️</div>
-      <div class="category-title">Zıt Kavramlar</div>
-    </div>
-    <div class="category" onclick="alert('Okuma Metinleri')">
-      <div class="category-icon">📖</div>
-      <div class="category-title">Okuma Metinleri</div>
-    </div>
-    <div class="category" onclick="alert('Oyunlar')">
-      <div class="category-icon">🎲</div>
-      <div class="category-title">Eğitici Oyunlar</div>
-    </div>
-    <div class="category" onclick="alert('Testler')">
-      <div class="category-icon">📝</div>
-      <div class="category-title">Testler</div>
-    </div>
-  </div>
+  <header>
+    🧒 1. Sınıf Öğrencileri İçin Öğrenme Sayfası
+  </header>
+  <main>
+    <div class="card"><h3>🅰️ Harfler</h3></div>
+    <div class="card"><h3>🔢 Sayılar</h3></div>
+    <div class="card"><h3>🔺 Şekiller</h3></div>
+    <div class="card"><h3>🌈 Renkler</h3></div>
+    <div class="card"><h3>🐶 Hayvanlar</h3></div>
+    <div class="card"><h3>🍎 Meyve & Sebzeler</h3></div>
+    <div class="card"><h3>😊 Duygular</h3></div>
+    <div class="card"><h3>🌞 Mevsimler & Hava</h3></div>
+    <div class="card"><h3>🔁 Zıt Kavramlar</h3></div>
+    <div class="card"><h3>📖 Okuma Metinleri</h3></div>
+    <div class="card"><h3>🎮 Oyunlar</h3></div>
+    <div class="card"><h3>✅ Testler</h3></div>
+  </main>
+  <footer>
+    © 2025 Mini Eğitim Uygulaması
+  </footer>
 </body>
 </html>
