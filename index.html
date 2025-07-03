@@ -3,167 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1. Sınıf Öğrenme Uygulaması</title>
+  <title>1. Sınıf Öğrenme Uygulaması - Bol Örnekli ve Canlı</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f8ff;
+      font-family: 'Comic Sans MS', cursive, sans-serif; /* Çocuklara uygun bir font */
+      background: linear-gradient(to right, #e0f7fa, #bbdefb); /* Daha canlı arka plan */
       margin: 0; padding: 0;
       text-align: center;
       line-height: 1.6;
+      color: #333;
     }
     header {
-      background: #4CAF50;
+      background: linear-gradient(to right, #66bb6a, #43a047); /* Yeşil tonlarında gradient */
       color: white;
-      padding: 20px;
-      font-size: 1.8em;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      padding: 25px; /* Daha fazla padding */
+      font-size: 2.2em; /* Daha büyük başlık */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Daha belirgin gölge */
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* Metne gölge */
     }
     main {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Kartlar biraz daha büyük */
+      gap: 25px; /* Daha fazla boşluk */
+      padding: 30px;
       max-width: 1200px;
-      margin: 20px auto;
+      margin: 30px auto;
     }
     .card {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      padding: 20px;
+      border-radius: 18px; /* Daha yuvarlak köşeler */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25); /* Daha belirgin gölge */
+      padding: 25px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       text-decoration: none;
       color: #333;
-      display: flex; /* İçeriği ortalamak için */
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 120px; /* Kartların yüksekliğini sabitleyelim */
+      min-height: 140px; /* Kartların yüksekliği */
+      border: 3px solid #ffab40; /* Eğlenceli bir çerçeve rengi */
     }
     .card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transform: scale(1.08) rotate(2deg); /* Hafif dönüşle daha dikkat çekici */
+      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+      background: #fffbe6; /* Hafif sarımsı bir hover rengi */
     }
     .card h3 {
-      margin-top: 0;
-      font-size: 1.2em;
-      color: #333;
-      text-align: center;
+      margin-top: 10px;
+      font-size: 1.4em; /* Başlıklar daha büyük */
+      color: #00796B; /* Başlık rengi */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    .card span.emoji {
+        font-size: 3em; /* Emoji boyutu */
+        line-height: 1;
     }
     .category-content {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      margin: 20px auto;
-      padding: 30px;
-      max-width: 900px;
+      border-radius: 18px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      margin: 25px auto;
+      padding: 40px;
+      max-width: 1000px;
       text-align: left;
-      display: none; /* Varsayılan olarak gizli */
+      display: none;
+      border: 3px solid #7cb342; /* Kategori içeriği çerçevesi */
     }
     .category-content h2 {
-      color: #4CAF50;
-      font-size: 2em;
+      color: #388e3c; /* Başlık rengi */
+      font-size: 2.8em; /* Kategori başlığı daha büyük */
       margin-top: 0;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 10px;
+      border-bottom: 3px dashed #a5d6a7; /* Kesik çizgili alt çizgi */
+      padding-bottom: 15px;
       text-align: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
     }
     .category-content p {
-      margin-bottom: 15px;
-      font-size: 1.1em;
-      color: #555;
+      margin-bottom: 20px;
+      font-size: 1.2em; /* Metinler daha büyük */
+      color: #444;
     }
     .category-content ul {
       list-style-type: none;
       padding: 0;
     }
     .category-content ul li {
-      background: #e8f5e9;
-      margin-bottom: 8px;
-      padding: 10px 15px;
-      border-radius: 8px;
+      background: #e8f5e9; /* Hafif yeşil arka plan */
+      margin-bottom: 12px;
+      padding: 15px 20px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
+      font-size: 1.1em;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .category-content ul li strong {
+        color: #00796B;
     }
     .category-content img {
-      max-width: 100px;
+      max-width: 150px; /* Resimler daha büyük */
       height: auto;
-      border-radius: 5px;
-      margin-right: 10px;
+      border-radius: 10px;
+      margin-right: 15px;
       vertical-align: middle;
+      border: 2px solid #a5d6a7; /* Resim çerçevesi */
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .back-button {
-      background: #f44336;
+      background: linear-gradient(to right, #ef5350, #d32f2f); /* Kırmızı gradient */
       color: white;
-      padding: 10px 20px;
+      padding: 12px 25px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 1.1em;
-      margin-top: 20px;
-      transition: background 0.2s;
+      font-size: 1.2em;
+      margin-top: 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     .back-button:hover {
-      background: #d32f2f;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      background: linear-gradient(to right, #d32f2f, #c62828);
     }
 
     /* Görsel örnekler için düzen */
     .example-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Daha büyük ızgara öğeleri */
+        gap: 20px;
+        margin-top: 25px;
         justify-items: center;
     }
     .example-item {
         text-align: center;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background: #fff;
+        padding: 15px;
+        border: 2px dashed #9ccc65; /* Eğlenceli çerçeve */
+        border-radius: 12px;
+        background: #f9fbe7; /* Açık sarımsı arka plan */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .example-item img {
-        max-width: 80px;
+        max-width: 100px; /* Izgara içindeki resimler */
         height: auto;
         display: block;
-        margin: 0 auto 5px;
+        margin: 0 auto 10px;
+        border: none; /* İç örnek resimlerde ayrıca çerçeve olmasın */
+        box-shadow: none;
     }
     .example-item span {
         font-weight: bold;
-        color: #333;
+        color: #555;
+        font-size: 1.1em;
     }
-
+    .example-item .emoji-large {
+        font-size: 4em; /* Emoji örnekleri için büyük boyut */
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+    
+    /* Responsive Düzenlemeler */
     @media (max-width: 768px) {
+      header {
+        font-size: 1.6em;
+        padding: 20px;
+      }
       main {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 15px;
+        padding: 15px;
       }
       .card {
-        padding: 15px;
+        padding: 20px;
         min-height: 100px;
       }
       .card h3 {
-        font-size: 1em;
+        font-size: 1.1em;
+      }
+      .card span.emoji {
+        font-size: 2.5em;
       }
       .category-content {
-        padding: 20px;
+        padding: 25px;
+        margin: 15px auto;
       }
       .category-content h2 {
-        font-size: 1.6em;
+        font-size: 2em;
       }
       .category-content p {
         font-size: 1em;
       }
+      .category-content ul li {
+        padding: 10px 15px;
+        font-size: 1em;
+      }
+      .category-content img {
+        max-width: 100px;
+      }
       .example-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         gap: 10px;
       }
       .example-item img {
-        max-width: 60px;
+        max-width: 70px;
       }
+      .example-item .emoji-large {
+        font-size: 3em;
+      }
+    }
+
+    @media (max-width: 480px) {
+        main {
+            grid-template-columns: 1fr; /* Küçük ekranlarda tek sütun */
+        }
     }
   </style>
 </head>
@@ -173,260 +228,375 @@
   </header>
 
   <main id="main-menu">
-    <div class="card" data-category="harfler"><h3>🅰️ Harfler</h3></div>
-    <div class="card" data-category="sayilar"><h3>🔢 Sayılar</h3></div>
-    <div class="card" data-category="sekiller"><h3>🔺 Şekiller</h3></div>
-    <div class="card" data-category="renkler"><h3>🌈 Renkler</h3></div>
-    <div class="card" data-category="hayvanlar"><h3>🐶 Hayvanlar</h3></div>
-    <div class="card" data-category="meyve-sebzeler"><h3>🍎 Meyve & Sebzeler</h3></div>
-    <div class="card" data-category="duygular"><h3>😊 Duygular</h3></div>
-    <div class="card" data-category="mevsimler-hava"><h3>🌞 Mevsimler & Hava</h3></div>
-    <div class="card" data-category="zit-kavramlar"><h3>🔁 Zıt Kavramlar</h3></div>
-    <div class="card" data-category="okuma-metinleri"><h3>📖 Okuma Metinleri</h3></div>
-    <div class="card" data-category="oyunlar"><h3>🎮 Oyunlar</h3></div>
-    <div class="card" data-category="testler"><h3>✅ Testler</h3></div>
+    <div class="card" data-category="harfler"><span class="emoji">🅰️</span><h3>Harfler</h3></div>
+    <div class="card" data-category="sayilar"><span class="emoji">🔢</span><h3>Sayılar</h3></div>
+    <div class="card" data-category="sekiller"><span class="emoji">🔺</span><h3>Şekiller</h3></div>
+    <div class="card" data-category="renkler"><span class="emoji">🌈</span><h3>Renkler</h3></div>
+    <div class="card" data-category="hayvanlar"><span class="emoji">🐶</span><h3>Hayvanlar</h3></div>
+    <div class="card" data-category="meyve-sebzeler"><span class="emoji">🍎</span><h3>Meyve & Sebzeler</h3></div>
+    <div class="card" data-category="duygular"><span class="emoji">😊</span><h3>Duygular</h3></div>
+    <div class="card" data-category="mevsimler-hava"><span class="emoji">🌞</span><h3>Mevsimler & Hava</h3></div>
+    <div class="card" data-category="zit-kavramlar"><span class="emoji">🔁</span><h3>Zıt Kavramlar</h3></div>
+    <div class="card" data-category="okuma-metinleri"><span class="emoji">📖</span><h3>Okuma Metinleri</h3></div>
+    <div class="card" data-category="oyunlar"><span class="emoji">🎮</span><h3>Oyunlar</h3></div>
+    <div class="card" data-category="testler"><span class="emoji">✅</span><h3>Testler</h3></div>
   </main>
 
   <section id="harfler-content" class="category-content">
-    <h2>🅰️ Harfler</h2>
-    <p>Alfabemizdeki harfleri tanıyalım! Hem büyük harfleri hem de küçük harfleri öğrenelim.</p>
+    <h2>🅰️ Harfler Dünyası</h2>
+    <p>Merhaba minik kaşifler! Alfabemizdeki harfleri tanımaya ve seslerini keşfetmeye hazır mısınız?</p>
+    <h3>Büyük ve Küçük Harfler:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FF6347/FFFFFF?text=A" alt="A harfi">
-        <span>A a - Arı</span>
+        <img src="https://images.unsplash.com/photo-1579737920700-1122ce22c36a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="A harfi ve Arı">
+        <span><strong>A a</strong> - Arı 🐝</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/4682B4/FFFFFF?text=B" alt="B harfi">
-        <span>B b - Balık</span>
+        <img src="https://images.unsplash.com/photo-1549721759-994c9f1e16f3?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="B harfi ve Balık">
+        <span><strong>B b</strong> - Balık 🐟</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/3CB371/FFFFFF?text=C" alt="C harfi">
-        <span>C c - Civciv</span>
+        <img src="https://images.unsplash.com/photo-1543660309-fae2669e71c6?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="C harfi ve Civciv">
+        <span><strong>C c</strong> - Civciv 🐥</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/DAA520/FFFFFF?text=D" alt="D harfi">
-        <span>D d - Deniz</span>
+        <img src="https://images.unsplash.com/photo-1563200778-9e5c5f4c5e53?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="D harfi ve Deniz">
+        <span><strong>D d</strong> - Deniz 🌊</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1582845878239-01c0b3b4f6e1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="E harfi ve Elma">
+        <span><strong>E e</strong> - Elma 🍎</span>
+      </div>
+       <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1594916843477-d64e03b6e828?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="F harfi ve Fil">
+        <span><strong>F f</strong> - Fil 🐘</span>
       </div>
     </div>
-    <h3>Harfleri Yazma Alıştırması:</h3>
+    <h3>Harf Sesleri ve Kelimeler:</h3>
     <ul>
-        <li>A a (yukarıdan aşağıya, soldan sağa)</li>
-        <li>B b (düz çizgi, iki yarım daire)</li>
+        <li><img src="https://images.unsplash.com/photo-1595701962383-e18e030e2f5b?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Arı"> <strong>A</strong> harfi <strong>A</strong>rı'daki gibi ses çıkarır.</li>
+        <li><img src="https://images.unsplash.com/photo-1518023157482-a746592276c1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kedi"> <strong>K</strong> harfi Ke<strong>d</strong>i'deki gibi ses çıkarır.</li>
+        <li><img src="https://images.unsplash.com/photo-1563456391-7685c7f8a7e2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Gemi"> <strong>G</strong> harfi Ge<strong>m</strong>i'deki gibi ses çıkarır.</li>
     </ul>
-    <button class="back-button">Geri Dön</button>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="sayilar-content" class="category-content">
-    <h2>🔢 Sayılar</h2>
-    <p>1'den 10'a kadar sayıları öğrenelim ve sayma alıştırmaları yapalım!</p>
+    <h2>🔢 Sayılar Diyarı</h2>
+    <p>Haydi, sayıları saymaya ve matematik maceralarına atılmaya hazır olalım!</p>
+    <h3>Sayıları Tanıyalım ve Sayalım:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FFD700/000000?text=1" alt="1 sayısı">
-        <span>1 - Bir Elma 🍎</span>
+        <img src="https://images.unsplash.com/photo-1582737525492-f04b28a2a8c3?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="1 elma">
+        <span><strong>1</strong> - Bir Elma 🍎</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/ADFF2F/000000?text=2" alt="2 sayısı">
-        <span>2 - İki Kuş 🐦🐦</span>
+        <img src="https://images.unsplash.com/photo-1509652514337-124991206132?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="2 kuş">
+        <span><strong>2</strong> - İki Kuş 🐦🐦</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/87CEEB/000000?text=3" alt="3 sayısı">
-        <span>3 - Üç Top ⚽⚽⚽</span>
+        <img src="https://images.unsplash.com/photo-1567439502758-c2a4773a970e?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="3 top">
+        <span><strong>3</strong> - Üç Top ⚽⚽⚽</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FF69B4/000000?text=4" alt="4 sayısı">
-        <span>4 - Dört Çiçek 🌸🌸🌸🌸</span>
+        <img src="https://images.unsplash.com/photo-1579294528148-356c9a3e62f5?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="4 çiçek">
+        <span><strong>4</strong> - Dört Çiçek 🌸🌸🌸🌸</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1596489370008-8e8156e54f9a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="5 kurabiye">
+        <span><strong>5</strong> - Beş Kurabiye 🍪🍪🍪🍪🍪</span>
       </div>
     </div>
-    <h3>Toplama ve Çıkarma:</h3>
+    <h3>Basit Toplama ve Çıkarma:</h3>
     <ul>
-        <li>2 + 3 = 5 (İki top artı üç top, beş top eder)</li>
-        <li>5 - 2 = 3 (Beş elmadan iki elma giderse, üç elma kalır)</li>
+        <li><img src="https://images.unsplash.com/photo-1588665042457-30e75dc97ce3?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Toplama"> <strong>2 elma</strong> + <strong>3 elma</strong> = <strong>5 elma</strong> (İki elma daha üç elma, beş elma eder!)</li>
+        <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Çıkarma"> <strong>5 kuş</strong> - <strong>2 kuş</strong> = <strong>3 kuş</strong> (Beş kuştan iki kuş uçarsa, üç kuş kalır!)</li>
     </ul>
-    <button class="back-button">Geri Dön</button>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="sekiller-content" class="category-content">
-    <h2>🔺 Şekiller</h2>
-    <p>Etrafımızdaki temel şekilleri tanıyalım: Kare, daire, üçgen!</p>
+    <h2>🔺 Şekiller Macerası</h2>
+    <p>Etrafımızdaki her şeyin bir şekli var! Gel, onları keşfedelim.</p>
+    <h3>Temel Şekiller ve Örnekleri:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FF4500/FFFFFF?text=Kare" alt="Kare şekli">
-        <span>Kare (Pencere)</span>
+        <img src="https://images.unsplash.com/photo-1585863110991-ff6f6d6c6e7a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kare pencere">
+        <span><strong>Kare</strong> (Pencere, Satranç Tahtası)</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/1E90FF/FFFFFF?text=Daire" alt="Daire şekli">
-        <span>Daire (Top)</span>
+        <img src="https://images.unsplash.com/photo-1519652579198-444a1d471556?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Daire top">
+        <span><strong>Daire</strong> (Top, Saat)</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/32CD32/FFFFFF?text=Üçgen" alt="Üçgen şekli">
-        <span>Üçgen (Çatı)</span>
+        <img src="https://images.unsplash.com/photo-1502447990150-7132149b5c2a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Üçgen çatı">
+        <span><strong>Üçgen</strong> (Çatı, Dilim Pizza)</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1601362705353-83909778c430?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Dikdörtgen kapı">
+        <span><strong>Dikdörtgen</strong> (Kapı, Kitap)</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1563821033230-05e8346487e0?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Yıldız">
+        <span><strong>Yıldız</strong> (Gökyüzü, Denizyıldızı)</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="renkler-content" class="category-content">
-    <h2>🌈 Renkler</h2>
-    <p>Renkleri öğrenelim ve nesnelerle eşleştirelim!</p>
+    <h2>🌈 Renklerin Sihirli Dünyası</h2>
+    <p>Dünya ne kadar renkli! Gel, ana renkleri ve etrafımızdaki şeylerin renklerini keşfedelim.</p>
+    <h3>Ana Renkler ve Örnekleri:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <div style="width:60px; height:60px; background-color:red; border-radius:50%; margin: 0 auto 5px;"></div>
-        <span>Kırmızı (Elma)</span>
+        <div style="width:80px; height:80px; background-color:red; border-radius:50%; margin: 0 auto 10px; border: 2px solid #ddd;"></div>
+        <span><strong>Kırmızı</strong> (Elma 🍎, Çilek 🍓)</span>
       </div>
       <div class="example-item">
-        <div style="width:60px; height:60px; background-color:blue; border-radius:50%; margin: 0 auto 5px;"></div>
-        <span>Mavi (Gökyüzü)</span>
+        <div style="width:80px; height:80px; background-color:blue; border-radius:50%; margin: 0 auto 10px; border: 2px solid #ddd;"></div>
+        <span><strong>Mavi</strong> (Gökyüzü 🌌, Deniz 🌊)</span>
       </div>
       <div class="example-item">
-        <div style="width:60px; height:60px; background-color:yellow; border-radius:50%; margin: 0 auto 5px;"></div>
-        <span>Sarı (Güneş)</span>
+        <div style="width:80px; height:80px; background-color:yellow; border-radius:50%; margin: 0 auto 10px; border: 2px solid #ddd;"></div>
+        <span><strong>Sarı</strong> (Güneş ☀️, Limon 🍋)</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <h3>Ara Renkler ve Karışımlar:</h3>
+    <ul>
+        <li><img src="https://images.unsplash.com/photo-1616444874061-026d3d92c730?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Yeşil çim"> <strong>Sarı</strong> + <strong>Mavi</strong> = <strong>Yeşil</strong> (Çimenler yemyeşil!)</li>
+        <li><img src="https://images.unsplash.com/photo-1582266299108-72433ed87d70?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Turuncu portakal"> <strong>Sarı</strong> + <strong>Kırmızı</strong> = <strong>Turuncu</strong> (Portakal turuncu!)</li>
+        <li><img src="https://images.unsplash.com/photo-1620959146562-b2d90f2d4f80?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Mor üzüm"> <strong>Mavi</strong> + <strong>Kırmızı</strong> = <strong>Mor</strong> (Üzümler mor!)</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="hayvanlar-content" class="category-content">
-    <h2>🐶 Hayvanlar</h2>
-    <p>Farklı hayvanları tanıyalım ve seslerini dinleyelim!</p>
+    <h2>🐶 Hayvanlar Alemi</h2>
+    <p>Vay canına, ne kadar çok hayvan var! Onların seslerini ve nerede yaşadıklarını öğrenelim.</p>
+    <h3>Çiftlik Hayvanları:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FFC0CB?text=Köpek" alt="Köpek resmi">
-        <span>Köpek (Hav Hav!)</span>
+        <img src="https://images.unsplash.com/photo-1589993356507-991a0210bc67?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Köpek">
+        <span><strong>Köpek</strong> (Hav hav!) 🐕</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/ADD8E6?text=Kedi" alt="Kedi resmi">
-        <span>Kedi (Miyav!)</span>
+        <img src="https://images.unsplash.com/photo-1579737920700-1122ce22c36a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kedi">
+        <span><strong>Kedi</strong> (Miyav!) 🐈</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/90EE90?text=İnek" alt="İnek resmi">
-        <span>İnek (Möööö!)</span>
+        <img src="https://images.unsplash.com/photo-1563200778-9e5c5f4c5e53?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="İnek">
+        <span><strong>İnek</strong> (Möööö!) 🐄</span>
+      </div>
+       <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1547477543-9828d09873d1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Tavuk">
+        <span><strong>Tavuk</strong> (Gıt gıt gıdak!) 🐔</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <h3>Vahşi Hayvanlar:</h3>
+    <ul>
+        <li><img src="https://images.unsplash.com/photo-1546824967-7b6c507a2a68?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Aslan"> <strong>Aslan</strong> (Kükrer!) - Ormanda yaşar. 🦁</li>
+        <li><img src="https://images.unsplash.com/photo-1599327896434-22b9c7b9c9f6?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Fil"> <strong>Fil</strong> (Hortum sesi!) - Afrika'da yaşar. 🐘</li>
+        <li><img src="https://images.unsplash.com/photo-1587391942004-94e410b0e51b?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Zürafa"> <strong>Zürafa</strong> - Çok uzundur! - Savanada yaşar. 🦒</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="meyve-sebzeler-content" class="category-content">
-    <h2>🍎 Meyve & Sebzeler</h2>
-    <p>Sağlıklı meyveleri ve sebzeleri tanıyalım!</p>
+    <h2>🍎 Meyve & Sebze Sepeti</h2>
+    <p>Sağlıklı olmak için ne yemeliyiz? Rengarenk meyve ve sebzeleri tanıyalım!</p>
+    <h3>Lezzetli Meyveler:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FF0000/FFFFFF?text=Elma" alt="Elma resmi">
-        <span>Elma (Meyve)</span>
+        <img src="https://images.unsplash.com/photo-1589182377218-c2b4e9e0e5a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kırmızı Elma">
+        <span><strong>Elma</strong> 🍎 - Kırmızı ve çıtır!</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/FFA500/FFFFFF?text=Portakal" alt="Portakal resmi">
-        <span>Portakal (Meyve)</span>
+        <img src="https://images.unsplash.com/photo-1589182377218-c2b4e9e0e5a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Sarı Muz">
+        <span><strong>Muz</strong> 🍌 - Sarı ve tatlı!</span>
       </div>
       <div class="example-item">
-        <img src="https://via.placeholder.com/80/8B4513/FFFFFF?text=Havuç" alt="Havuç resmi">
-        <span>Havuç (Sebze)</span>
+        <img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Çilekler">
+        <span><strong>Çilek</strong> 🍓 - Kırmızı ve sulu!</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1621508215684-180b7b1b5e3d?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Portakal">
+        <span><strong>Portakal</strong> 🍊 - Turuncu ve C vitamini deposu!</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <h3>Sağlıklı Sebzeler:</h3>
+    <ul>
+        <li><img src="https://images.unsplash.com/photo-1579294528148-356c9a3e62f5?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Havuçlar"> <strong>Havuç</strong> 🥕 - Gözlerin için çok iyi!</li>
+        <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Domatesler"> <strong>Domates</strong> 🍅 - Kırmızı ve lezzetli!</li>
+        <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Salatalık"> <strong>Salatalık</strong> 🥒 - Yeşil ve ferahlatıcı!</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="duygular-content" class="category-content">
-    <h2>😊 Duygular</h2>
-    <p>Farklı duyguları öğrenelim ve ifade edelim.</p>
+    <h2>😊 Duygular Diyarı</h2>
+    <p>Nasıl hissediyorsun? Duygularımızı tanımak çok önemli!</p>
+    <h3>Temel Duygular:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <span style="font-size: 3em;">😊</span>
-        <span>Mutlu</span>
+        <span class="emoji-large">😊</span>
+        <span><strong>Mutlu</strong> (Gülümse!)</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">😢</span>
-        <span>Üzgün</span>
+        <span class="emoji-large">😢</span>
+        <span><strong>Üzgün</strong> (Gözyaşı dökmek)</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">😠</span>
-        <span>Kızgın</span>
+        <span class="emoji-large">😠</span>
+        <span><strong>Kızgın</strong> (Kaşlarını çatmak)</span>
+      </div>
+      <div class="example-item">
+        <span class="emoji-large">😮</span>
+        <span><strong>Şaşkın</strong> (Ağzı açık kalmak)</span>
+      </div>
+      <div class="example-item">
+        <span class="emoji-large">😨</span>
+        <span><strong>Korkmuş</strong> (Gözleri büyümek)</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <h3>Duyguları Anlama:</h3>
+    <ul>
+        <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Mutlu çocuk"> Arkadaşın oyuncağını seninle paylaşınca **mutlu** hissedersin.</li>
+        <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Üzgün çocuk"> Topun patladığında **üzgün** hissedebilirsin.</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="mevsimler-hava-content" class="category-content">
-    <h2>🌞 Mevsimler & Hava</h2>
-    <p>Mevsimleri ve hava durumlarını tanıyalım.</p>
+    <h2>🌞 Mevsimler ve Hava Durumu</h2>
+    <p>Bir yılda dört mevsim var! Ve her gün hava farklı olabilir.</p>
+    <h3>Dört Mevsim:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <span style="font-size: 3em;">☀️</span>
-        <span>Güneşli (Yaz)</span>
+        <img src="https://images.unsplash.com/photo-1536841315904-8b6f3c0e1e9a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="İlkbahar çiçekleri">
+        <span><strong>İlkbahar</strong> 🌷 (Çiçekler açar!)</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">🌨️</span>
-        <span>Karlı (Kış)</span>
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961c3e?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Yaz plaj">
+        <span><strong>Yaz</strong> ☀️ (Denize gireriz!)</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">🌧️</span>
-        <span>Yağmurlu (İlkbahar)</span>
+        <img src="https://images.unsplash.com/photo-1495954222046-2b429215033c?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Sonbahar yaprakları">
+        <span><strong>Sonbahar</strong> 🍂 (Yapraklar sararır!)</span>
+      </div>
+      <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1547477543-9828d09873d1?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kış kar">
+        <span><strong>Kış</strong> 🌨️ (Kar yağar!)</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <h3>Hava Durumları:</h3>
+    <ul>
+        <li><span class="emoji-large">☀️</span> Bugün hava **güneşli** ve çok sıcak!</li>
+        <li><span class="emoji-large">☁️</span> Hava biraz **bulutlu**, belki yağmur yağabilir.</li>
+        <li><span class="emoji-large">🌧️</span> Şemsiyeni al! Hava **yağmurlu**.</li>
+        <li><span class="emoji-large">🌬️</span> Rüzgar **rüzgarlı** esiyor, uçurtma uçuralım!</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="zit-kavramlar-content" class="category-content">
     <h2>🔁 Zıt Kavramlar</h2>
-    <p>Birbirinin zıttı olan kelimeleri öğrenelim!</p>
+    <p>Her şeyin bir zıttı var! Hadi, karşıt anlamlı kelimeleri öğrenelim.</p>
+    <h3>Zıtlar ve Örnekleri:</h3>
     <div class="example-grid">
       <div class="example-item">
-        <span style="font-size: 3em;">🐘</span>
-        <span>Büyük</span>
+        <img src="https://images.unsplash.com/photo-1574922616428-2a1e0b57b98d?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Büyük fil">
+        <span><strong>Büyük</strong> 🐘</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">🐭</span>
-        <span>Küçük</span>
+        <img src="https://images.unsplash.com/photo-1583094896791-c6f9e218b09b?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Küçük fare">
+        <span><strong>Küçük</strong> 🐭</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">⬆️</span>
-        <span>Yukarı</span>
+        <img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Açık kapı">
+        <span><strong>Açık</strong> 🚪</span>
       </div>
       <div class="example-item">
-        <span style="font-size: 3em;">⬇️</span>
-        <span>Aşağı</span>
+        <img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kapalı kapı">
+        <span><strong>Kapalı</strong> 🔒</span>
+      </div>
+       <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Hızlı koşucu">
+        <span><strong>Hızlı</strong> 🏃‍♂️</span>
+      </div>
+       <div class="example-item">
+        <img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Yavaş salyangoz">
+        <span><strong>Yavaş</strong> 🐌</span>
       </div>
     </div>
-    <button class="back-button">Geri Dön</button>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="okuma-metinleri-content" class="category-content">
-    <h2>📖 Okuma Metinleri</h2>
-    <p>Basit ve eğlenceli hikayeler okuyalım.</p>
+    <h2>📖 Okuma Metinleri ve Hikayeler</h2>
+    <p>Okumak çok eğlenceli! Kısa ve güzel hikayelerle okuma becerimizi geliştirelim.</p>
     <h3>Kırmızı Top</h3>
-    <p>Küçük Ayşe'nin **kırmızı** bir **topu** vardı. Topuyla bahçede **oynuyordu**. Bir gün topu çalılıklara kaçtı. Ayşe topunu **aradı** ve buldu. Çok **mutlu** oldu.</p>
+    <p><img src="https://images.unsplash.com/photo-1560700816-c7b7440e21a2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kırmızı top oynayan çocuk" style="float: right; margin-left: 20px;">
+    Küçük Ayşe'nin **kocaman kırmızı** bir **topu** vardı. Ayşe her gün bahçede topuyla **oynardı**. Bir gün, topu yuvarlanarak uzun, **yeşil çalılıklara** kaçtı. Ayşe topunu **aradı**, aradı ve nihayet **parlayan kırmızı** topunu buldu! Topuna sımsıkı sarıldı ve çok **mutlu** oldu. Şimdi topuyla yeni oyunlar oynamaya hazırdı.
+    </p>
+    <p style="clear: both; margin-top: 20px;">**Hikaye Soruları:**</p>
     <ul>
-        <li>Hikayede kaç kırmızı top vardı?</li>
-        <li>Ayşe topu nerede buldu?</li>
+        <li>Ayşe'nin topu ne renkti? (Cevap: Kırmızı)</li>
+        <li>Top nereye kaçtı? (Cevap: Çalılıklara)</li>
+        <li>Ayşe topu bulduğunda nasıl hissetti? (Cevap: Mutlu)</li>
     </ul>
-    <button class="back-button">Geri Dön</button>
+
+    <h3>Minik Kedi Mırnav</h3>
+    <p><img src="https://images.unsplash.com/photo-1514888870318-7f9b8c0a8c2f?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Minik kedi" style="float: left; margin-right: 20px;">
+    Minik kedi **Mırnav**, süt içmeyi çok severdi. Her sabah mama kabına koşar, **beyaz sütünü** bitirirdi. Sonra güneşin altında uyuklardı. Mırnav **yumuşacık** tüylere sahipti ve **oynamayı** çok severdi. Bir ip yumağıyla saatlerce oynayabilirdi. Mırnav, en **sevgili** kediydi.
+    </p>
+    <p style="clear: both; margin-top: 20px;">**Hikaye Soruları:**</p>
+    <ul>
+        <li>Minik kedinin adı neydi? (Cevap: Mırnav)</li>
+        <li>Mırnav ne içmeyi severdi? (Cevap: Süt)</li>
+        <li>Mırnav ne ile oynamayı severdi? (Cevap: İp yumağı)</li>
+    </ul>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="oyunlar-content" class="category-content">
-    <h2>🎮 Oyunlar</h2>
-    <p>Öğrendiklerimizi pekiştiren eğlenceli oyunlar oynayalım!</p>
+    <h2>🎮 Eğlenceli Oyunlar</h2>
+    <p>Haydi, öğrendiklerimizi eğlenerek pekiştirelim! Bu oyunları oynamak için biraz yardım isteyebilirsin.</p>
     <ul>
-      <li>**Harf Eşleştirme:** Büyük harfi küçük harfle eşleştir.</li>
-      <li>**Sayı Sayma:** Resimdeki nesneleri say ve doğru sayıyı seç.</li>
-      <li>**Gölge Eşleştirme:** Şeklin gölgesiyle doğru şekli eşleştir.</li>
-      <li>**Hayvan Sesi Bulma:** Duyduğun sesin hangi hayvana ait olduğunu bul.</li>
+      <li><img src="https://images.unsplash.com/photo-1549721759-994c9f1e16f3?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Harf kartları"> <strong>Harf Eşleştirme Oyunu:</strong> Büyük harfi küçük harfle veya harfi doğru resimle eşleştir!</li>
+      <li><img src="https://images.unsplash.com/photo-1567439502758-c2a4773a970e?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Sayı sayma"> <strong>Sayma Macerası:</strong> Ekranda beliren nesneleri say ve doğru sayıyı seç.</li>
+      <li><img src="https://images.unsplash.com/photo-1585863110991-ff6f6d6c6e7a?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Şekil bulmaca"> <strong>Şekil Bulmacası:</strong> Gölgesini gör, doğru şekli bul!</li>
+      <li><img src="https://images.unsplash.com/photo-1563200778-9e5c5f4c5e53?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Hayvan sesi"> <strong>Hayvan Sesleri Bilmecesi:</strong> Hangi ses hangi hayvana ait? Tahmin et!</li>
+      <li><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Hafıza oyunu"> <strong>Hafıza Kartları:</strong> Aynı resimli kartları eşleştir.</li>
     </ul>
-    <p> *(Bu oyunlar için JavaScript kodları ve daha fazla görsel içerik gereklidir.)*</p>
-    <button class="back-button">Geri Dön</button>
+    <p> *(Bu oyunların çalışması için ileri seviye JavaScript kodlaması gereklidir. Bu kısım için bir geliştiriciye danışmanızı öneririm.)*</p>
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <section id="testler-content" class="category-content">
-    <h2>✅ Testler</h2>
-    <p>Bilgilerini test et ve ne kadar öğrendiğini gör!</p>
-    <h3>Soru 1: Bu hangi hayvan?</h3>
-    <p><img src="https://via.placeholder.com/100/FFD700?text=Aslan" alt="Aslan resmi" style="display:block; margin: 10px auto;"></p>
+    <h2>✅ Bilgi Testleri</h2>
+    <p>Öğrendiklerini test etme zamanı! Hadi, soruları doğru cevapla!</p>
+    <h3>Soru 1: Bu hangi renk?</h3>
+    <p><img src="https://images.unsplash.com/photo-1582299879956-620a501e74a8?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="Kırmızı elma" style="display:block; margin: 15px auto; max-width: 150px;"></p>
     <ul>
-      <li><input type="radio" name="soru1" value="kedi"> Kedi</li>
-      <li><input type="radio" name="soru1" value="aslan"> Aslan</li>
-      <li><input type="radio" name="soru1" value="köpek"> Köpek</li>
+      <li><input type="radio" name="soru1" value="mavi"> Mavi</li>
+      <li><input type="radio" name="soru1" value="kirmizi"> Kırmızı</li>
+      <li><input type="radio" name="soru1" value="sari"> Sarı</li>
     </ul>
-    <button style="background-color: #2196F3;">Cevapla</button>
-    <p style="margin-top: 15px; font-weight: bold; color: #00796B;">*(Cevapların kontrolü için JavaScript gereklidir.)*</p>
-    <button class="back-button">Geri Dön</button>
+    <button class="answer-button" data-question="soru1" data-correct="kirmizi">Cevapla</button>
+    <p id="feedback1" style="margin-top: 10px; font-weight: bold;"></p>
+
+    <h3>Soru 2: Resimdeki kaç top var?</h3>
+    <p><img src="https://images.unsplash.com/photo-1567439502758-c2a4773a970e?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max" alt="3 top" style="display:block; margin: 15px auto; max-width: 150px;"></p>
+    <ul>
+      <li><input type="radio" name="soru2" value="2"> 2</li>
+      <li><input type="radio" name="soru2" value="3"> 3</li>
+      <li><input type="radio" name="soru2" value="4"> 4</li>
+    </ul>
+    <button class="answer-button" data-question="soru2" data-correct="3">Cevapla</button>
+    <p id="feedback2" style="margin-top: 10px; font-weight: bold;"></p>
+    
+    <button class="back-button">Ana Menüye Geri Dön</button>
   </section>
 
   <footer>
@@ -438,40 +608,69 @@
       const cards = document.querySelectorAll('.card');
       const categoryContents = document.querySelectorAll('.category-content');
       const mainMenu = document.getElementById('main-menu');
-      const header = document.getElementById('main-header'); // Header'ı gizlemek/göstermek için
+      const header = document.getElementById('main-header');
 
       cards.forEach(card => {
         card.addEventListener('click', () => {
           const category = card.dataset.category;
           
-          // Ana menüyü ve başlığı gizle
           mainMenu.style.display = 'none';
-          header.style.display = 'none'; // Başlığı da gizle
+          header.style.display = 'none';
 
-          // Tüm kategori içeriklerini gizle
           categoryContents.forEach(content => {
             content.style.display = 'none';
           });
 
-          // Seçilen kategori içeriğini göster
           document.getElementById(`${category}-content`).style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' }); // Sayfayı yukarı kaydır
+          window.scrollTo({ top: 0, behavior: 'smooth' }); 
         });
       });
 
       const backButtons = document.querySelectorAll('.back-button');
       backButtons.forEach(button => {
         button.addEventListener('click', () => {
-          // Tüm kategori içeriklerini gizle
           categoryContents.forEach(content => {
             content.style.display = 'none';
           });
-          // Ana menüyü ve başlığı göster
-          mainMenu.style.display = 'grid'; // Grid display'ini geri getiriyoruz
-          header.style.display = 'block'; // Başlığı göster
-          window.scrollTo({ top: 0, behavior: 'smooth' }); // Sayfayı yukarı kaydır
+          mainMenu.style.display = 'grid'; 
+          header.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' }); 
+
+          // Test feedback'lerini sıfırla
+          document.querySelectorAll('[id^="feedback"]').forEach(fb => {
+            fb.textContent = '';
+            fb.style.color = '';
+          });
+          document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.checked = false;
+          });
         });
       });
+
+      // Test cevaplama fonksiyonu
+      const answerButtons = document.querySelectorAll('.answer-button');
+      answerButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const questionName = button.dataset.question;
+          const correctAnswer = button.dataset.correct;
+          const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+          const feedbackElement = document.getElementById(`feedback${questionName.slice(-1)}`);
+
+          if (selectedOption) {
+            if (selectedOption.value === correctAnswer) {
+              feedbackElement.textContent = "Harikasın, doğru bildin! 🎉";
+              feedbackElement.style.color = "#4CAF50";
+            } else {
+              feedbackElement.textContent = `Yanlış cevap. Doğru cevap "${correctAnswer.charAt(0).toUpperCase() + correctAnswer.slice(1)}" olacaktı. 🤔`;
+              feedbackElement.style.color = "#f44336";
+            }
+          } else {
+            feedbackElement.textContent = "Lütfen bir seçim yap.";
+            feedbackElement.style.color = "#FF9800";
+          }
+        });
+      });
+
     });
   </script>
 </body>
