@@ -1,592 +1,114 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>1. Sınıf Öğrenme Uygulaması - Müfredat Sıralı, Çok Örnekli</title>
- <style>
-   /* Önceki stiller korunmuştur, sadece birkaç ekleme ve değişiklik yapılmıştır. */
-   body {
-     font-family: 'Open Sans', Arial, sans-serif;
-     background: linear-gradient(to right, #f0f8ff, #e0f2f7);
-     margin: 0; padding: 0;
-     text-align: center;
-     line-height: 1.7; /* Biraz daha satır aralığı */
-     color: #333;
-   }
-   header {
-     background: linear-gradient(to right, #29b6f6, #03a9f4);
-     color: white;
-     padding: 35px;
-     font-size: 3em; /* Daha büyük başlık */
-     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-     text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-     letter-spacing: 1.5px;
-   }
-   main {
-     display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Daha geniş kartlar */
-     gap: 35px; /* Daha fazla boşluk */
-     padding: 50px;
-     max-width: 1400px;
-     margin: 50px auto;
-   }
-   .card {
-     background: white;
-     border-radius: 25px;
-     box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-     padding: 35px;
-     cursor: pointer;
-     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-     text-decoration: none;
-     color: #333;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     min-height: 180px; /* Daha yüksek kartlar */
-     border: 5px solid #ffc107; /* Daha canlı çerçeve */
-     position: relative;
-   }
-   .card:hover {
-     transform: scale(1.1) rotate(2deg);
-     box-shadow: 0 15px 30px rgba(0,0,0,0.35);
-     background: #fffde7;
-   }
-   .card h3 {
-     margin-top: 20px;
-     font-size: 2em; /* Daha büyük başlık */
-     color: #1976d2; /* Mavi renk */
-     text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
-   }
-   .card span.emoji {
-     font-size: 4.5em; /* Daha büyük emoji */
-     line-height: 1;
-     position: absolute;
-     top: 15px;
-     left: 50%;
-     transform: translateX(-50%);
-   }
-   .category-content {
-     background: white;
-     border-radius: 25px;
-     box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-     margin: 40px auto;
-     padding: 60px; /* Daha fazla iç boşluk */
-     max-width: 1200px; /* Genişlik artırıldı */
-     text-align: left;
-     display: none;
-     border: 5px solid #4caf50; /* Canlı çerçeve */
-   }
-   .category-content h2 {
-     color: #388e3c; /* Koyu yeşil başlık */
-     font-size: 3.5em; /* Daha büyük başlık */
-     margin-top: 0;
-     border-bottom: 5px dashed #81c784;
-     padding-bottom: 25px;
-     text-align: center;
-     text-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-   }
-   .category-content h3 {
-     font-size: 2.2em; /* Daha büyük alt başlık */
-     color: #0d47a1; /* Daha koyu mavi */
-     margin-top: 30px;
-     margin-bottom: 15px;
-     border-bottom: 3px solid #64b5f6;
-     padding-bottom: 10px;
-   }
-   .category-content p {
-     margin-bottom: 30px;
-     font-size: 1.6em; /* Daha büyük metin */
-     color: #555;
-     line-height: 1.8;
-   }
-   .category-content ul {
-     list-style-type: none;
-     padding: 0;
-   }
-   .category-content ul li {
-     background: #f1f8e9;
-     margin-bottom: 20px;
-     padding: 20px 30px;
-     border-radius: 15px;
-     display: flex;
-     align-items: center;
-     gap: 25px;
-     font-size: 1.4em; /* Daha büyük liste öğeleri */
-     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-     border-left: 6px solid #aed581;
-   }
-   .category-content ul li strong {
-     color: #1565c0; /* Daha belirgin renk */
-   }
-   .category-content img {
-     max-width: 200px; /* Daha büyük resimler */
-     height: auto;
-     border-radius: 15px;
-     margin-right: 25px;
-     vertical-align: middle;
-     border: 4px solid #c8e6c9;
-     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-   }
-   .sound-icon {
-     cursor: pointer;
-     font-size: 2em; /* Daha büyük ses ikonu */
-     color: #00bcd4;
-     margin-left: 12px;
-     transition: transform 0.2s;
-   }
-   .sound-icon:hover {
-     transform: scale(1.2);
-     color: #00838f;
-   }
-   .back-button {
-     background: linear-gradient(to right, #e53935, #c62828);
-     color: white;
-     padding: 18px 35px;
-     border: none;
-     border-radius: 15px;
-     cursor: pointer;
-     font-size: 1.6em; /* Daha büyük buton yazısı */
-     margin-top: 50px;
-     transition: transform 0.3s, box-shadow 0.3s;
-     box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-   }
-   .back-button:hover {
-     transform: translateY(-3px);
-     box-shadow: 0 9px 18px rgba(0,0,0,0.4);
-     background: linear-gradient(to right, #c62828, #b71c1c);
-   }
-   .example-grid {
-     display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Daha geniş örnek kutuları */
-     gap: 30px;
-     margin-top: 40px;
-     justify-items: center;
-   }
-   .example-item {
-     text-align: center;
-     padding: 25px;
-     border: 4px dashed #9ccc65;
-     border-radius: 20px;
-     background: #f9fbe7;
-     box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;
-     align-items: center;
-   }
-   .example-item img {
-     max-width: 150px; /* Daha büyük örnek resimleri */
-     height: auto;
-     display: block;
-     margin: 0 auto 20px;
-     border: none;
-     box-shadow: none;
-   }
-   .example-item span {
-     font-weight: bold;
-     color: #444;
-     font-size: 1.3em; /* Daha büyük örnek metinleri */
-     display: block;
-     margin-top: 8px;
-   }
-   .example-item .emoji-large {
-     font-size: 6em; /* Daha büyük emojiler */
-     line-height: 1;
-     margin-bottom: 20px;
-   }
-   
-   /* Responsive Düzenlemeler */
-   @media (max-width: 1200px) {
-     main {
-       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-       gap: 30px;
-       padding: 40px;
-     }
-     .card {
-       min-height: 160px;
-       padding: 30px;
-     }
-     .card h3 {
-       font-size: 1.8em;
-     }
-     .card span.emoji {
-       font-size: 4em;
-     }
-     .category-content {
-       padding: 50px;
-       margin: 30px auto;
-     }
-     .category-content h2 {
-       font-size: 3em;
-     }
-     .category-content h3 {
-       font-size: 2em;
-     }
-     .category-content p {
-       font-size: 1.4em;
-     }
-     .category-content ul li {
-       padding: 18px 25px;
-       font-size: 1.3em;
-     }
-     .category-content img {
-       max-width: 180px;
-     }
-     .example-grid {
-       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-       gap: 25px;
-     }
-     .example-item img {
-       max-width: 130px;
-     }
-     .example-item span {
-       font-size: 1.2em;
-     }
-     .example-item .emoji-large {
-       font-size: 5.5em;
-     }
-     .sound-icon {
-       font-size: 1.8em;
-     }
-     .back-button {
-       font-size: 1.4em;
-       padding: 15px 30px;
-       margin-top: 40px;
-     }
-   }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Okuma Yolculuğum</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #fcefee;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-   @media (max-width: 992px) {
-     header {
-       font-size: 2.4em;
-       padding: 30px;
-     }
-     main {
-       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-       gap: 25px;
-       padding: 35px;
-     }
-     .card {
-       min-height: 140px;
-       padding: 25px;
-     }
-     .card h3 {
-       font-size: 1.6em;
-     }
-     .card span.emoji {
-       font-size: 3.5em;
-     }
-     .category-content {
-       padding: 40px;
-       margin: 25px auto;
-     }
-     .category-content h2 {
-       font-size: 2.8em;
-     }
-     .category-content h3 {
-       font-size: 1.8em;
-     }
-     .category-content p {
-       font-size: 1.3em;
-     }
-     .category-content ul li {
-       padding: 15px 20px;
-       font-size: 1.2em;
-     }
-     .category-content img {
-       max-width: 150px;
-     }
-     .example-grid {
-       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-       gap: 20px;
-     }
-     .example-item img {
-       max-width: 110px;
-     }
-     .example-item span {
-       font-size: 1.1em;
-     }
-     .example-item .emoji-large {
-       font-size: 5em;
-     }
-     .sound-icon {
-       font-size: 1.6em;
-     }
-     .back-button {
-       font-size: 1.3em;
-       padding: 12px 25px;
-       margin-top: 35px;
-     }
-   }
+    #app {
+      padding: 30px;
+    }
 
-   @media (max-width: 768px) {
-     header {
-       font-size: 2em;
-       padding: 25px;
-     }
-     main {
-       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-       gap: 20px;
-       padding: 25px;
-     }
-     .card {
-       min-height: 120px;
-       padding: 20px;
-     }
-     .card h3 {
-       font-size: 1.4em;
-     }
-     .card span.emoji {
-       font-size: 3em;
-     }
-     .category-content {
-       padding: 30px;
-       margin: 20px auto;
-     }
-     .category-content h2 {
-       font-size: 2.4em;
-     }
-     .category-content h3 {
-       font-size: 1.6em;
-     }
-     .category-content p {
-       font-size: 1.2em;
-     }
-     .category-content ul li {
-       padding: 12px 18px;
-       font-size: 1.1em;
-     }
-     .category-content img {
-       max-width: 130px;
-     }
-     .example-grid {
-       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-       gap: 15px;
-     }
-     .example-item img {
-       max-width: 90px;
-     }
-     .example-item span {
-       font-size: 1em;
-     }
-     .example-item .emoji-large {
-       font-size: 4.5em;
-     }
-     .sound-icon {
-       font-size: 1.4em;
-     }
-     .back-button {
-       font-size: 1.2em;
-       padding: 10px 20px;
-       margin-top: 30px;
-     }
-   }
+    .ekran {
+      display: none;
+    }
 
-   @media (max-width: 576px) {
-     header {
-       font-size: 1.8em;
-       padding: 20px;
-     }
-     main {
-       grid-template-columns: 1fr; /* Tek sütun */
-       gap: 15px;
-       padding: 20px;
-     }
-     .card {
-       min-height: 100px;
-       padding: 15px;
-     }
-     .card h3 {
-       font-size: 1.3em;
-     }
-     .card span.emoji {
-       font-size: 2.5em;
-     }
-     .category-content {
-       padding: 25px;
-       margin: 15px auto;
-     }
-     .category-content h2 {
-       font-size: 2em;
-     }
-     .category-content h3 {
-       font-size: 1.4em;
-     }
-     .category-content p {
-       font-size: 1.1em;
-     }
-     .category-content ul li {
-       padding: 10px 15px;
-       font-size: 1em;
-       flex-direction: column; /* Küçük ekranda alt alta */
-       align-items: flex-start;
-     }
-     .category-content img {
-       max-width: 100px;
-       margin-right: 0;
-       margin-bottom: 10px;
-     }
-     .example-grid {
-       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-       gap: 10px;
-     }
-     .example-item img {
-       max-width: 80px;
-     }
-     .example-item span {
-       font-size: 0.9em;
-     }
-     .example-item .emoji-large {
-       font-size: 4em;
-     }
-     .sound-icon {
-       font-size: 1.2em;
-     }
-     .back-button {
-       font-size: 1.1em;
-       padding: 10px 18px;
-       margin-top: 25px;
-     }
-   }
- </style>
+    .aktif {
+      display: block;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff7f50;
+      color: white;
+      cursor: pointer;
+    }
+
+    h1 {
+      color: #d14;
+    }
+
+    .kategori {
+      margin: 10px auto;
+      padding: 15px;
+      background-color: #ffecd2;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 300px;
+      font-size: 20px;
+    }
+  </style>
 </head>
 <body>
- <header id="main-header">
-   📚 1. Sınıf Öğrenme Dünyası
- </header>
+  <div id="app">
+    
+    <!-- Giriş Ekranı -->
+    <div id="girisEkrani" class="ekran aktif">
+      <h1>Okuma Yolculuğum</h1>
+      <p>Adını yaz ve başla!</p>
+      <input type="text" id="username" placeholder="Adın" />
+      <br>
+      <button onclick="startApp()">Başla</button>
+    </div>
 
- <main id="main-menu">
-   <div class="card" data-category="e-sesi"><span class="emoji">✏️</span><h3>E Sesi</h3></div>
-   <div class="card" data-category="l-sesi"><span class="emoji">🍋</span><h3>L Sesi</h3></div>
-   <div class="card" data-category="a-sesi"><span class="emoji">🍎</span><h3>A Sesi</h3></div>
-   <div class="card" data-category="t-sesi"><span class="emoji">🐅</span><h3>T Sesi</h3></div>
-   <div class="card" data-category="i-sesi"><span class="emoji">inek</span><h3>İ Sesi</h3></div>
-   <div class="card" data-category="n-sesi"><span class="emoji">nar</span><h3>N Sesi</h3></div>
-   <div class="card" data-category="o-sesi"><span class="emoji">🐙</span><h3>O Sesi</h3></div>
-   <div class="card" data-category="r-sesi"><span class="emoji">🌹</span><h3>R Sesi</h3></div>
-   <div class="card" data-category="m-sesi"><span class="emoji">🐒</span><h3>M Sesi</h3></div>
-   <div class="card" data-category="s-sesi"><span class="emoji">🐍</span><h3>S Sesi</h3></div>
-   <div class="card" data-category="u-sesi"><span class="emoji">uçak</span><h3>U Sesi</h3></div>
-   <div class="card" data-category="k-sesi"><span class="emoji">🐱</span><h3>K Sesi</h3></div>
-   <div class="card" data-category="ı-sesi"><span class="emoji">🎈</span><h3>I Sesi</h3></div>
-   <div class="card" data-category="y-sesi"><span class="emoji">⭐</span><h3>Y Sesi</h3></div>
-   <div class="card" data-category="d-sesi"><span class="emoji">🐬</span><h3>D Sesi</h3></div>
-   <div class="card" data-category="ş-sesi"><span class="emoji">🍄</span><h3>Ş Sesi</h3></div>
-   <div class="card" data-category="b-sesi"><span class="emoji">🐻</span><h3>B Sesi</h3></div>
-   <div class="card" data-category="z-sesi"><span class="emoji">🦓</span><h3>Z Sesi</h3></div>
-   <div class="card" data-category="ç-sesi"><span class="emoji">🍒</span><h3>Ç Sesi</h3></div>
-   <div class="card" data-category="g-sesi"><span class="emoji">🦒</span><h3>G Sesi</h3></div>
-   <div class="card" data-category="ğ-sesi"><span class="emoji">🪁</span><h3>Ğ Sesi</h3></div>
-   <div class="card" data-category="p-sesi"><span class="emoji">🐧</span><h3>P Sesi</h3></div>
-   <div class="card" data-category="j-sesi"><span class="emoji">🐅</span><h3>J Sesi</h3></div>
-   <div class="card" data-category="h-sesi"><span class="emoji">🐴</span><h3>H Sesi</h3></div>
-   <div class="card" data-category="v-sesi"><span class="emoji">🎻</span><h3>V Sesi</h3></div>
-   <div class="card" data-category="f-sesi"><span class="emoji">🦊</span><h3>F Sesi</h3></div>
- </main>
+    <!-- Ana Menü -->
+    <div id="anaMenu" class="ekran">
+      <h1>Hoş geldin, <span id="userDisplay"></span>!</h1>
+      <p>Bir kategori seç:</p>
+      <div class="kategori">🔤 Harfler</div>
+      <div class="kategori">🧩 Hece - Kelime</div>
+      <div class="kategori">📚 Cümleler</div>
+      <div class="kategori">🔢 Sayılar</div>
+      <div class="kategori">🎨 Şekiller - Renkler</div>
+      <div class="kategori">🎭 Zıt Kavramlar</div>
+      <div class="kategori">😊 Duygular</div>
+      <div class="kategori">🎮 Oyunlar</div>
+      <div class="kategori">📖 Okuma Metinleri</div>
+    </div>
 
- <section id="e-sesi-content" class="category-content">
-   <h2>✏️ E Sesi <span class="sound-icon" data-sound="e_sesi_genel">🔊</span></h2>
-   <p>Hazır mısın? İlk sesimiz **E sesi**!</p>
-   
-   <h3>E ile Başlayan Kelimeler: <span class="sound-icon" data-sound="e_baslayan_kelimeler">🔊</span></h3>
-   <div class="example-grid">
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1519985157913-52657e0cb19a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Elma">
-       <span><strong data-sound="elma">Elma</strong> 🍎 <span class="sound-icon" data-sound="elma_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1579737920700-1122ce22c36a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Eldiven">
-       <span><strong data-sound="eldiven">Eldiven</strong> 🧤 <span class="sound-icon" data-sound="eldiven_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1598515997636-d398286b9b3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Ev">
-       <span><strong data-sound="ev">Ev</strong> 🏠 <span class="sound-icon" data-sound="ev_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1560700816-c7b7440e21a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Eşek">
-       <span><strong data-sound="esek">Eşek</strong> 🐴 <span class="sound-icon" data-sound="esek_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1611266947996-01bafa67261c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Etek">
-       <span><strong data-sound="etek">Etek</strong> 👗 <span class="sound-icon" data-sound="etek_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1516321318423-6914c7f62192?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Ekmek">
-       <span><strong data-sound="ekmek">Ekmek</strong> 🍞 <span class="sound-icon" data-sound="ekmek_sesi">🔊</span></span>
-     </div>
-   </div>
+  </div>
 
-   <h3>E Sesi ile İlgili Tekerlemeler: <span class="sound-icon" data-sound="e_tekerlemeler">🔊</span></h3>
-   <ul>
-     <li><strong data-sound="ali_elma_al">Ali elma al.</strong> <span class="sound-icon" data-sound="ali_elma_al_sesi">🔊</span></li>
-     <li><strong data-sound="ece_etek_giydi">Ece etek giydi.</strong> <span class="sound-icon" data-sound="ece_etek_giydi_sesi">🔊</span></li>
-     <li><strong data-sound="emel_ekmek_yedi">Emel ekmek yedi.</strong> <span class="sound-icon" data-sound="emel_ekmek_yedi_sesi">🔊</span></li>
-   </ul>
+  <script>
+    function startApp() {
+      const username = document.getElementById("username").value.trim();
+      if (username === "") {
+        alert("Lütfen adını yaz.");
+        return;
+      }
+      localStorage.setItem("okuyucuAdi", username);
+      document.getElementById("userDisplay").innerText = username;
+      document.getElementById("girisEkrani").classList.remove("aktif");
+      document.getElementById("anaMenu").classList.add("aktif");
+    }
 
-   <button class="back-button">Ana Menüye Geri Dön</button>
- </section>
-
- <section id="l-sesi-content" class="category-content">
-   <h2>🍋 L Sesi <span class="sound-icon" data-sound="l_sesi_genel">🔊</span></h2>
-   <p>Şimdi yeni bir ses öğreniyoruz: **L sesi**!</p>
-
-   <h3>L ile Başlayan Kelimeler: <span class="sound-icon" data-sound="l_baslayan_kelimeler">🔊</span></h3>
-   <div class="example-grid">
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1547518791-11441cb6df2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Limon">
-       <span><strong data-sound="limon">Limon</strong> 🍋 <span class="sound-icon" data-sound="limon_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Lale">
-       <span><strong data-sound="lale">Lale</strong> 🌷 <span class="sound-icon" data-sound="lale_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62e73?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Lamba">
-       <span><strong data-sound="lamba">Lamba</strong> 💡 <span class="sound-icon" data-sound="lamba_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1597589901242-7770a7a7943f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Lokum">
-       <span><strong data-sound="lokum">Lokum</strong> 🍬 <span class="sound-icon" data-sound="lokum_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1587308798367-13a96bb3414d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Leylek">
-       <span><strong data-sound="leylek">Leylek</strong> 🦢 <span class="sound-icon" data-sound="leylek_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1571005238284-961e6c2e55a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Kitaplık">
-       <span><strong data-sound="kitaplik">Kitaplık</strong> 📚 (kelime içinde 'l' var) <span class="sound-icon" data-sound="kitaplik_sesi">🔊</span></span>
-     </div>
-   </div>
-
-   <h3>L Sesi ile İlgili Tekerlemeler: <span class="sound-icon" data-sound="l_tekerlemeler">🔊</span></h3>
-   <ul>
-     <li><strong data-sound="lale_limon_aldi">Lale limon aldı.</strong> <span class="sound-icon" data-sound="lale_limon_aldi_sesi">🔊</span></li>
-     <li><strong data-sound="ali_lamba_yak">Ali lamba yak.</strong> <span class="sound-icon" data-sound="ali_lamba_yak_sesi">🔊</span></li>
-     <li><strong data-sound="leyla_lokum_sevdi">Leyla lokum sevdi.</strong> <span class="sound-icon" data-sound="leyla_lokum_sevdi_sesi">🔊</span></li>
-   </ul>
-
-   <button class="back-button">Ana Menüye Geri Dön</button>
- </section>
-
- <section id="a-sesi-content" class="category-content">
-   <h2>🍎 A Sesi <span class="sound-icon" data-sound="a_sesi_genel">🔊</span></h2>
-   <p>Şimdi de **A sesi**ni öğrenme zamanı!</p>
-
-   <h3>A ile Başlayan Kelimeler: <span class="sound-icon" data-sound="a_baslayan_kelimeler">🔊</span></h3>
-   <div class="example-grid">
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1550304981-f7588c84f778?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Araba">
-       <span><strong data-sound="araba">Araba</strong> 🚗 <span class="sound-icon" data-sound="araba_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1579737920700-1122ce22c36a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Armut">
-       <span><strong data-sound="armut">Armut</strong> 🍐 <span class="sound-icon" data-sound="armut_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1584449985583-31588512bb8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Ağaç">
-       <span><strong data-sound="agac">Ağaç</strong> 🌳 <span class="sound-icon" data-sound="agac_sesi">🔊</span></span>
-     </div>
-     <div class="example-item">
-       <img src="https://images.unsplash.com/photo-1589182377218-c2b4e9e0e5a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200" alt="Ayı">
-       
+    // Sayfa yüklendiğinde önceki kullanıcı adı varsa otomatik geç
+    window.onload = function () {
+      const savedName = localStorage.getItem("okuyucuAdi");
+      if (savedName) {
+        document.getElementById("userDisplay").innerText = savedName;
+        document.getElementById("girisEkrani").classList.remove("aktif");
+        document.getElementById("anaMenu").classList.add("aktif");
+      }
+    }
+  </script>
+</body>
+</html>
