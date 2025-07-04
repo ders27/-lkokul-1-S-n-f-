@@ -3,35 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Okuma Yolculuğum Plus</title>
+    <title>İngilizce Kelime Macerası</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Genel Stil Ayarları */
         body {
-            font-family: 'Baloo Bhai 2', cursive; /* Çocuk dostu yeni font */
-            background: linear-gradient(135deg, #81D4FA 0%, #4FC3F7 100%); /* Canlı mavi gradyan */
-            color: #212121; /* Koyu gri metin */
+            font-family: 'Baloo Bhai 2', cursive;
+            background: linear-gradient(135deg, #FFD54F 0%, #FFCA28 100%); /* Canlı sarı gradyan */
+            color: #333;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden; /* Yatay kaydırmayı engelle */
+            overflow-x: hidden;
         }
 
         #app {
             background-color: #FFFFFF;
-            border-radius: 25px; /* Daha yuvarlak köşeler */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Daha belirgin gölge */
-            max-width: 800px; /* Genişletilmiş maksimum genişlik */
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); /* Daha belirgin gölge */
+            max-width: 600px; /* Biraz daha küçük ve odaklı */
             width: 95%;
             padding: 30px;
             box-sizing: border-box;
             text-align: center;
             position: relative;
-            overflow: hidden; /* İçerik taşmasını engelle */
-            border: 5px solid #FFD700; /* Altın sarısı çerçeve */
+            border: 5px solid #FFAB00; /* Turuncu çerçeve */
+            display: flex; /* İçerikleri ortalamak için */
+            flex-direction: column;
+            justify-content: center;
+            min-height: 500px; /* Minimum yükseklik */
         }
 
         /* Ekran Geçiş Animasyonları */
@@ -51,56 +54,56 @@
 
         /* Başlıklar */
         h1, h2 {
-            color: #FF6F00; /* Canlı Turuncu */
+            color: #FF5722; /* Canlı Turuncu-Kırmızı */
             margin-bottom: 25px;
-            font-size: 2.8em; /* Daha büyük başlıklar */
+            font-size: 2.8em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             font-size: 2.2em;
-            border-bottom: 3px solid #FFCC80; /* Açık Turuncu alt çizgi */
+            border-bottom: 3px solid #FFAB91; /* Açık Turuncu alt çizgi */
             padding-bottom: 12px;
             margin-top: 35px;
         }
 
         /* Giriş Alanları */
         input[type="text"] {
-            width: calc(100% - 60px); /* Daha geniş */
+            width: calc(100% - 60px);
             padding: 15px 20px;
             margin-bottom: 25px;
-            border: 2px solid #FFB74D; /* Turuncu çerçeve */
+            border: 2px solid #FFAB91;
             border-radius: 12px;
             font-size: 1.3em;
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.3s, box-shadow 0.3s;
-            background-color: #FFFDE7; /* Hafif sarımsı arka plan */
+            background-color: #FFF8E1; /* Hafif sarımsı arka plan */
         }
 
         input[type="text"]:focus {
-            border-color: #FF6F00;
-            box-shadow: 0 0 10px rgba(255, 111, 0, 0.4);
+            border-color: #FF5722;
+            box-shadow: 0 0 10px rgba(255, 87, 34, 0.4);
         }
 
         /* Butonlar */
-        button, select {
+        button {
             background-color: #4CAF50; /* Canlı Yeşil */
             color: #fff;
-            padding: 14px 30px; /* Daha büyük butonlar */
+            padding: 14px 30px;
             border: none;
             border-radius: 12px;
             font-size: 1.3em;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s;
-            margin: 8px; /* Daha fazla boşluk */
+            margin: 8px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            text-transform: uppercase; /* Metni büyük harf yap */
+            text-transform: uppercase;
             font-weight: bold;
         }
 
-        button:hover, select:hover {
-            background-color: #66BB6A; /* Açık Yeşil */
+        button:hover {
+            background-color: #66BB6A;
             transform: translateY(-3px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
@@ -110,28 +113,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        /* Select Kutusu */
-        select {
-            width: calc(100% - 16px);
-            padding: 12px 20px;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 20px center;
-            background-size: 24px auto;
-            border: 2px solid #FFB74D;
-            color: #212121;
-            font-weight: normal;
-        }
-
         /* Ses Ayarları Düğmesi */
         #sound-settings-btn {
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: #FFC107; /* Sarı */
+            background-color: #FFC107;
             color: #212121;
             padding: 10px 15px;
             font-size: 1em;
@@ -158,7 +145,7 @@
         }
 
         .modal-content {
-            background-color: #FFFDE7;
+            background-color: #FFF8E1;
             padding: 40px;
             border-radius: 20px;
             width: 90%;
@@ -166,11 +153,11 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             text-align: left;
             position: relative;
-            border: 3px solid #FFD700;
+            border: 3px solid #FFAB00;
         }
 
         .close-button {
-            color: #FF6F00;
+            color: #FF5722;
             position: absolute;
             top: 15px;
             right: 25px;
@@ -179,7 +166,7 @@
             cursor: pointer;
         }
         .close-button:hover {
-            color: #E65100;
+            color: #E64A19;
         }
 
         .volume-control {
@@ -191,15 +178,15 @@
 
         .volume-control label {
             font-size: 1.4em;
-            color: #212121;
-            white-space: nowrap; /* Metnin tek satırda kalmasını sağlar */
+            color: #333;
+            white-space: nowrap;
         }
 
         .volume-control input[type="range"] {
             width: 100%;
             -webkit-appearance: none;
-            height: 12px; /* Kalınlaştırılmış slider */
-            background: #FFCC80; /* Açık turuncu yol */
+            height: 12px;
+            background: #FFAB91;
             border-radius: 6px;
             outline: none;
         }
@@ -207,100 +194,91 @@
         .volume-control input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 28px; /* Daha büyük thumb */
-            height: 28px;
-            background: #FF6F00; /* Turuncu thumb */
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-        }
-
-        .volume-control input[type="range"]::-moz-range-thumb {
             width: 28px;
             height: 28px;
-            background: #FF6F00;
+            background: #FF5722;
             border-radius: 50%;
             cursor: grab;
             box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
 
-        /* Kategori Listesi (Ana Menü) */
-        .category-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Daha esnek ve biraz daha büyük */
-            gap: 20px; /* Daha fazla boşluk */
+        /* Ana Menü Butonları */
+        .main-menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             margin-top: 30px;
         }
 
-        .category-item {
-            background-color: #8BC34A; /* Canlı Yeşil */
-            padding: 25px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #fff;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid #689F38; /* Koyu yeşil çerçeve */
+        .main-menu-buttons button {
+            width: 100%;
+            max-width: 300px; /* Daha geniş ama ortalanmış */
+            align-self: center; /* Butonları ortala */
+            background-color: #2196F3; /* Canlı Mavi */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .category-item:hover {
-            background-color: #9CCC65; /* Açık Yeşil */
+        .main-menu-buttons button:hover {
+            background-color: #42A5F5;
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
+        
+        /* Kelime Kartı Stili */
+        .word-card {
+            background-color: #FFFDE7; /* Açık sarı arka plan */
+            border: 3px solid #FFAB00;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px auto;
+            max-width: 400px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            animation: bounceIn 0.6s ease-out;
+        }
 
-        .category-item span {
-            display: block;
-            margin-top: 15px;
+        .word-card p {
+            font-size: 2.8em; /* Daha büyük kelimeler */
+            font-weight: bold;
+            color: #FF5722; /* Turuncu-Kırmızı kelime */
+            margin-bottom: 20px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-
-        .category-item img {
-            width: 70px; /* Daha büyük ikonlar */
-            height: 70px;
-            margin-bottom: 10px;
-            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
+        
+        .word-card button {
+            background-color: #2196F3; /* Mavi dinle butonu */
+            padding: 15px 35px;
+            font-size: 1.5em;
+        }
+        .word-card button:hover {
+            background-color: #42A5F5;
         }
 
-        /* İçerik Bölümleri (Genel) */
-        .content-section {
-            padding: 20px;
-            text-align: left;
-            line-height: 1.8;
-        }
-
-        .content-section p {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            color: #424242;
-        }
-
-        .challenge-container {
-            background-color: #E8F5E9; /* Çok açık yeşil */
-            border-radius: 15px;
-            padding: 25px;
+        /* Test Bölümü */
+        .test-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* İki sütun */
+            gap: 15px;
             margin-top: 25px;
-            border: 3px dashed #A5D6A7; /* Yeşil kesikli çerçeve */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        .challenge-container p {
-            font-weight: bold;
-            color: #388E3C; /* Koyu yeşil */
-            font-size: 1.4em;
-            margin-bottom: 15px;
+        .test-options button {
+            background-color: #8BC34A; /* Yeşil seçenek butonları */
+            padding: 15px 20px;
+            font-size: 1.3em;
+            white-space: nowrap; /* Kelimeler tek satırda kalsın */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Taşarsa üç nokta koy */
+            border: 2px solid #689F38;
+        }
+
+        .test-options button:hover {
+            background-color: #9CCC65;
         }
 
         /* Geri Bildirim Mesajları */
         .feedback {
             margin-top: 20px;
-            font-size: 1.5em;
+            font-size: 1.6em;
             font-weight: bold;
             animation: bounceIn 0.5s ease-out;
         }
@@ -313,269 +291,24 @@
             100% { transform: scale(1); }
         }
 
-        /* Navigasyon Butonları (Ana Menü, Sonraki) */
+        /* Navigasyon Butonları */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 2px solid #FFCC80;
+            border-top: 2px solid #FFD54F; /* Sarı üst çizgi */
         }
 
         .nav-buttons button {
-            background-color: #FF6F00; /* Turuncu */
+            background-color: #FF5722; /* Turuncu-Kırmızı */
             color: #fff;
             padding: 12px 25px;
             font-size: 1.1em;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .nav-buttons button:hover {
-            background-color: #E65100;
-        }
-
-        /* Harfler, Heceler, Sayılar, Şekiller, Duygular Gridleri */
-        .letters-grid, .syllables-grid, .numbers-grid, .shapes-grid, .emotions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Daha büyük kartlar */
-            gap: 15px; /* Daha fazla boşluk */
-            margin: 25px 0;
-        }
-
-        .letter-card, .syllable-card, .number-card, .shape-card, .emotion-card {
-            background-color: #FFFFFF;
-            border: 3px solid #8BC34A; /* Canlı yeşil çerçeve */
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
-            cursor: pointer;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .letter-card:hover, .syllable-card:hover, .number-card:hover, .shape-card:hover, .emotion-card:hover {
-            transform: scale(1.08);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-            background-color: #E8F5E9; /* Hover'da açık yeşil */
-        }
-
-        .letter-card img, .shape-card img, .emotion-card img {
-            width: 65px; /* Daha büyük ikonlar */
-            height: 65px;
-            margin-bottom: 10px;
-            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
-        }
-
-        .letter-card span {
-            display: block;
-            font-size: 2.8em; /* Daha büyük harfler */
-            font-weight: bold;
-            color: #FF6F00; /* Turuncu Harfler */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .syllable-card, .number-card {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #FF6F00;
-            padding: 20px;
-        }
-
-        .shape-card span, .emotion-card span {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #388E3C;
-        }
-
-        /* Sayılar için özel butonlar */
-        .number-buttons button {
-            width: 70px; /* Daha büyük yuvarlak butonlar */
-            height: 70px;
-            border-radius: 50%;
-            font-size: 1.8em;
-            margin: 8px;
-            background-color: #FF9800; /* Canlı Turuncu */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        .number-buttons button:hover {
-            background-color: #FB8C00;
-        }
-
-        /* Şekiller ve Renkler için */
-        .shape-challenge img {
-            width: 150px; /* Daha büyük şekiller */
-            height: 150px;
-            margin: 15px;
-            cursor: pointer;
-            border: 4px solid transparent;
-            border-radius: 15px;
-            transition: border-color 0.3s, transform 0.2s;
-        }
-        .shape-challenge img:hover {
-            border-color: #FF6F00;
-            transform: scale(1.05);
-        }
-        .color-challenge button {
-            width: 90px; /* Daha büyük renk butonları */
-            height: 90px;
-            border-radius: 50%;
-            margin: 15px;
-            border: 4px solid #FFFFFF; /* Beyaz çerçeve */
-            transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        .color-challenge button:hover {
-            transform: scale(1.1);
-            border-color: #FF6F00;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
-        }
-
-        /* Zıt Kavramlar */
-        .opposites-challenge {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-top: 25px;
-            flex-wrap: wrap; /* Küçük ekranlarda alt alta geçsin */
-        }
-        .opposites-challenge div {
-            padding: 15px;
-            border-radius: 15px;
-            background-color: #FFF9C4; /* Açık sarı arka plan */
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-        .opposites-challenge div:hover {
-            transform: translateY(-5px);
-        }
-        .opposites-challenge img.large-icon {
-            width: 120px; /* Daha büyük ikonlar */
-            height: 120px;
-            margin-bottom: 10px;
-            vertical-align: middle;
-        }
-        .opposites-challenge button {
-            min-width: 180px; /* Daha geniş butonlar */
-            padding: 18px 30px;
-            font-size: 1.6em;
-            background-color: #FF9800; /* Turuncu */
-        }
-        .opposites-challenge button:hover {
-            background-color: #FB8C00;
-        }
-
-        /* Duygular */
-        .emotion-selection {
-            display: flex;
-            justify-content: center;
-            gap: 25px; /* Daha fazla boşluk */
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-        .emotion-selection button {
-            background: #E0F2F7; /* Çok açık mavi arka plan */
-            border: 2px solid #B3E5FC; /* Açık mavi çerçeve */
-            color: #212121;
-            font-size: 1.2em;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-        }
-        .emotion-selection button:hover {
-            background: #B3E5FC;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .emotion-selection button img {
-            width: 90px; /* Daha büyük ikonlar */
-            height: 90px;
-            margin-bottom: 10px;
-        }
-
-        /* Oyunlar */
-        #bubble-game-area {
-            position: relative;
-            width: 100%;
-            height: 300px; /* Daha büyük oyun alanı */
-            background-color: #DCEDC8; /* Açık yeşil */
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 25px;
-            border: 3px dashed #8BC34A; /* Yeşil kesikli çerçeve */
-        }
-        .bubble {
-            position: absolute;
-            background-color: #A5D6A7; /* Orta Yeşil */
-            border-radius: 50%;
-            cursor: pointer;
-            animation: floatUp 5s infinite linear;
-            font-size: 1.8em; /* Daha büyük metin */
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-        .bubble:hover {
-            background-color: #81C784;
-            transform: scale(1.05);
-        }
-        @keyframes floatUp {
-            from { bottom: -60px; opacity: 1; }
-            to { bottom: 100%; opacity: 0; }
-        }
-
-        /* Okuma Metinleri */
-        .story-text {
-            background-color: #F1F8E9; /* Çok Açık Yeşil */
-            padding: 25px;
-            border-radius: 15px;
-            text-align: left;
-            margin-top: 25px;
-            line-height: 2; /* Daha rahat okunabilirlik */
-            font-size: 1.2em;
-            color: #424242;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-        .story-controls button {
-            margin-top: 20px;
-            background-color: #388E3C; /* Koyu Yeşil */
-        }
-        .story-controls button:hover {
-            background-color: #2E7D32;
-        }
-        #story-options button {
-            margin: 8px;
-            background-color: #FF9800; /* Turuncu seçenekler */
-        }
-        #story-options button:hover {
-            background-color: #FB8C00;
-        }
-
-        /* Harf Yazma Alanı */
-        #drawing-canvas {
-            border: 3px solid #FF6F00; /* Turuncu çerçeve */
-            background-color: #FFFFFF;
-            cursor: crosshair;
-            border-radius: 15px;
-            margin-top: 25px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        }
-        .drawing-controls button {
-            margin: 10px 8px;
-            background-color: #FFC107; /* Sarı */
-            color: #212121;
-        }
-        .drawing-controls button:hover {
-            background-color: #FFD54F;
+            background-color: #E64A19;
         }
 
         /* Küçük ekranlar için responsive ayarlar */
@@ -589,19 +322,7 @@
             h2 {
                 font-size: 1.8em;
             }
-            .category-list {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                gap: 15px;
-            }
-            .category-item {
-                font-size: 1.1em;
-                padding: 15px;
-            }
-            .category-item img {
-                width: 50px;
-                height: 50px;
-            }
-            button, select {
+            button {
                 padding: 10px 20px;
                 font-size: 1.1em;
             }
@@ -612,36 +333,26 @@
             .volume-control label {
                 font-size: 1.2em;
             }
-            .letter-card span {
-                font-size: 2.2em;
-            }
-            .syllable-card, .number-card {
-                font-size: 1.6em;
-            }
-            .shape-challenge img {
-                width: 100px;
-                height: 100px;
-            }
-            .color-challenge button {
-                width: 70px;
-                height: 70px;
-            }
-            .opposites-challenge button {
-                min-width: 120px;
+            .main-menu-buttons button {
                 font-size: 1.2em;
+                padding: 12px 25px;
             }
-            .emotion-selection button img {
-                width: 70px;
-                height: 70px;
+            .word-card p {
+                font-size: 2em;
             }
-            #bubble-game-area {
-                height: 200px;
+            .word-card button {
+                font-size: 1.2em;
+                padding: 12px 25px;
+            }
+            .test-options {
+                grid-template-columns: 1fr; /* Küçük ekranlarda tek sütun */
             }
         }
     </style>
 </head>
 <body>
     <div id="app">
+        
         <button id="sound-settings-btn" onclick="openSoundSettings()">🔊 Ses Ayarları</button>
 
         <div id="soundSettingsModal" class="modal">
@@ -656,485 +367,121 @@
         </div>
 
         <div id="screen-login" class="screen active">
-            <h1>Okuma Yolculuğum Plus</h1>
+            <h1>İngilizce Kelime Macerası</h1>
             <p>Adın:</p>
             <input type="text" id="username" placeholder="Adını buraya yaz">
-            <button onclick="login()">Başla</button>
+            <button onclick="login()">Maceraya Başla!</button>
         </div>
 
         <div id="screen-menu" class="screen">
             <h1>Hoşgeldin, <span id="user-name"></span>!</h1>
-            <select id="level-filter" onchange="applyFilter()">
-                <option value="all">Seviye: Tümü</option>
-                <option value="easy">Kolay</option>
-                <option value="medium">Orta</option>
-                <option value="hard">Zor</option>
-            </select>
-            <div class="category-list">
-                <div class="category-item" onclick="openSection('letters')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927357.png" alt="Harfler">
-                    <span>🔤 Harfler</span>
-                </div>
-                <div class="category-item" onclick="openSection('syllables')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3233/3233777.png" alt="Hece & Kelime">
-                    <span>🧩 Hece & Kelime</span>
-                </div>
-                <div class="category-item" onclick="openSection('sentences')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927236.png" alt="Cümleler">
-                    <span>📚 Cümleler</span>
-                </div>
-                <div class="category-item" onclick="openSection('numbers')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927341.png" alt="Sayılar">
-                    <span>🔢 Sayılar</span>
-                </div>
-                <div class="category-item" onclick="openSection('shapes')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927375.png" alt="Şekiller & Renkler">
-                    <span>🎨 Şekiller & Renkler</span>
-                </div>
-                <div class="category-item" onclick="openSection('opposites')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927244.png" alt="Zıt Kavramlar">
-                    <span>🎭 Zıt Kavramlar</span>
-                </div>
-                <div class="category-item" onclick="openSection('emotions')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927329.png" alt="Duygular">
-                    <span>😊 Duygular</span>
-                </div>
-                <div class="category-item" onclick="openSection('dictation')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927236.png" alt="Dikte">
-                    <span>✍️ Dikte</span>
-                </div>
-                <div class="category-item" onclick="openSection('letter-tracing')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927361.png" alt="Harf Yazma">
-                    <span>✏️ Harf Yazma</span>
-                </div>
-                <div class="category-item" onclick="openSection('games')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927324.png" alt="Oyunlar">
-                    <span>🎮 Oyunlar</span>
-                </div>
-                <div class="category-item" onclick="openSection('stories')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927326.png" alt="Okuma Metinleri">
-                    <span>📖 Okuma Metinleri</span>
-                </div>
+            <div class="main-menu-buttons">
+                <button onclick="openSection('learn')">📖 Kelime Öğren</button>
+                <button onclick="openSection('test')">📝 Kelime Testi</button>
             </div>
         </div>
 
-        <div id="screen-letters" class="screen">
-            <h2>🔤 Harfler</h2>
-            <div class="letters-grid" id="letters-grid">
-                </div>
+        <div id="screen-learn" class="screen">
+            <h2>📖 Kelime Öğren</h2>
+            <div class="word-card">
+                <p id="english-word"></p>
+                <p id="turkish-meaning" style="font-size: 1.8em; color: #555;"></p>
+                <button onclick="playCurrentWordSound()">Dinle 🔊</button>
+            </div>
             <div class="nav-buttons">
                 <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
+                <button onclick="nextWord()">Sonraki Kelime</button>
             </div>
         </div>
 
-        <div id="screen-syllables" class="screen content-section">
-            <h2>🧩 Hece & Kelime</h2>
-            <div class="challenge-container">
-                <p>Hece Oluşturma: Aşağıdaki harfleri birleştirerek doğru heceyi bul.</p>
-                <div class="syllables-grid">
-                    <button class="syllable-card" onclick="checkSyllable('BA')">B + A</button>
-                    <button class="syllable-card" onclick="checkSyllable('EL')">E + L</button>
-                    <button class="syllable-card" onclick="checkSyllable('MA')">M + A</button>
+        <div id="screen-test" class="screen">
+            <h2>📝 Kelime Testi</h2>
+            <div class="word-card">
+                <p id="test-turkish-word" style="font-size: 2.2em;"></p>
+                <button onclick="playCurrentTestWordSound()">Dinle 🔊</button>
+            </div>
+            <div class="test-options" id="test-options">
                 </div>
-                <p id="syllable-feedback" class="feedback"></p>
-            </div>
-
-            <div class="challenge-container" style="margin-top: 30px;">
-                <p>Kelime Tamamlama: Eksik harfi bul ve kelimeyi tamamla!</p>
-                <p style="font-size: 1.5em; font-weight: bold; margin: 15px 0;">ELM_</p>
-                <div class="syllables-grid">
-                    <button onclick="checkWord('ELMA')">A</button>
-                    <button onclick="checkWord('ELME')">E</button>
-                    <button onclick="checkWord('ELMI')">I</button>
-                </div>
-                <p id="word-feedback" class="feedback"></p>
-            </div>
-
+            <p id="test-feedback" class="feedback"></p>
             <div class="nav-buttons">
                 <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
+                <button onclick="generateTestQuestion()">Sonraki Soru</button>
             </div>
         </div>
-
-        <div id="screen-sentences" class="screen content-section">
-            <h2>📚 Cümleler</h2>
-            <div class="challenge-container">
-                <p>Aşağıdaki cümleyi dinle ve ne hakkında olduğunu anla.</p>
-                <p style="font-size: 1.3em; font-weight: bold; color: #FF6F00;">"Kedi süt içer."</p>
-                <button onclick="playSentence('s1')">Dinle</button>
-            </div>
-
-            <div class="challenge-container" style="margin-top: 30px;">
-                <p>Bu cümlede kimin süt içtiğini bul:</p>
-                <button onclick="checkSentenceAnswer('Kedi')">Kedi</button>
-                <button onclick="checkSentenceAnswer('Köpek')">Köpek</button>
-                <button onclick="checkSentenceAnswer('Kuş')">Kuş</button>
-                <p id="sentence-feedback" class="feedback"></p>
-            </div>
-            
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-numbers" class="screen content-section">
-            <h2>🔢 Sayılar</h2>
-            <p>Aşağıdaki sayıları öğrenelim ve dinleyelim:</p>
-            <div class="numbers-grid number-buttons">
-                <button onclick="playSound('n1')">1</button>
-                <button onclick="playSound('n2')">2</button>
-                <button onclick="playSound('n3')">3</button>
-                <button onclick="playSound('n4')">4</button>
-                <button onclick="playSound('n5')">5</button>
-                <button onclick="playSound('n6')">6</button>
-                <button onclick="playSound('n7')">7</button>
-                <button onclick="playSound('n8')">8</button>
-                <button onclick="playSound('n9')">9</button>
-                <button onclick="playSound('n10')">10</button>
-            </div>
-            
-            <div class="challenge-container">
-                <p>Resimdeki elmaların sayısını bul:</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/123/123300.png" alt="Üç Elma" style="width:150px; margin: 15px auto; display: block;">
-                <p style="font-size: 1.3em; font-weight: bold;">Kaç elma var?</p>
-                <button onclick="checkNumber(3)">3</button>
-                <button onclick="checkNumber(4)">4</button>
-                <button onclick="checkNumber(2)">2</button>
-                <p id="number-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-shapes" class="screen content-section">
-            <h2>🎨 Şekiller & Renkler</h2>
-            <p>Farklı şekilleri tanıyalım:</p>
-            <div class="shapes-grid">
-                <div class="shape-card" onclick="playSound('circle')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" alt="Daire"><span>Daire</span>
-                </div>
-                <div class="shape-card" onclick="playSound('square')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" alt="Kare"><span>Kare</span>
-                </div>
-                <div class="shape-card" onclick="playSound('triangle')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616601.png" alt="Üçgen"><span>Üçgen</span>
-                </div>
-            </div>
-
-            <div class="challenge-container shape-challenge">
-                <p>Aşağıdaki şekillerden **Daire** olanı bul:</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" alt="Kare" onclick="checkShape('Kare')"/>
-                <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" alt="Daire" onclick="checkShape('Daire')"/>
-                <p id="shape-feedback" class="feedback"></p>
-            </div>
-
-            <div class="challenge-container color-challenge" style="margin-top: 30px;">
-                <p>Aşağıdaki renklerden **Kırmızı** olanı bul:</p>
-                <button style="background:blue;" onclick="checkColor('blue')"></button>
-                <button style="background:red;" onclick="checkColor('red')"></button>
-                <button style="background:green;" onclick="checkColor('green')"></button>
-                <p id="color-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-opposites" class="screen content-section">
-            <h2>🎭 Zıt Kavramlar</h2>
-            <p>Aşağıdaki zıt kavramları öğrenelim:</p>
-            <div class="challenge-container opposites-challenge">
-                <div onclick="playSound('buyuk')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/388/388480.png" class="large-icon" alt="Büyük Fil">
-                    <p>Büyük</p>
-                </div>
-                <div onclick="playSound('kucuk')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/388/388481.png" class="large-icon" alt="Küçük Fare">
-                    <p>Küçük</p>
-                </div>
-            </div>
-
-            <div class="challenge-container opposites-challenge" style="margin-top: 30px;">
-                <p>Aşağıdakilerden **BÜYÜK** olanı seç:</p>
-                <button onclick="checkOpposite('BÜYÜK')">BÜYÜK</button>
-                <button onclick="checkOpposite('küçük')">küçük</button>
-                <p id="opposite-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-emotions" class="screen content-section">
-            <h2>😊 Duygular</h2>
-            <p>Nasıl hissediyorsun? Resimlere tıklayarak duyguları öğrenelim:</p>
-            <div class="emotion-selection">
-                <button onclick="playSound('mutlu')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" alt="Mutlu">
-                    <span>Mutlu</span>
-                </button>
-                <button onclick="playSound('uzgun')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742753.png" alt="Üzgün">
-                    <span>Üzgün</span>
-                </button>
-                <button onclick="playSound('kizgin')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742756.png" alt="Kızgın">
-                    <span>Kızgın</span>
-                </button>
-            </div>
-
-            <div class="challenge-container" style="margin-top: 30px;">
-                <p>Resimdeki kişinin duygusu nedir?</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" style="width: 100px; margin: 15px auto; display: block;" alt="Mutlu yüz"/>
-                <button onclick="checkEmotion('Mutlu')">Mutlu</button>
-                <button onclick="checkEmotion('Kızgın')">Kızgın</button>
-                <p id="emotion-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-dictation" class="screen content-section">
-            <h2>✍️ Dikte Çalışmaları</h2>
-            <p>Dinlediğin kelimeyi veya cümleyi dikkatlice yaz.</p>
-            <div class="challenge-container" style="margin-top: 20px;">
-                <p style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">Dinle ve Yaz:</p>
-                <button onclick="startDictation()">🎧 Dinle</button>
-                <input type="text" id="dictation-input" placeholder="Buraya yaz...">
-                <button onclick="checkDictation()">Kontrol Et</button>
-                <p id="dictation-feedback" class="feedback" style="margin-top: 15px;"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-letter-tracing" class="screen content-section">
-            <h2>✏️ Harfleri İzleyerek Yazma</h2>
-            <p>Seçtiğin harfin üzerinden parmağınla veya farenle geçerek yazmayı öğren.</p>
-            <div class="challenge-container">
-                <p style="font-size: 1.5em; font-weight: bold; color: #FF6F00;">Harf: <span id="tracing-letter">A</span></p>
-                <canvas id="drawing-canvas" width="350" height="250"></canvas> <div class="drawing-controls">
-                    <button onclick="loadTracingLetter()">Yeni Harf</button>
-                    <button onclick="clearCanvas()">Temizle</button>
-                    <button onclick="checkTracing()">Kontrol Et</button>
-                </div>
-                <p id="tracing-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-games" class="screen content-section">
-            <h2>🎮 Oyunlar</h2>
-            <h3>Baloncuk Patlatma Oyunu</h3>
-            <p>Baloncuklara tıklayarak onları patlat ve puan kazan!</p>
-            <div id="bubble-game-area">
-                </div>
-            <p style="font-weight: bold; margin-top: 15px;">Puan: <span id="score">0</span></p>
-            <button onclick="startGame()">Oyunu Başlat</button>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-stories" class="screen content-section">
-            <h2>📖 Okuma Metinleri</h2>
-            <div class="story-text">
-                <h3 id="story-title"></h3>
-                <p id="story-content"></p>
-            </div>
-            <div class="story-controls">
-                <button onclick="playStory()">Dinle</button>
-                <button onclick="stopStory()">Durdur</button>
-                <button onclick="nextStory()">Yeni Hikaye</button>
-            </div>
-            <div class="challenge-container" style="margin-top: 20px;">
-                <p id="story-question"></p>
-                <div id="story-options">
-                    </div>
-                <p id="story-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-            </div>
-        </div>
-
+        
         <div id="audio-container" style="display:none;">
-            <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
-            <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
-            <audio id="C" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg"></audio>
-            <audio id="Ç" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_%C3%87.ogg"></audio>
-            <audio id="D" src="https://upload.wikimedia.org/wikipedia/commons/8/84/Turkish_alphabet_D.ogg"></audio>
-            <audio id="E" src="https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_E.ogg"></audio>
-            <audio id="F" src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Turkish_alphabet_F.ogg"></audio>
-            <audio id="G" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Turkish_alphabet_G.ogg"></audio>
-            <audio id="Ğ" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Turkish_alphabet_%C4%9E.ogg"></audio>
-            <audio id="H" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Turkish_alphabet_H.ogg"></audio>
-            <audio id="I" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Turkish_alphabet_I.ogg"></audio>
-            <audio id="İ" src="https://upload.wikimedia.org/wikipedia/commons/0/02/Turkish_alphabet_%C4%B0.ogg"></audio>
-            <audio id="J" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Turkish_alphabet_J.ogg"></audio>
-            <audio id="K" src="https://upload.wikimedia.org/wikipedia/commons/5/52/Turkish_alphabet_K.ogg"></audio>
-            <audio id="L" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Turkish_alphabet_L.ogg"></audio>
-            <audio id="M" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_M.ogg"></audio>
-            <audio id="N" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_N.ogg"></audio>
-            <audio id="O" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Turkish_alphabet_O.ogg"></audio>
-            <audio id="Ö" src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Turkish_alphabet_%C3%96.ogg"></audio>
-            <audio id="P" src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Turkish_alphabet_P.ogg"></audio>
-            <audio id="R" src="https://upload.wikimedia.org/wikipedia/commons/1/17/Turkish_alphabet_R.ogg"></audio>
-            <audio id="S" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Turkish_alphabet_S.ogg"></audio>
-            <audio id="Ş" src="https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_%C5%9E.ogg"></audio>
-            <audio id="T" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_T.ogg"></audio>
-            <audio id="U" src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Turkish_alphabet_U.ogg"></audio>
-            <audio id="Ü" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Turkish_alphabet_%C3%9C.ogg"></audio>
-            <audio id="V" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Turkish_alphabet_V.ogg"></audio>
-            <audio id="Y" src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Turkish_alphabet_Y.ogg"></audio>
-            <audio id="Z" src="https://upload.wikimedia.org/wikipedia/commons/2/23/Turkish_alphabet_Z.ogg"></audio>
-
-            <audio id="n1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-            <audio id="n2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
-            <audio id="n3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
-            <audio id="n4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"></audio>
-            <audio id="n5" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"></audio>
-            <audio id="n6" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"></audio>
-            <audio id="n7" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"></audio>
-            <audio id="n8" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
-            <audio id="n9" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"></audio>
-            <audio id="n10" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"></audio>
-
-            <audio id="s1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3"></audio>
-
-            <audio id="circle" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3"></audio>
-            <audio id="square" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3"></audio>
-            <audio id="triangle" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3"></audio>
-
-            <audio id="buyuk" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"></audio>
-            <audio id="kucuk" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3"></audio>
-
-            <audio id="mutlu" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3"></audio>
-            <audio id="uzgun" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3"></audio>
-            <audio id="kizgin" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3"></audio>
-
-            <audio id="elma_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3"></audio>
-            <audio id="kedi_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-21.mp3"></audio>
-            <audio id="ev_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-22.mp3"></audio>
-            <audio id="okul_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-23.mp3"></audio>
-            <audio id="ogrenci_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-24.mp3"></audio>
-            <audio id="bilgisayar_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-25.mp3"></audio>
-
-            <audio id="story1_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-26.mp3"></audio>
-            <audio id="story2_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-27.mp3"></audio>
-
-            <audio id="correct-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3"></audio>
-            <audio id="incorrect-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3"></audio>
-        </div>
+            <audio id="correct-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3"></audio> <audio id="incorrect-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3"></audio> </div>
 
     </div>
 
     <script>
         /* JavaScript Başlangıcı */
 
-        // Genel Değişkenler ve Veriler
-        const sections = ['letters', 'syllables', 'sentences', 'numbers', 'shapes', 'opposites', 'emotions', 'dictation', 'letter-tracing', 'games', 'stories'];
-        const levels = ['all', 'easy', 'medium', 'hard'];
-        let currentSectionIndex = 0;
-        let playingAudio = null; // Şu an çalan ses dosyasını tutar
-        let userProgress = JSON.parse(localStorage.getItem('userProgress')) || {}; // Kullanıcı ilerlemesini kaydeder
+        // Genel Değişkenler
+        let playingAudio = null;
+        let currentWordIndex = 0;
+        let currentTestWord = null;
 
-        // Harf Verileri (Türk Alfabesi) - Resimler ve Sesler ile güncellendi
-        const turkishAlphabet = [
-            { char: 'A', img: 'https://cdn-icons-png.flaticon.com/512/3884/3884401.png', sound: 'A', level: 'easy' },
-            { char: 'B', img: 'https://cdn-icons-png.flaticon.com/512/135/135620.png', sound: 'B', level: 'easy' },
-            { char: 'C', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864514.png', sound: 'C', level: 'medium' },
-            { char: 'Ç', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807666.png', sound: 'Ç', level: 'medium' },
-            { char: 'D', img: 'https://cdn-icons-png.flaticon.com/512/2913/2913627.png', sound: 'D', level: 'easy' },
-            { char: 'E', img: 'https://cdn-icons-png.flaticon.com/512/6076/6076840.png', sound: 'E', level: 'easy' },
-            { char: 'F', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864517.png', sound: 'F', level: 'medium' },
-            { char: 'G', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864520.png', sound: 'G', level: 'medium' },
-            { char: 'Ğ', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807667.png', sound: 'Ğ', level: 'hard' },
-            { char: 'H', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864523.png', sound: 'H', level: 'medium' },
-            { char: 'I', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864526.png', sound: 'I', level: 'hard' }, // Noktasız I
-            { char: 'İ', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864529.png', sound: 'İ', level: 'easy' }, // Noktalı İ
-            { char: 'J', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864532.png', sound: 'J', level: 'hard' },
-            { char: 'K', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864535.png', sound: 'K', level: 'easy' },
-            { char: 'L', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864538.png', sound: 'L', level: 'easy' },
-            { char: 'M', 'img': 'https://cdn-icons-png.flaticon.com/512/1864/1864541.png', sound: 'M', level: 'easy' },
-            { char: 'N', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864544.png', sound: 'N', level: 'easy' },
-            { char: 'O', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864547.png', sound: 'O', level: 'easy' },
-            { char: 'Ö', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807668.png', sound: 'Ö', level: 'medium' },
-            { char: 'P', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864550.png', sound: 'P', level: 'easy' },
-            { char: 'R', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864553.png', sound: 'R', level: 'easy' },
-            { char: 'S', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864556.png', sound: 'S', level: 'easy' },
-            { char: 'Ş', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807669.png', sound: 'Ş', level: 'medium' },
-            { char: 'T', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864559.png', sound: 'T', level: 'easy' },
-            { char: 'U', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864562.png', sound: 'U', level: 'easy' },
-            { char: 'Ü', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807670.png', sound: 'Ü', level: 'medium' },
-            { char: 'V', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864565.png', sound: 'V', level: 'medium' },
-            { char: 'Y', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864568.png', sound: 'Y', level: 'medium' },
-            { char: 'Z', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864571.png', sound: 'Z', level: 'medium' },
+        // En Basit 200 İngilizce Kelime Örneği (Sadece ilk birkaçını ekledim, tamamını sen ekleyebilirsin)
+        // Her kelime için: { english: "İngilizce Kelime", turkish: "Türkçe Anlamı", sound: "sesDosyasiIDsi" }
+        // *** ÖNEMLİ: Ses dosyası ID'leri, `<audio>` etiketinin `id` attribute'una karşılık gelmelidir.
+        //           Bu ses dosyalarını kendin kaydetmeli ve uygun URL'lere sahip olmalısın.
+        //           Şu an için örnek URL'ler kullanılacaktır. ***
+        const words = [
+            { english: "Hello", turkish: "Merhaba", sound: "hello_sound" },
+            { english: "Goodbye", turkish: "Güle güle", sound: "goodbye_sound" },
+            { english: "Please", turkish: "Lütfen", sound: "please_sound" },
+            { english: "Thank you", turkish: "Teşekkür ederim", sound: "thankyou_sound" },
+            { english: "Yes", turkish: "Evet", sound: "yes_sound" },
+            { english: "No", turkish: "Hayır", sound: "no_sound" },
+            { english: "Cat", turkish: "Kedi", sound: "cat_sound" },
+            { english: "Dog", turkish: "Köpek", sound: "dog_sound" },
+            { english: "Book", turkish: "Kitap", sound: "book_sound" },
+            { english: "Water", turkish: "Su", sound: "water_sound" },
+            { english: "Food", turkish: "Yemek", sound: "food_sound" },
+            { english: "House", turkish: "Ev", sound: "house_sound" },
+            { english: "Car", turkish: "Araba", sound: "car_sound" },
+            { english: "Run", turkish: "Koşmak", sound: "run_sound" },
+            { english: "Walk", turkish: "Yürümek", sound: "walk_sound" },
+            { english: "Eat", turkish: "Yemek yemek", sound: "eat_sound" },
+            { english: "Drink", turkish: "İçmek", sound: "drink_sound" },
+            { english: "Happy", turkish: "Mutlu", sound: "happy_sound" },
+            { english: "Sad", turkish: "Üzgün", sound: "sad_sound" },
+            { english: "Big", turkish: "Büyük", sound: "big_sound" },
+            { english: "Small", turkish: "Küçük", sound: "small_sound" },
+            { english: "Red", turkish: "Kırmızı", sound: "red_sound" },
+            { english: "Blue", turkish: "Mavi", sound: "blue_sound" },
+            { english: "Green", turkish: "Yeşil", sound: "green_sound" },
+            { english: "Sun", turkish: "Güneş", sound: "sun_sound" },
+            { english: "Moon", turkish: "Ay", sound: "moon_sound" },
+            { english: "Star", turkish: "Yıldız", sound: "star_sound" },
+            { english: "One", turkish: "Bir", sound: "one_sound" },
+            { english: "Two", turkish: "İki", sound: "two_sound" },
+            { english: "Three", turkish: "Üç", sound: "three_sound" },
+            // ... Buraya en temel 200 kelimeyi tamamlayabilirsin
         ];
 
-        // Dikte Verileri
-        const dictationWords = [
-            { word: "ELMA", sound: "elma_sound", level: "easy" },
-            { word: "KEDİ", sound: "kedi_sound", level: "easy" },
-            { word: "EV", sound: "ev_sound", level: "easy" },
-            { word: "OKUL", sound: "okul_sound", level: "medium" },
-            { word: "ÖĞRENCİ", sound: "ogrenci_sound", level: "hard" },
-            { word: "BİLGİSAYAR", sound: "bilgisayar_sound", level: "hard" }
-        ];
-        let currentDictationWord = null; // Şu anki dikte kelimesini tutar
-
-        // Okuma Metinleri ve Sorular
-        const stories = [
-            {
-                id: 'story1',
-                title: "Küçük Ayı ve Balık",
-                content: `Küçük Ayı, güneşli bir sabah erkenden uyandı. Karnı çok açtı ve kahvaltıda lezzetli balıklar yemek istiyordu. Hemen olta takımını aldı ve göletin yolunu tuttu. Gölete vardığında suyun ne kadar berrak olduğunu fark etti. Biraz bekledikten sonra oltasına küçük bir balık takıldı. Küçük Ayı çok sevindi ama sonra balığın ne kadar küçük olduğunu gördü. "Senin büyümen için biraz daha zamana ihtiyacın var," dedi ve balığı dikkatlice suya geri bıraktı. Evine dönerken yolda tatlı bir bal arısı kovanı buldu ve afiyetle bal yedi. Küçük Ayı, bazen başkalarını düşünmenin daha önemli olduğunu öğrendi.`,
-                sound: "story1_sound",
-                question: "Küçük Ayı sabah uyandığında ne yemek istiyordu?",
-                options: ["Balık", "Bal", "Elma"],
-                answer: "Balık"
-            },
-            {
-                id: 'story2',
-                title: "Tavşan ve Kaplumbağa",
-                content: `Bir zamanlar çok hızlı koşan bir Tavşan ile yavaş yürüyen bir Kaplumbağa varmış. Tavşan her zaman Kaplumbağa ile alay edermiş. Bir gün, "Gel yarışalım," demiş Tavşan. Kaplumbağa kabul etmiş. Yarış başlamış ve Tavşan hemen ileri fırlamış. O kadar hızlıymış ki, yorulunca bir ağacın altında uyumaya karar vermiş. Kaplumbağa ise hiç durmadan, yavaş yavaş yürümeye devam etmiş. Tavşan uyandığında, Kaplumbağa'nın bitiş çizgisine yaklaştığını görmüş. Koşmaya başlamış ama artık çok geç kalmış. Kaplumbağa yarışı kazanmış. Bu olaydan sonra Tavşan, kimseyi küçümsememeyi ve azimli olmayı öğrenmiş.`,
-                sound: "story2_sound",
-                question: "Yarışı kim kazandı?",
-                options: ["Tavşan", "Kaplumbağa", "Tilki"],
-                answer: "Kaplumbağa"
+        // Ses dosyalarını dinamik olarak ekle (SoundHelix'ten geçici örnekler)
+        function addAudioElements() {
+            const audioContainer = document.getElementById('audio-container');
+            words.forEach(word => {
+                let audio = document.getElementById(word.sound);
+                if (!audio) {
+                    audio = document.createElement('audio');
+                    audio.id = word.sound;
+                    // *** BURAYI KENDİ SES DOSYALARININ URL'LERİ İLE DEĞİŞTİRMELİSİN ***
+                    // Örnek: `audio.src = \`sesler/${word.sound}.mp3\`;`
+                    // Geçici olarak SoundHelix'ten farklı şarkılar kullanıyorum
+                    audio.src = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${(Math.floor(Math.random() * 30) + 1)}.mp3`;
+                    audioContainer.appendChild(audio);
+                }
+            });
+            // Ses seviyesini uygula
+            const savedVolume = localStorage.getItem('masterVolume');
+            if (savedVolume !== null) {
+                setAllVolumes(savedVolume);
             }
-        ];
-        let currentStoryIndex = 0;
-        let currentStoryAudio = null;
-
-        // Harf İzleme (Tracing) için değişkenler
-        let canvas, ctx;
-        let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
-        let currentTracingLetter = null;
+        }
 
         // Ekranları Yönetme Fonksiyonları
         function switchScreen(screenId) {
@@ -1144,16 +491,11 @@
             document.getElementById('screen-' + screenId).classList.add('active');
             stopAllSounds(); // Ekran değiştiğinde tüm sesleri durdur
 
-            // Belirli bölümler için başlangıç ayarları
-            if (screenId === 'letter-tracing') {
-                initTracingCanvas();
-                loadTracingLetter(); // Harf izleme ekranı açıldığında ilk harfi yükle
-            } else if (screenId === 'stories') {
-                loadStory(currentStoryIndex); // Hikaye ekranı açıldığında hikayeyi yükle
-            } else if (screenId === 'games') {
-                stopGame(); // Oyun ekranına geçildiğinde oyunu durdur
+            if (screenId === 'learn') {
+                loadWordForLearning();
+            } else if (screenId === 'test') {
+                generateTestQuestion();
             }
-            // Diğer bölümler için özel başlangıç kodları buraya eklenebilir
         }
 
         function login() {
@@ -1168,17 +510,11 @@
         }
 
         function openSection(sectionName) {
-            currentSectionIndex = sections.indexOf(sectionName);
             switchScreen(sectionName);
         }
 
         function goMenu() {
             switchScreen('menu');
-        }
-
-        function nextSection() {
-            currentSectionIndex = (currentSectionIndex + 1) % sections.length;
-            switchScreen(sections[currentSectionIndex]);
         }
 
         // Seslendirme Fonksiyonları
@@ -1187,31 +523,23 @@
                 audio.pause();
                 audio.currentTime = 0;
             });
-            playingAudio = null; // Çalan ses bilgisini sıfırla
-            if (currentStoryAudio) {
-                currentStoryAudio.pause();
-                currentStoryAudio.currentTime = 0;
-                currentStoryAudio = null;
-            }
+            playingAudio = null;
         }
 
         function playSound(audioId) {
-            stopAllSounds(); // Yeni bir ses çalmadan önce tüm sesleri durdur
-
+            stopAllSounds();
             const audio = document.getElementById(audioId);
             if (audio) {
                 audio.play().catch(e => console.error("Ses çalma hatası:", e));
-                playingAudio = audio; // Çalan ses dosyasını kaydet
+                playingAudio = audio;
             } else {
                 console.warn(`Ses dosyası bulunamadı: ${audioId}`);
-                // showFeedback(audioId + ' sesi yok!', 'incorrect', null); // Ses yoksa kullanıcıya bildir - aşırı uyarı vermemek için yorum satırı yapıldı
             }
         }
 
         // Ses Ayarları Modal Fonksiyonları
         function openSoundSettings() {
             document.getElementById('soundSettingsModal').style.display = 'flex';
-            // Kayıtlı ses seviyesini yükle
             const savedVolume = localStorage.getItem('masterVolume');
             if (savedVolume !== null) {
                 document.getElementById('masterVolume').value = savedVolume;
@@ -1226,10 +554,10 @@
             document.querySelectorAll('audio').forEach(audio => {
                 audio.volume = volume;
             });
-            localStorage.setItem('masterVolume', volume); // Ses seviyesini kaydet
+            localStorage.setItem('masterVolume', volume);
         }
 
-        // Geri Bildirim Fonksiyonu (Daha Gelişmiş)
+        // Geri Bildirim Fonksiyonu
         function showFeedback(message, type, elementId, duration = 2000) {
             const feedbackElement = elementId ? document.getElementById(elementId) : null;
             if (feedbackElement) {
@@ -1243,453 +571,93 @@
                 setTimeout(() => {
                     feedbackElement.innerText = '';
                     feedbackElement.className = 'feedback';
-                }, duration); // Belirtilen süre sonra geri bildirimi temizle
+                }, duration);
             }
         }
 
-        // Kullanıcı İlerlemesi
-        function updateProgress(section, item, status) {
-            if (!userProgress[section]) {
-                userProgress[section] = {};
-            }
-            userProgress[section][item] = status; // true/false veya completed/attempted
-            localStorage.setItem('userProgress', JSON.stringify(userProgress));
-            // İlerleme göstergesini güncelleyebiliriz (şimdilik basit bir kayıt)
-            console.log(`İlerleme kaydedildi: ${section} - ${item}: ${status}`);
+        // Kelime Öğrenme Bölümü
+        function loadWordForLearning() {
+            const word = words[currentWordIndex];
+            document.getElementById('english-word').innerText = word.english;
+            document.getElementById('turkish-meaning').innerText = word.turkish;
+            playCurrentWordSound(); // Kelime yüklenince sesini çal
         }
 
-        // Harfler Bölümü Fonksiyonları
-        function generateLetterCards() {
-            const lettersGrid = document.getElementById('letters-grid');
-            lettersGrid.innerHTML = ''; // Mevcut içeriği temizle
-            turkishAlphabet.forEach(letter => {
-                const card = document.createElement('div');
-                card.className = 'letter-card';
-                card.dataset.level = letter.level;
-                card.onclick = () => {
-                    playSound(letter.sound); // Harfin sesini çal
-                    updateProgress('letters', letter.char, true); // Harfi dinlediğini kaydet
-                };
-                card.innerHTML = `
-                    <img src="${letter.img}" alt="${letter.char}"/>
-                    <span>${letter.char}</span>
-                `;
-                lettersGrid.appendChild(card);
-            });
-            applyFilter(); // Kartlar oluşturulduktan sonra filtreyi uygula
+        function playCurrentWordSound() {
+            playSound(words[currentWordIndex].sound);
         }
 
-        function applyFilter() {
-            let filter = document.getElementById('level-filter').value;
-            document.querySelectorAll('.letter-card').forEach(card => {
-                if (filter === 'all' || card.dataset.level === filter) {
-                    card.style.display = 'flex'; // CSS'te flex olarak ayarlandığı için
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        function nextWord() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            loadWordForLearning();
         }
 
-        // Hece & Kelime Bölümü Fonksiyonları
-        function checkSyllable(selectedSyllable) {
-            const correctSyllable = 'BA'; // Örnek olarak sabit
-            if (selectedSyllable === correctSyllable) {
-                showFeedback('Doğru! Harikasın!', 'correct', 'syllable-feedback');
-                // playSound(selectedSyllable); // Doğru hecenin sesini çal (eğer varsa)
-                updateProgress('syllables', 'hece_olusturma', true);
-            } else {
-                showFeedback('Yanlış cevap. Tekrar dene.', 'incorrect', 'syllable-feedback');
-                updateProgress('syllables', 'hece_olusturma', false);
-            }
-        }
+        // Kelime Testi Bölümü
+        function generateTestQuestion() {
+            document.getElementById('test-feedback').innerText = '';
+            const optionsDiv = document.getElementById('test-options');
+            optionsDiv.innerHTML = ''; // Önceki seçenekleri temizle
 
-        function checkWord(selectedChar) {
-            const correctAnswer = 'ELMA';
-            const currentWord = 'ELM_'; // Metindeki kelime
-            const completedWord = currentWord.replace('_', selectedChar);
-
-            if (completedWord === correctAnswer) {
-                showFeedback('Tebrikler! Doğru kelime: ' + correctAnswer, 'correct', 'word-feedback');
-                // playSound('ELMA_sound'); // Kelimenin sesini çal (eğer varsa, dictationWords'ten çekilebilir)
-                updateProgress('syllables', 'kelime_tamamlama', true);
-            } else {
-                showFeedback('Yanlış. Başka bir harf dene.', 'incorrect', 'word-feedback');
-                updateProgress('syllables', 'kelime_tamamlama', false);
-            }
-        }
-
-        // Cümleler Bölümü Fonksiyonları
-        function playSentence(sentenceId) {
-            playSound(sentenceId);
-            updateProgress('sentences', sentenceId + '_dinleme', true);
-        }
-
-        function checkSentenceAnswer(answer) {
-            if (answer === 'Kedi') {
-                showFeedback('Doğru! Kedi süt içer.', 'correct', 'sentence-feedback');
-                updateProgress('sentences', 'cümle_anlama', true);
-            } else {
-                showFeedback('Yanlış. Cümleyi tekrar dinle.', 'incorrect', 'sentence-feedback');
-                updateProgress('sentences', 'cümle_anlama', false);
-            }
-        }
-
-        // Sayılar Bölümü Fonksiyonları
-        function checkNumber(selectedNumber) {
-            const correctNumber = 3; // Resimdeki elma sayısı
-            if (selectedNumber === correctNumber) {
-                showFeedback('Doğru! ' + correctNumber + ' elma var.', 'correct', 'number-feedback');
-                updateProgress('numbers', 'elma_sayma', true);
-            } else {
-                showFeedback('Yanlış. Sayıları tekrar say.', 'incorrect', 'number-feedback');
-                updateProgress('numbers', 'elma_sayma', false);
-            }
-        }
-
-        // Şekiller & Renkler Bölümü Fonksiyonları
-        function checkShape(selectedShape) {
-            const correctShape = 'Daire';
-            if (selectedShape === correctShape) {
-                showFeedback('Doğru! Bu bir ' + correctShape + '.', 'correct', 'shape-feedback');
-                updateProgress('shapes', 'daire_bulma', true);
-            } else {
-                showFeedback('Yanlış. Tekrar dene.', 'incorrect', 'shape-feedback');
-                updateProgress('shapes', 'daire_bulma', false);
-            }
-        }
-
-        function checkColor(selectedColor) {
-            const correctColor = 'red';
-            if (selectedColor === correctColor) {
-                showFeedback('Doğru! Bu renk Kırmızı.', 'correct', 'color-feedback');
-                updateProgress('shapes', 'kirmizi_bulma', true);
-            } else {
-                showFeedback('Yanlış. Dikkatli bak.', 'incorrect', 'color-feedback');
-                updateProgress('shapes', 'kirmizi_bulma', false);
-            }
-        }
-
-        // Zıt Kavramlar Bölümü Fonksiyonları
-        function checkOpposite(selectedConcept) {
-            const correctConcept = 'BÜYÜK';
-            if (selectedConcept === correctConcept) {
-                showFeedback('Doğru!', 'correct', 'opposite-feedback');
-                updateProgress('opposites', 'buyuk_kucuk', true);
-            } else {
-                showFeedback('Yanlış. Tekrar düşün.', 'incorrect', 'opposite-feedback');
-                updateProgress('opposites', 'buyuk_kucuk', false);
-            }
-        }
-
-        // Duygular Bölümü Fonksiyonları
-        function checkEmotion(selectedEmotion) {
-            const correctEmotion = 'Mutlu'; // Resimdeki duygu
-            if (selectedEmotion === correctEmotion) {
-                showFeedback('Doğru! O mutlu görünüyor.', 'correct', 'emotion-feedback');
-                updateProgress('emotions', 'mutlu_duygu', true);
-            } else {
-                showFeedback('Yanlış. Tekrar dene.', 'incorrect', 'emotion-feedback');
-                updateProgress('emotions', 'mutlu_duygu', false);
-            }
-        }
-
-        // Dikte Çalışmaları Fonksiyonları
-        function startDictation() {
-            stopAllSounds(); // Önceki sesleri durdur
             // Rastgele bir kelime seç
-            const randomIndex = Math.floor(Math.random() * dictationWords.length);
-            currentDictationWord = dictationWords[randomIndex];
-            
-            // Ses dosyasını çal
-            playSound(currentDictationWord.sound);
+            const randomIndex = Math.floor(Math.random() * words.length);
+            currentTestWord = words[randomIndex];
+            document.getElementById('test-turkish-word').innerText = currentTestWord.turkish;
+            playCurrentTestWordSound(); // Sorunun sesini çal
 
-            // Giriş alanını temizle
-            document.getElementById('dictation-input').value = '';
-            document.getElementById('dictation-feedback').innerText = '';
-        }
+            // Yanlış seçenekler için havuz oluştur
+            let wrongOptions = words.filter(word => word.english !== currentTestWord.english);
+            // Karıştır ve ilk 3 tanesini al (doğru cevap ile birlikte 4 seçenek olacak)
+            wrongOptions.sort(() => 0.5 - Math.random());
+            let selectedOptions = wrongOptions.slice(0, 3);
+            selectedOptions.push(currentTestWord); // Doğru cevabı ekle
 
-        function checkDictation() {
-            if (!currentDictationWord) {
-                showFeedback('Lütfen önce "Dinle" butonuna basarak bir kelime dinleyin.', 'incorrect', 'dictation-feedback');
-                return;
-            }
+            // Seçenekleri karıştır
+            selectedOptions.sort(() => 0.5 - Math.random());
 
-            const userAnswer = document.getElementById('dictation-input').value.trim().toUpperCase(); // Büyük harfe çevir
-            const correctAnswer = currentDictationWord.word.toUpperCase(); // Büyük harfe çevir
-
-            if (userAnswer === correctAnswer) {
-                showFeedback('Harika! Doğru bildin!', 'correct', 'dictation-feedback');
-                updateProgress('dictation', currentDictationWord.word, true);
-            } else {
-                showFeedback(`Yanlış cevap. Doğru kelime: ${correctAnswer}`, 'incorrect', 'dictation-feedback');
-                updateProgress('dictation', currentDictationWord.word, false);
-            }
-            currentDictationWord = null; // Kontrol sonrası kelimeyi sıfırla
-        }
-
-        // Harfleri İzleyerek Yazma Fonksiyonları
-        function initTracingCanvas() {
-            if (!canvas) { // Kanvas daha önce başlatılmadıysa
-                canvas = document.getElementById('drawing-canvas');
-                ctx = canvas.getContext('2d');
-                ctx.lineWidth = 10; // Kalınlaştırılmış çizgi
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#FF6F00'; // Canlı turuncu çizim rengi
-
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('mouseup', stopDrawing);
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseout', stopDrawing); // Kanvas dışına çıkınca durdur
-
-                // Mobil için dokunmatik olaylar
-                canvas.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // Varsayılan dokunma davranışını engelle (kaydırma vb.)
-                    const touch = e.touches[0];
-                    startDrawing({ clientX: touch.clientX, clientY: touch.clientY });
-                }, { passive: false }); // passive: false, preventDefault'in çalışmasını sağlar
-                canvas.addEventListener('touchend', stopDrawing);
-                canvas.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    draw({ clientX: touch.clientX, clientY: touch.clientY });
-                }, { passive: false });
-            }
-        }
-
-        function startDrawing(e) {
-            isDrawing = true;
-            [lastX, lastY] = [e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top];
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            [lastX, lastY] = [e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top];
-            ctx.lineTo(lastX, lastY);
-            ctx.stroke();
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-        }
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('tracing-feedback').innerText = '';
-            // Harf ana hattını tekrar çiz
-            if (currentTracingLetter) {
-                drawLetterOutline(currentTracingLetter);
-            }
-        }
-
-        function loadTracingLetter() {
-            clearCanvas();
-            // Rastgele bir harf seç
-            const randomIndex = Math.floor(Math.random() * turkishAlphabet.length);
-            currentTracingLetter = turkishAlphabet[randomIndex].char;
-            document.getElementById('tracing-letter').innerText = currentTracingLetter;
-            
-            // Harf ana hattını çiz (basit bir örnek, daha gelişmişi için SVG veya daha karmaşık çizim algoritmaları gerekir)
-            drawLetterOutline(currentTracingLetter);
-            
-            playSound(currentTracingLetter); // Harfin sesini çal
-        }
-
-        // BU KISIM BASİT BİR GÖSTERİM. GERÇEKÇİ HARF İZLEME İÇİN DAHA GELİŞMİŞ ALGORİTMALAR GEREKİR.
-        function drawLetterOutline(letter) {
-            ctx.save();
-            ctx.font = 'bold 200px "Baloo Bhai 2"'; // Daha büyük ve çocuk fontu
-            ctx.fillStyle = '#FFECB3'; // Çok açık sarı (izlenecek harf rengi)
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            const x = canvas.width / 2;
-            const y = canvas.height / 2;
-            ctx.fillText(letter, x, y);
-            ctx.restore();
-        }
-
-        function checkTracing() {
-            // BU KONTROL ŞU AN İÇİN SADECE BOŞ OLUP OLMADIĞINA BAKIYOR.
-            // Gerçek bir harf izleme kontrolü, çizimin harfin ana hatlarına ne kadar uyduğunu analiz etmelidir.
-            // Bu, çok daha karmaşık bir algoritma gerektirir (örn. piksel analizi veya yol eşleştirme).
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let pixelsDrawn = 0;
-            for (let i = 0; i < imageData.data.length; i += 4) {
-                // Sadece çizim renginin (FF6F00) piksellerini say
-                if (imageData.data[i] === 255 && imageData.data[i+1] === 111 && imageData.data[i+2] === 0 && imageData.data[i+3] > 0) {
-                    pixelsDrawn++;
-                }
-            }
-
-            // Basit bir eşik değeri ile kontrol
-            if (pixelsDrawn > 500) { // Yeterli piksel çizildiyse başarılı say
-                showFeedback('Harikasın! Harfi iyi takip ettin!', 'correct', 'tracing-feedback');
-                updateProgress('letter-tracing', currentTracingLetter, true);
-            } else {
-                showFeedback('Daha fazla çizmelisin.', 'incorrect', 'tracing-feedback');
-                updateProgress('letter-tracing', currentTracingLetter, false);
-            }
-        }
-
-
-        // Oyunlar Bölümü - Baloncuk Patlatma Oyunu
-        let score = 0;
-        let bubbleInterval;
-        let gameActive = false;
-        let gameTimer;
-        const gameDuration = 30; // Oyun süresi saniye cinsinden
-
-        function startGame() {
-            if (gameActive) return;
-            gameActive = true;
-            score = 0;
-            document.getElementById('score').innerText = score;
-            document.getElementById('bubble-game-area').innerHTML = ''; // Eski baloncukları temizle
-            bubbleInterval = setInterval(createBubble, 1000); // Her saniye yeni baloncuk
-            
-            // Oyun süresi sayacı
-            let timeLeft = gameDuration;
-            const timerDisplay = document.createElement('p');
-            timerDisplay.id = 'game-timer';
-            timerDisplay.style.fontSize = '1.2em';
-            timerDisplay.style.fontWeight = 'bold';
-            timerDisplay.style.marginTop = '10px';
-            timerDisplay.style.color = '#388E3C';
-            document.getElementById('bubble-game-area').parentNode.insertBefore(timerDisplay, document.getElementById('score').parentNode); // Puanın üstüne ekle
-
-            gameTimer = setInterval(() => {
-                timeLeft--;
-                timerDisplay.innerText = `Kalan Süre: ${timeLeft} saniye`;
-                if (timeLeft <= 0) {
-                    stopGame();
-                    alert(`Oyun Bitti! Puanınız: ${score}`);
-                    updateProgress('games', 'baloncuk_oyunu', 'completed');
-                    timerDisplay.remove(); // Süre bitince sayacı kaldır
-                }
-            }, 1000);
-        }
-
-        function stopGame() {
-            clearInterval(bubbleInterval);
-            clearInterval(gameTimer);
-            gameActive = false;
-            const timerDisplay = document.getElementById('game-timer');
-            if (timerDisplay) timerDisplay.remove();
-        }
-
-        function createBubble() {
-            const gameArea = document.getElementById('bubble-game-area');
-            if (!gameArea || !gameActive) return; // Oyun alanı yoksa veya oyun aktif değilse baloncuk oluşturma
-
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 40 + 50; // 50px ile 90px arası boyut
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * (gameArea.offsetWidth - size) + 'px';
-            bubble.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4-7 saniye arası animasyon süresi
-            bubble.innerText = '💥'; // Baloncuk sembolü
-
-            bubble.onclick = () => {
-                if (!gameActive) return;
-                score++;
-                document.getElementById('score').innerText = score;
-                bubble.remove(); // Patlayan baloncuk silinsin
-                playSound('correct-sound'); // Patlama sesi
-            };
-
-            gameArea.appendChild(bubble);
-
-            // Ekran dışına çıkan baloncukları temizle
-            bubble.addEventListener('animationend', () => {
-                if (bubble.parentNode === gameArea) { // Hali hazırda tıklanıp silinmediyse
-                    bubble.remove();
-                }
-            });
-        }
-
-        // Okuma Metinleri ve Okuduğunu Anlama Fonksiyonları
-        function loadStory(index) {
-            if (index < 0 || index >= stories.length) {
-                showFeedback('Başka hikaye yok!', 'incorrect', 'story-feedback', 3000);
-                return;
-            }
-            currentStoryIndex = index;
-            const story = stories[currentStoryIndex];
-            document.getElementById('story-title').innerText = story.title;
-            document.getElementById('story-content').innerText = story.content;
-            document.getElementById('story-question').innerText = story.question;
-
-            const optionsDiv = document.getElementById('story-options');
-            optionsDiv.innerHTML = '';
-            story.options.forEach(option => {
+            selectedOptions.forEach(option => {
                 const button = document.createElement('button');
-                button.innerText = option;
-                button.onclick = () => checkStoryAnswer(option, story.answer);
+                button.innerText = option.english;
+                button.onclick = () => checkTestAnswer(option);
                 optionsDiv.appendChild(button);
             });
-            document.getElementById('story-feedback').innerText = ''; // Geri bildirimi temizle
-            stopStory(); // Yeni hikaye yüklenince önceki sesi durdur
         }
 
-        function playStory() {
-            stopAllSounds(); // Tüm sesleri durdur
-            const story = stories[currentStoryIndex];
-            currentStoryAudio = document.getElementById(story.sound);
-            if (currentStoryAudio) {
-                currentStoryAudio.play().catch(e => console.error("Hikaye çalma hatası:", e));
+        function playCurrentTestWordSound() {
+            // Testte Türkçe kelimeyi görüp İngilizcesini seçmesini istediğimiz için
+            // Türkçe kelimenin İngilizce karşılığının sesini çalmalıyız.
+            playSound(currentTestWord.sound);
+        }
+
+        function checkTestAnswer(selectedOption) {
+            if (selectedOption.english === currentTestWord.english) {
+                showFeedback('Doğru! Harikasın!', 'correct', 'test-feedback');
             } else {
-                console.warn(`Hikaye sesi bulunamadı: ${story.sound}`);
+                showFeedback(`Yanlış. Doğru cevap: ${currentTestWord.english}`, 'incorrect', 'test-feedback');
             }
+            // Kısa bir süre sonra yeni soruya geçmek istersen:
+            // setTimeout(generateTestQuestion, 2000);
         }
 
-        function stopStory() {
-            if (currentStoryAudio) {
-                currentStoryAudio.pause();
-                currentStoryAudio.currentTime = 0;
-                currentStoryAudio = null;
-            }
-        }
-
-        function nextStory() {
-            stopStory(); // Yeni hikayeye geçmeden önce mevcut hikayeyi durdur
-            loadStory((currentStoryIndex + 1) % stories.length);
-        }
-
-        function checkStoryAnswer(selectedAnswer, correctAnswer) {
-            if (selectedAnswer === correctAnswer) {
-                showFeedback('Doğru cevap! Harikasın!', 'correct', 'story-feedback');
-                updateProgress('stories', stories[currentStoryIndex].id, true);
-            } else {
-                showFeedback(`Yanlış cevap. Doğrusu: ${correctAnswer}`, 'incorrect', 'story-feedback');
-                updateProgress('stories', stories[currentStoryIndex].id, false);
-            }
-        }
 
         // Sayfa yüklendiğinde çalışacak kodlar
         window.onload = () => {
+            addAudioElements(); // Ses elemanlarını oluştur
             let storedName = localStorage.getItem('userName');
             if (storedName) {
                 document.getElementById('user-name').innerText = storedName;
-                switchScreen('menu'); // Eğer isim kayıtlıysa doğrudan menüye git
+                switchScreen('menu');
             } else {
-                switchScreen('login'); // İsim kayıtlı değilse giriş ekranını göster
+                switchScreen('login');
             }
-            generateLetterCards(); // Harf kartlarını oluştur
             
-            // Kayıtlı ses seviyesini tüm ses elemanlarına uygula
+            // Kayıtlı ses seviyesini yükle ve ayarla
             const savedVolume = localStorage.getItem('masterVolume');
             if (savedVolume !== null) {
                 setAllVolumes(savedVolume);
                 document.getElementById('masterVolume').value = savedVolume;
             } else {
-                // Eğer kayıtlı bir ses seviyesi yoksa varsayılanı (1) kaydet
-                localStorage.setItem('masterVolume', '1');
+                localStorage.setItem('masterVolume', '1'); // Varsayılan ses seviyesi
             }
-
-            // Harf izleme canvas'ını ilk başta başlat (gizli olsa bile)
-            initTracingCanvas(); 
         };
 
         /* JavaScript Sonu */
