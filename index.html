@@ -1,172 +1,69 @@
-<!DOCTYPE html><html lang="tr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Okuma Yolculuğum</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;} body{font-family:Arial,sans-serif;background:#e0f7fa;color:#004d40;} #app{max-width:600px;margin:auto;padding:20px;}
-    .screen{display:none;} .active{display:block;}
-    h1,h2{margin:15px 0;text-align:center;}
-    button, select{cursor:pointer;border:none;border-radius:6px;font-size:18px;}
-    input{font-size:18px;padding:8px;border:1px solid #ccc;border-radius:6px;width:80%;}
-    #screen-login button{background:#00796b;color:#fff;padding:12px 40px;}
-    #screen-menu h1{font-size:26px;} #level-filter{width:100%;padding:10px;margin:10px 0;}
-    .category-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;} .category-item{background:#b2dfdb;padding:15px;text-align:center;}
-    .letters-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:10px 0;} .letter-card{background:#fff;border:2px solid #004d40;border-radius:8px;padding:10px;text-align:center;transition:transform .2s;} .letter-card:hover{transform:scale(1.05);} .letter-card img{width:50px;height:50px;} .letter-card span{display:block;font-size:28px;margin-top:6px;color:#00796b;}
-    .content-section{padding:10px;} .placeholder{font-style:italic;color:#00695c;}
-    .nav-buttons{display:flex;justify-content:space-between;margin-top:15px;} .nav-buttons button{background:#00796b;color:#fff;padding:8px 16px;}
-  </style>
-</head>
-<body>
-  <div id="app">
-    <div id="screen-login" class="screen active">
-      <h1>Okuma Yolculuğum</h1>
-      <p>Adın:</p><input id="username" placeholder="Adın"/><br/>
-      <button onclick="login()">Başla</button>
-    </div><div id="screen-menu" class="screen">
-  <h1>Hoşgeldin, <span id="user-name"></span>!</h1>
-  <select id="level-filter" onchange="applyFilter()">
-    <option value="all">Seviye: Tümü</option>
-    <option value="easy">Kolay</option>
-    <option value="medium">Orta</option>
-    <option value="hard">Zor</option>
-  </select>
-  <div class="category-list">
-    <div class="category-item" onclick="openSection('letters')">🔤 Harfler</div>
-    <div class="category-item" onclick="openSection('syllables')">🧩 Hece &amp; Kelime</div>
-    <div class="category-item" onclick="openSection('sentences')">📚 Cümleler</div>
-    <div class="category-item" onclick="openSection('numbers')">🔢 Sayılar</div>
-    <div class="category-item" onclick="openSection('shapes')">🎨 Şekiller &amp; Renkler</div>
-    <div class="category-item" onclick="openSection('opposites')">🎭 Zıt Kavramlar</div>
-    <div class="category-item" onclick="openSection('emotions')">😊 Duygular</div>
-    <div class="category-item" onclick="openSection('games')">🎮 Oyunlar</div>
-    <div class="category-item" onclick="openSection('stories')">📖 Okuma Metinleri</div>
-  </div>
-</div>
+// Harf listesini ve ses dosyası yollarını düzenleyebiliriz
+const turkishAlphabet = [
+    { char: 'A', img: 'https://cdn-icons-png.flaticon.com/512/3884/3884401.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg', level: 'easy' },
+    { char: 'B', img: 'https://cdn-icons-png.flaticon.com/512/135/135620.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg', level: 'easy' },
+    { char: 'C', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864514.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg', level: 'medium' },
+    { char: 'Ç', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807666.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_%C3%87.ogg', level: 'medium' },
+    { char: 'D', img: 'https://cdn-icons-png.flaticon.com/512/2913/2913627.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/8/84/Turkish_alphabet_D.ogg', level: 'easy' },
+    { char: 'E', img: 'https://cdn-icons-png.flaticon.com/512/6076/6076840.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_E.ogg', level: 'easy' },
+    { char: 'F', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864517.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Turkish_alphabet_F.ogg', level: 'medium' },
+    { char: 'G', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864520.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Turkish_alphabet_G.ogg', level: 'medium' },
+    { char: 'Ğ', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807667.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Turkish_alphabet_%C4%9E.ogg', level: 'hard' },
+    { char: 'H', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864523.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Turkish_alphabet_H.ogg', level: 'medium' },
+    { char: 'I', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864526.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/1/18/Turkish_alphabet_I.ogg', level: 'hard' }, // Noktasız I
+    { char: 'İ', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864529.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/0/02/Turkish_alphabet_%C4%B0.ogg', level: 'easy' }, // Noktalı İ
+    { char: 'J', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864532.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Turkish_alphabet_J.ogg', level: 'hard' },
+    { char: 'K', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864535.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Turkish_alphabet_K.ogg', level: 'easy' },
+    { char: 'L', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864538.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Turkish_alphabet_L.ogg', level: 'easy' },
+    { char: 'M', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864541.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_M.ogg', level: 'easy' },
+    { char: 'N', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864544.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_N.ogg', level: 'easy' },
+    { char: 'O', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864547.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Turkish_alphabet_O.ogg', level: 'easy' },
+    { char: 'Ö', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807668.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Turkish_alphabet_%C3%96.ogg', level: 'medium' },
+    { char: 'P', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864550.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Turkish_alphabet_P.ogg', level: 'easy' },
+    { char: 'R', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864553.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Turkish_alphabet_R.ogg', level: 'easy' },
+    { char: 'S', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864556.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/0/0a/Turkish_alphabet_S.ogg', level: 'easy' },
+    { char: 'Ş', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807669.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_%C5%9E.ogg', level: 'medium' },
+    { char: 'T', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864559.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_T.ogg', level: 'easy' },
+    { char: 'U', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864562.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Turkish_alphabet_U.ogg', level: 'easy' },
+    { char: 'Ü', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807670.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Turkish_alphabet_%C3%9C.ogg', level: 'medium' },
+    { char: 'V', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864565.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Turkish_alphabet_V.ogg', level: 'medium' },
+    { char: 'Y', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864568.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Turkish_alphabet_Y.ogg', level: 'medium' },
+    { char: 'Z', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864571.png', sound: 'https://upload.wikimedia.org/wikipedia/commons/2/23/Turkish_alphabet_Z.ogg', level: 'medium' },
+];
 
-<div id="screen-letters" class="screen">
-  <h2>🔤 Harfler</h2>
-  <div class="letters-grid" id="letters-grid">
-    <!-- A-Z Harf Kartları -->
-    <!-- Her harf: data-level, onclick playSound(x), img, span -->
-    <!-- Örnek A-E -->
-    <div class="letter-card" data-level="easy" onclick="playSound('A')">
-      <img src="https://cdn-icons-png.flaticon.com/512/3884/3884401.png" alt="A"/><span>A</span>
-    </div>
-    <div class="letter-card" data-level="easy" onclick="playSound('B')">
-      <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="B"/><span>B</span>
-    </div>
-    <div class="letter-card" data-level="easy" onclick="playSound('C')">
-      <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="C"/><span>C</span>
-    </div>
-    <div class="letter-card" data-level="medium" onclick="playSound('Ç')">
-      <img src="https://cdn-icons-png.flaticon.com/512/6807/6807666.png" alt="Ç"/><span>Ç</span>
-    </div>
-    <div class="letter-card" data-level="easy" onclick="playSound('D')">
-      <img src="https://cdn-icons-png.flaticon.com/512/2913/2913627.png" alt="D"/><span>D</span>
-    </div>
-    <!-- Devamı... tüm 29 harf -->
-  </div>
-  <div class="nav-buttons">
-    <button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button>
-  </div>
-  <!-- Harf Sesleri -->
-  <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
-  <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
-  <audio id="C" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg"></audio>
-  <audio id="Ç" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_%C3%87.ogg"></audio>
-  <audio id="D" src="https://upload.wikimedia.org/wikipedia/commons/8/84/Turkish_alphabet_D.ogg"></audio>
-  <!-- Devamı tüm harfler -->
-</div>
+function generateLetterCards() {
+    const lettersGrid = document.getElementById('letters-grid');
+    lettersGrid.innerHTML = ''; // Mevcut içeriği temizle
+    turkishAlphabet.forEach(letter => {
+        const card = document.createElement('div');
+        card.className = 'letter-card';
+        card.dataset.level = letter.level;
+        card.onclick = () => playSound(letter.char); // Harfin sesini çal
+        card.innerHTML = `
+            <img src="${letter.img}" alt="${letter.char}"/>
+            <span>${letter.char}</span>
+        `;
+        lettersGrid.appendChild(card);
 
-<div id="screen-syllables" class="screen content-section">
-  <h2>🧩 Hece &amp; Kelime</h2>
-  <p>Hece Oluşturma:</p>
-  <button onclick="checkSyllable('ba')">BA</button>
-  <button onclick="checkSyllable('be')">BE</button>
-  <button onclick="checkSyllable('bi')">BI</button>
-  <p id="syllable-result"></p>
-  <hr/>
-  <p>Kelime Tamamlama: <strong>ELM_</strong></p>
-  <button onclick="checkWord('ELMA')">ELMA</button>
-  <button onclick="checkWord('ELME')">ELME</button>
-  <p id="word-result"></p>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
+        // Ses elemanını sayfaya ekle (eğer yoksa)
+        if (!document.getElementById(letter.char)) {
+            const audio = document.createElement('audio');
+            audio.id = letter.char;
+            audio.src = letter.sound;
+            document.body.appendChild(audio);
+        }
+    });
+    applyFilter(); // Kartlar oluşturulduktan sonra filtreyi uygula
+}
 
-<div id="screen-sentences" class="screen content-section">
-  <h2>📚 Cümleler</h2>
-  <p>"Kedi süt içer."</p><button onclick="playSentence('s1')">Dinle</button>
-  <audio id="s1" src="https://www2.cs.uic.edu/~i101/SoundFiles/CatPower.wav"></audio>
-  <p>Bu cümlede kimin içtiğini bul: <br/><button onclick="alert('Doğru!')">Kedi</button></p>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-numbers" class="screen content-section">
-  <h2>🔢 Sayılar</h2>
-  <p>1-10 Arası Sayılar:</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;">
-    <button onclick="playSound('n1')">1</button><button onclick="playSound('n2')">2</button><button onclick="playSound('n3')">3</button>
-    <button onclick="playSound('n4')">4</button><button onclick="playSound('n5')">5</button>
-  </div>
-  <audio id="n1" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/one--_tr_1.mp3"></audio>
-  <audio id="n2" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/two--_tr_1.mp3"></audio>
-  <audio id="n3" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/three--_tr_1.mp3"></audio>
-  <audio id="n4" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/four--_tr_1.mp3"></audio>
-  <audio id="n5" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/five--_tr_1.mp3"></audio>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-shapes" class="screen content-section">
-  <h2>🎨 Şekiller &amp; Renkler</h2>
-  <p>Şekil Seç:</p>
-  <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" width="80" onclick="alert('Doğru!')}"/>
-  <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" width="80" onclick="alert('Yanlış!')}"/>
-  <p>Renk Seç:</p><button style="background:red;width:60px;height:60px;border:none;" onclick="alert('Doğru!')"></button>
-  <button style="background:blue;width:60px;height:60px;border:none;" onclick="alert('Yanlış!')"></button>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-opposites" class="screen content-section">
-  <h2>🎭 Zıt Kavramlar</h2>
-  <p>Büyük mi Küçük mü?</p><button onclick="alert('Doğru!')" style="font-size:24px;">BÜYÜK</button>
-  <button onclick="alert('Yanlış!')" style="font-size:24px;">küçük</button>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-emotions" class="screen content-section">
-  <h2>😊 Duygular</h2>
-  <p>Nasıl hissediyorsun?</p>
-  <button onclick="alert('Harika!')"><img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" width="60"/><br/>Mutlu</button>
-  <button onclick="alert('Üzgün...')"><img src="https://cdn-icons-png.flaticon.com/512/742/742753.png" width="60"/><br/>Üzgün</button>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-games" class="screen content-section">
-  <h2>🎮 Oyunlar</h2>
-  <p>Baloncuk Patlatma Oyunu</p>
-  <button onclick="alert('Patladı!')" style="padding:20px;background:#ff80ab;color:#fff;">💥</button>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
-</div>
-
-<div id="screen-stories" class="screen content-section">
-  <h2>📖 Okuma Metinleri</h2>
-  <p><strong>Küçük Ayı ve Balık</strong></p>
-  <p>Küçük Ayı gölette balık tutmaya gitti. Balıklar suyun üstünde zıpladı...</p>
-  <button onclick="playSound('story1')">Dinle</button>
-  <audio id="story1" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"></audio>
-  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button></div>
-</div>
-
-  </div>  <script>
-    const sections=['letters','syllables','sentences','numbers','shapes','opposites','emotions','games','stories'],lvls=['all','easy','medium','hard'];let ci=0;
-    function login(){let n=document.getElementById('username').value.trim();if(!n) return alert('Ad gir!');localStorage.setItem('userName',n);document.getElementById('user-name').innerText=n;switchScr('menu');}
-    function switchScr(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');}
-    function openSection(s){ci=sections.indexOf(s);switchScr(s);}function goMenu(){switchScr('menu');}
-    function nextSection(){ci=(ci+1)%sections.length;switchScr(sections[ci]);}
-    function applyFilter(){let f=document.getElementById('level-filter').value;document.querySelectorAll('.letter-card').forEach(c=>c.style.display=f==='all'||c.dataset.level===f?'':'none');}
-    function playSound(i){let a=document.getElementById(i);if(a){a.currentTime=0;a.play();}}
-    function checkSyllable(s){document.getElementById('syllable-result').innerText=s==='ba'?'Doğru!':'';}function checkWord(w){document.getElementById('word-result').innerText=w==='ELMA'?'Tebrikler!':'';}
-    window.onload=()=>{let s=localStorage.getItem('userName');if(s){document.getElementById('user-name').innerText=s;switchScr('menu');}}
-  </script></body>
-</html>
+window.onload = () => {
+    let s = localStorage.getItem('userName');
+    if (s) {
+        document.getElementById('user-name').innerText = s;
+        switchScr('menu');
+    } else {
+        // Kullanıcı adı yoksa giriş ekranını göster
+        switchScr('login');
+    }
+    generateLetterCards(); // Harf kartlarını dinamik olarak oluştur
+};
