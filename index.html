@@ -1,279 +1,172 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html><html lang="tr">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Okuma Yolculuğum</title>
   <style>
-    /* === GENEL & RESET === */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f0f8ff; }
-    button, select { cursor: pointer; }
-
-    /* === KAPSAYICI === */
-    #app { max-width: 480px; margin: auto; padding: 20px; }
-
-    /* === EKRANLAR === */
-    .screen { display: none; }
-    .active { display: block; }
-
-    /* === GİRİŞ EKRANI === */
-    #screen-login { text-align: center; margin-top: 50px; }
-    #screen-login input {
-      width: 80%; padding: 12px; font-size: 20px;
-      border-radius: 8px; border: 1px solid #ccc;
-    }
-    #screen-login button {
-      margin-top: 20px; padding: 12px 40px;
-      background: #1e90ff; color: #fff;
-      border: none; border-radius: 8px;
-      font-size: 18px;
-    }
-
-    /* === ANA MENÜ === */
-    #screen-menu h1 { margin-bottom: 10px; color: #333; font-size: 24px; }
-    #level-filter {
-      margin: 15px 0; width: 100%; padding: 10px;
-      font-size: 18px; border-radius: 8px; border: 1px solid #ccc;
-    }
-    .category-list {
-      display: flex; flex-wrap: wrap;
-      gap: 10px; justify-content: center;
-    }
-    .category-item {
-      flex: 1 1 45%; padding: 15px;
-      background: #ffebcd; border-radius: 12px;
-      text-align: center; font-size: 18px;
-      border: 2px solid #ffa500;
-    }
-
-    /* === HARFLER BÖLÜMÜ === */
-    #screen-letters h2 { margin: 20px 0 10px; font-size: 22px; color: #4e342e; }
-    .letters-grid {
-      display: grid; grid-template-columns: repeat(4,1fr);
-      gap: 12px;
-    }
-    .letter-card {
-      background: #fff3e0; border: 3px solid #ff9800;
-      border-radius: 12px; padding: 10px;
-      text-align: center; transition: transform .2s;
-    }
-    .letter-card:hover { transform: scale(1.05); }
-    .letter-card img { width: 60px; height: 60px; }
-    .letter-card span {
-      display: block; margin-top: 8px;
-      font-size: 32px; color: #e65100; font-weight: bold;
-    }
-
-    /* === ŞABLON BÖLÜMLER === */
-    .content-section { padding: 15px; }
-    .content-section h2 { font-size: 22px; margin-bottom: 10px; }
-    .placeholder {
-      color: #888; font-style: italic; font-size: 18px;
-    }
-
-    /* === NAV BUTONLAR === */
-    .nav-buttons {
-      display: flex; justify-content: space-between;
-      margin-top: 20px;
-    }
-    .nav-buttons button {
-      background: #1e90ff; color: #fff;
-      padding: 10px 16px; border: none;
-      border-radius: 8px; font-size: 16px;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;} body{font-family:Arial,sans-serif;background:#e0f7fa;color:#004d40;} #app{max-width:600px;margin:auto;padding:20px;}
+    .screen{display:none;} .active{display:block;}
+    h1,h2{margin:15px 0;text-align:center;}
+    button, select{cursor:pointer;border:none;border-radius:6px;font-size:18px;}
+    input{font-size:18px;padding:8px;border:1px solid #ccc;border-radius:6px;width:80%;}
+    #screen-login button{background:#00796b;color:#fff;padding:12px 40px;}
+    #screen-menu h1{font-size:26px;} #level-filter{width:100%;padding:10px;margin:10px 0;}
+    .category-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;} .category-item{background:#b2dfdb;padding:15px;text-align:center;}
+    .letters-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:10px 0;} .letter-card{background:#fff;border:2px solid #004d40;border-radius:8px;padding:10px;text-align:center;transition:transform .2s;} .letter-card:hover{transform:scale(1.05);} .letter-card img{width:50px;height:50px;} .letter-card span{display:block;font-size:28px;margin-top:6px;color:#00796b;}
+    .content-section{padding:10px;} .placeholder{font-style:italic;color:#00695c;}
+    .nav-buttons{display:flex;justify-content:space-between;margin-top:15px;} .nav-buttons button{background:#00796b;color:#fff;padding:8px 16px;}
   </style>
 </head>
 <body>
   <div id="app">
-
-    <!-- GİRİŞ EKRANI -->
     <div id="screen-login" class="screen active">
       <h1>Okuma Yolculuğum</h1>
-      <p style="font-size:18px;">Adını yazıp başla!</p>
-      <input type="text" id="username" placeholder="Adın"/>
-      <br/>
+      <p>Adın:</p><input id="username" placeholder="Adın"/><br/>
       <button onclick="login()">Başla</button>
-    </div>
-
-    <!-- ANA MENÜ -->
-    <div id="screen-menu" class="screen">
-      <h1>Hoş geldin, <span id="user-name"></span>!</h1>
-      <select id="level-filter" onchange="applyFilter()">
-        <option value="all">Seviye: Tümü</option>
-        <option value="easy">Kolay</option>
-        <option value="medium">Orta</option>
-        <option value="hard">Zor</option>
-      </select>
-      <div class="category-list">
-        <div class="category-item" onclick="openSection('letters')">🔤 Harfler</div>
-        <div class="category-item" onclick="openSection('syllables')">🧩 Hece &amp; Kelime</div>
-        <div class="category-item" onclick="openSection('sentences')">📚 Cümleler</div>
-        <div class="category-item" onclick="openSection('numbers')">🔢 Sayılar</div>
-        <div class="category-item" onclick="openSection('shapes')">🎨 Şekiller &amp; Renkler</div>
-        <div class="category-item" onclick="openSection('opposites')">🎭 Zıt Kavramlar</div>
-        <div class="category-item" onclick="openSection('emotions')">😊 Duygular</div>
-        <div class="category-item" onclick="openSection('games')">🎮 Oyunlar</div>
-        <div class="category-item" onclick="openSection('stories')">📖 Okuma Metinleri</div>
-      </div>
-    </div>
-
-    <!-- HARFLER BÖLÜMÜ -->
-    <div id="screen-letters" class="screen">
-      <h2>🔤 Harfler</h2>
-      <div class="letters-grid" id="letters-grid">
-        <!-- Örnek: A ve B -->
-        <div class="letter-card" data-level="easy" onclick="playSound('A')">
-          <img src="https://cdn-icons-png.flaticon.com/512/3884/3884401.png" alt="A"/>
-          <span>A</span>
-        </div>
-        <div class="letter-card" data-level="easy" onclick="playSound('B')">
-          <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="B"/>
-          <span>B</span>
-        </div>
-        <!-- Tüm A–Z harflerini aynı formatta ekleyebilirsin -->
-      </div>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-      <!-- Harf sesleri -->
-      <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
-      <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
-      <!-- Diğer harf seslerini de ekleyin -->
-    </div>
-
-    <!-- HECE & KELİME BÖLÜMÜ (Şablon) -->
-    <div id="screen-syllables" class="screen content-section">
-      <h2>🧩 Hece &amp; Kelime</h2>
-      <p class="placeholder">Hece eşleştirme ve kelime tamamlama aktiviteleri burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- CÜMLELER BÖLÜMÜ (Şablon) -->
-    <div id="screen-sentences" class="screen content-section">
-      <h2>📚 Cümleler</h2>
-      <p class="placeholder">Resimli cümleler ve okuma-anlama soruları burada yer alacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- SAYILAR BÖLÜMÜ (Şablon) -->
-    <div id="screen-numbers" class="screen content-section">
-      <h2>🔢 Sayılar</h2>
-      <p class="placeholder">Sayma ve temel işlemler oyunları burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- ŞEKİLLER & RENKLER BÖLÜMÜ (Şablon) -->
-    <div id="screen-shapes" class="screen content-section">
-      <h2>🎨 Şekiller &amp; Renkler</h2>
-      <p class="placeholder">Şekil tanıma ve renk eşleştirme aktiviteleri burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- ZIT KAVRAMLAR BÖLÜMÜ (Şablon) -->
-    <div id="screen-opposites" class="screen content-section">
-      <h2>🎭 Zıt Kavramlar</h2>
-      <p class="placeholder">Büyük-küçük, uzun-kısa oyunları burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- DUYGULAR BÖLÜMÜ (Şablon) -->
-    <div id="screen-emotions" class="screen content-section">
-      <h2>😊 Duygular</h2>
-      <p class="placeholder">Emoji çizimleri ve sesli anlatımlar burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- OYUNLAR BÖLÜMÜ (Şablon) -->
-    <div id="screen-games" class="screen content-section">
-      <h2>🎮 Oyunlar</h2>
-      <p class="placeholder">Baloncuk patlatma ve eşleştirme mini oyunları burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-        <button onclick="nextSection()">Sonraki</button>
-      </div>
-    </div>
-
-    <!-- OKUMA METİNLERİ BÖLÜMÜ (Şablon) -->
-    <div id="screen-stories" class="screen content-section">
-      <h2>📖 Okuma Metinleri</h2>
-      <p class="placeholder">Resimli hikâyeler ve sesli okuma aktiviteleri burada olacak.</p>
-      <div class="nav-buttons">
-        <button onclick="goMenu()">Ana Menü</button>
-      </div>
-    </div>
-
+    </div><div id="screen-menu" class="screen">
+  <h1>Hoşgeldin, <span id="user-name"></span>!</h1>
+  <select id="level-filter" onchange="applyFilter()">
+    <option value="all">Seviye: Tümü</option>
+    <option value="easy">Kolay</option>
+    <option value="medium">Orta</option>
+    <option value="hard">Zor</option>
+  </select>
+  <div class="category-list">
+    <div class="category-item" onclick="openSection('letters')">🔤 Harfler</div>
+    <div class="category-item" onclick="openSection('syllables')">🧩 Hece &amp; Kelime</div>
+    <div class="category-item" onclick="openSection('sentences')">📚 Cümleler</div>
+    <div class="category-item" onclick="openSection('numbers')">🔢 Sayılar</div>
+    <div class="category-item" onclick="openSection('shapes')">🎨 Şekiller &amp; Renkler</div>
+    <div class="category-item" onclick="openSection('opposites')">🎭 Zıt Kavramlar</div>
+    <div class="category-item" onclick="openSection('emotions')">😊 Duygular</div>
+    <div class="category-item" onclick="openSection('games')">🎮 Oyunlar</div>
+    <div class="category-item" onclick="openSection('stories')">📖 Okuma Metinleri</div>
   </div>
+</div>
 
-  <script>
-    const sections = ['letters','syllables','sentences','numbers','shapes','opposites','emotions','games','stories'];
-    let currentIdx = 0;
+<div id="screen-letters" class="screen">
+  <h2>🔤 Harfler</h2>
+  <div class="letters-grid" id="letters-grid">
+    <!-- A-Z Harf Kartları -->
+    <!-- Her harf: data-level, onclick playSound(x), img, span -->
+    <!-- Örnek A-E -->
+    <div class="letter-card" data-level="easy" onclick="playSound('A')">
+      <img src="https://cdn-icons-png.flaticon.com/512/3884/3884401.png" alt="A"/><span>A</span>
+    </div>
+    <div class="letter-card" data-level="easy" onclick="playSound('B')">
+      <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="B"/><span>B</span>
+    </div>
+    <div class="letter-card" data-level="easy" onclick="playSound('C')">
+      <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="C"/><span>C</span>
+    </div>
+    <div class="letter-card" data-level="medium" onclick="playSound('Ç')">
+      <img src="https://cdn-icons-png.flaticon.com/512/6807/6807666.png" alt="Ç"/><span>Ç</span>
+    </div>
+    <div class="letter-card" data-level="easy" onclick="playSound('D')">
+      <img src="https://cdn-icons-png.flaticon.com/512/2913/2913627.png" alt="D"/><span>D</span>
+    </div>
+    <!-- Devamı... tüm 29 harf -->
+  </div>
+  <div class="nav-buttons">
+    <button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button>
+  </div>
+  <!-- Harf Sesleri -->
+  <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
+  <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
+  <audio id="C" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg"></audio>
+  <audio id="Ç" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_%C3%87.ogg"></audio>
+  <audio id="D" src="https://upload.wikimedia.org/wikipedia/commons/8/84/Turkish_alphabet_D.ogg"></audio>
+  <!-- Devamı tüm harfler -->
+</div>
 
-    function login() {
-      const name = document.getElementById('username').value.trim();
-      if (!name) return alert('Lütfen adını gir!');
-      localStorage.setItem('userName', name);
-      document.getElementById('user-name').innerText = name;
-      switchScreen('menu');
-    }
+<div id="screen-syllables" class="screen content-section">
+  <h2>🧩 Hece &amp; Kelime</h2>
+  <p>Hece Oluşturma:</p>
+  <button onclick="checkSyllable('ba')">BA</button>
+  <button onclick="checkSyllable('be')">BE</button>
+  <button onclick="checkSyllable('bi')">BI</button>
+  <p id="syllable-result"></p>
+  <hr/>
+  <p>Kelime Tamamlama: <strong>ELM_</strong></p>
+  <button onclick="checkWord('ELMA')">ELMA</button>
+  <button onclick="checkWord('ELME')">ELME</button>
+  <p id="word-result"></p>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function switchScreen(name) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen-' + name).classList.add('active');
-    }
+<div id="screen-sentences" class="screen content-section">
+  <h2>📚 Cümleler</h2>
+  <p>"Kedi süt içer."</p><button onclick="playSentence('s1')">Dinle</button>
+  <audio id="s1" src="https://www2.cs.uic.edu/~i101/SoundFiles/CatPower.wav"></audio>
+  <p>Bu cümlede kimin içtiğini bul: <br/><button onclick="alert('Doğru!')">Kedi</button></p>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function openSection(section) {
-      currentIdx = sections.indexOf(section);
-      switchScreen(section);
-    }
+<div id="screen-numbers" class="screen content-section">
+  <h2>🔢 Sayılar</h2>
+  <p>1-10 Arası Sayılar:</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button onclick="playSound('n1')">1</button><button onclick="playSound('n2')">2</button><button onclick="playSound('n3')">3</button>
+    <button onclick="playSound('n4')">4</button><button onclick="playSound('n5')">5</button>
+  </div>
+  <audio id="n1" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/one--_tr_1.mp3"></audio>
+  <audio id="n2" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/two--_tr_1.mp3"></audio>
+  <audio id="n3" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/three--_tr_1.mp3"></audio>
+  <audio id="n4" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/four--_tr_1.mp3"></audio>
+  <audio id="n5" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/five--_tr_1.mp3"></audio>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function goMenu() {
-      switchScreen('menu');
-    }
+<div id="screen-shapes" class="screen content-section">
+  <h2>🎨 Şekiller &amp; Renkler</h2>
+  <p>Şekil Seç:</p>
+  <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" width="80" onclick="alert('Doğru!')}"/>
+  <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" width="80" onclick="alert('Yanlış!')}"/>
+  <p>Renk Seç:</p><button style="background:red;width:60px;height:60px;border:none;" onclick="alert('Doğru!')"></button>
+  <button style="background:blue;width:60px;height:60px;border:none;" onclick="alert('Yanlış!')"></button>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function nextSection() {
-      currentIdx = (currentIdx + 1) % sections.length;
-      switchScreen(sections[currentIdx]);
-    }
+<div id="screen-opposites" class="screen content-section">
+  <h2>🎭 Zıt Kavramlar</h2>
+  <p>Büyük mi Küçük mü?</p><button onclick="alert('Doğru!')" style="font-size:24px;">BÜYÜK</button>
+  <button onclick="alert('Yanlış!')" style="font-size:24px;">küçük</button>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function applyFilter() {
-      const level = document.getElementById('level-filter').value;
-      document.querySelectorAll('.letter-card').forEach(card => {
-        card.style.display = (level==='all' || card.dataset.level===level) ? '' : 'none';
-      });
-    }
+<div id="screen-emotions" class="screen content-section">
+  <h2>😊 Duygular</h2>
+  <p>Nasıl hissediyorsun?</p>
+  <button onclick="alert('Harika!')"><img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" width="60"/><br/>Mutlu</button>
+  <button onclick="alert('Üzgün...')"><img src="https://cdn-icons-png.flaticon.com/512/742/742753.png" width="60"/><br/>Üzgün</button>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    function playSound(id) {
-      const audio = document.getElementById(id);
-      if (audio) { audio.currentTime = 0; audio.play(); }
-    }
+<div id="screen-games" class="screen content-section">
+  <h2>🎮 Oyunlar</h2>
+  <p>Baloncuk Patlatma Oyunu</p>
+  <button onclick="alert('Patladı!')" style="padding:20px;background:#ff80ab;color:#fff;">💥</button>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button><button onclick="nextSection()">Sonraki</button></div>
+</div>
 
-    window.onload = () => {
-      const saved = localStorage.getItem('userName');
-      if (saved) {
-        document.getElementById('user-name').innerText = saved;
-        switchScreen('menu');
-      }
-    };
-  </script>
-</body>
+<div id="screen-stories" class="screen content-section">
+  <h2>📖 Okuma Metinleri</h2>
+  <p><strong>Küçük Ayı ve Balık</strong></p>
+  <p>Küçük Ayı gölette balık tutmaya gitti. Balıklar suyun üstünde zıpladı...</p>
+  <button onclick="playSound('story1')">Dinle</button>
+  <audio id="story1" src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav"></audio>
+  <div class="nav-buttons"><button onclick="goMenu()">Ana Menü</button></div>
+</div>
+
+  </div>  <script>
+    const sections=['letters','syllables','sentences','numbers','shapes','opposites','emotions','games','stories'],lvls=['all','easy','medium','hard'];let ci=0;
+    function login(){let n=document.getElementById('username').value.trim();if(!n) return alert('Ad gir!');localStorage.setItem('userName',n);document.getElementById('user-name').innerText=n;switchScr('menu');}
+    function switchScr(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');}
+    function openSection(s){ci=sections.indexOf(s);switchScr(s);}function goMenu(){switchScr('menu');}
+    function nextSection(){ci=(ci+1)%sections.length;switchScr(sections[ci]);}
+    function applyFilter(){let f=document.getElementById('level-filter').value;document.querySelectorAll('.letter-card').forEach(c=>c.style.display=f==='all'||c.dataset.level===f?'':'none');}
+    function playSound(i){let a=document.getElementById(i);if(a){a.currentTime=0;a.play();}}
+    function checkSyllable(s){document.getElementById('syllable-result').innerText=s==='ba'?'Doğru!':'';}function checkWord(w){document.getElementById('word-result').innerText=w==='ELMA'?'Tebrikler!':'';}
+    window.onload=()=>{let s=localStorage.getItem('userName');if(s){document.getElementById('user-name').innerText=s;switchScr('menu');}}
+  </script></body>
 </html>
