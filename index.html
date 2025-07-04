@@ -335,6 +335,23 @@
             background-color: #FFEBEE;
             border: 1px solid #F44336;
         }
+        .test-options button.selected {
+            border: 2px solid #2196F3;
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
+        }
+        .test-options button.correct {
+            background-color: #8BC34A; /* Daha açık yeşil */
+            border-color: #4CAF50;
+            color: white;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+        .test-options button.incorrect {
+            background-color: #EF5350; /* Daha açık kırmızı */
+            border-color: #F44336;
+            color: white;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+        }
+
 
         @keyframes bounceIn {
             0% { transform: scale(0.5); opacity: 0; }
@@ -360,6 +377,58 @@
         }
         .nav-buttons button:hover {
             background-color: #E64A19;
+        }
+
+        #test-progress {
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 15px auto;
+            height: 20px;
+            width: 80%;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            background-color: #4CAF50;
+            height: 20px;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        #test-score {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #FF9800;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .test-navigation button {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        #screen-test-results {
+            text-align: center;
+        }
+
+        #screen-test-results h2 {
+            color: #4CAF50;
+        }
+
+        #restart-test-btn {
+            background-color: #FF9800;
+        }
+
+        #restart-test-btn:hover {
+            background-color: #F57C00;
         }
 
         @media (max-width: 600px) {
@@ -436,6 +505,16 @@
                 padding: 8px 15px;
                 font-size: 0.8em;
             }
+            #test-progress {
+                width: 90%;
+            }
+            #test-score {
+                font-size: 1.4em;
+            }
+            .test-navigation button {
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -490,18 +569,28 @@
 
         <div id="screen-test" class="screen">
             <h2>📝 Kelime Testi</h2>
+            <div id="test-progress">
+                <div id="progress-bar"></div>
+            </div>
             <div class="word-card">
                 <p id="test-turkish-word" style="font-size: 2em;"></p>
-                <button class="listen-button" onclick="playCurrentTestWordSound()">Dinle 🔊</button>
+                <button class="listen-button" onclick="playCurrentTestWordSoundForDisplay()">Dinle 🔊</button>
             </div>
             <div class="test-options" id="test-options">
                 </div>
             <p id="test-feedback" class="feedback"></p>
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Menü</button>
-                <button onclick="previousTestQuestion()">⬅️ Önceki</button>
-                <button onclick="generateTestQuestion(true)">Sonraki ➡️</button>
+            <div class="test-navigation">
+                <button onclick="previousTestQuestion()" id="prev-test-btn" disabled>⬅️ Önceki</button>
+                <button onclick="checkAnswerAndNext()" id="next-test-btn">Cevapla ve İlerle ➡️</button>
             </div>
+        </div>
+
+        <div id="screen-test-results" class="screen">
+            <h2>🎉 Test Tamamlandı! 🎉</h2>
+            <p>Tebrikler <span id="user-name-results"></span>!</p>
+            <p>Puanın: <span id="final-score"></span> / <span id="total-questions"></span></p>
+            <button id="restart-test-btn" onclick="restartTest()">Tekrar Dene</button>
+            <button onclick="goMenu()">Menüye Dön</button>
         </div>
 
         <div id="audio-container" style="display:none;">
@@ -516,13 +605,9 @@
 
         let playingAudio = null;
         let currentWordIndex = 0;
-        let currentTestQuestionIndex = -1; // İlk soruyu yüklemek için -1
-        let currentTestWord = null;
-        let testHistory = [];
-        let testWords = []; // Test için kullanılacak kelime listesi
-
+        
+        // Bu kısma kelime listenizi ekleyin. 200 kelimeyi tamamlamanız gerekiyor.
         const words = [
-            // *** BURAYA TAM 200 KELİMEYİ EKLEMELİSİN VE HER KELİME İÇİN DOĞRU "sound" ID'SİNİ VERMELİSİN ***
             { english: "Hello", turkish: "Merhaba", sound: "hello_sound" },
             { english: "Goodbye", turkish: "Güle güle", sound: "goodbye_sound" },
             { english: "Please", turkish: "Lütfen", sound: "please_sound" },
@@ -684,7 +769,7 @@
             { english: "Every", turkish: "Her", sound: "every_sound" },
             { english: "Each", turkish: "Her biri", sound: "each_sound" },
             { english: "Other", turkish: "Diğer", sound: "other_sound" },
-            { english: "Another", turkish: "Başka bir", sound: "another_sound" },
+            { english: "Another", turkish: "Başka bir", sound: "another_another_sound" },
             { english: "Same", turkish: "Aynı", sound: "same_sound" },
             { english: "Different", turkish: "Farklı", sound: "different_sound" },
             { english: "True", turkish: "Doğru", sound: "true_sound" },
@@ -791,24 +876,14 @@
             // Buraya 200 kelimeyi tamamlaman gerekiyor!
         ];
 
-        // Ses dosyalarını dinamik olarak ekle
-        function addAudioElements() {
-            const audioContainer = document.getElementById('audio-container');
-            words.forEach(word => {
-                let audio = document.getElementById(word.sound);
-                if (!audio) {
-                    audio = document.createElement('audio');
-                    audio.id = word.sound;
-                    // *** BURAYI KENDİ SES DOSYALARININ URL'LERİ İLE DEĞİŞTİRMELİSİN ***
-                    audio.src = `sounds/${word.sound}.mp3`;
-                    audioContainer.appendChild(audio);
-                }
-            });
-            // Ses seviyesini uygula
-            const savedVolume = localStorage.getItem('masterVolume');
-            if (savedVolume !== null) {
-                setAllVolumes(savedVolume);
-            }
+        // Bu fonksiyon, uygulama genelinde kelime listesine erişmek için kullanılır.
+        // Gelecekte kelime listesini dinamik olarak yüklemek istersen bu noktadan değiştirebilirsin.
+        function wordsListForApp() {
+            return words;
+        }
+
+        function addAudioElementsToPage() {
+            addAudioElements(wordsListForApp()); // wordsListForApp'ten alınan kelimelerle sesleri ekle
         }
 
         function switchScreen(screenId) {
@@ -822,11 +897,7 @@
                 currentWordIndex = 0;
                 loadWordForLearning();
             } else if (screenId === 'test') {
-                // Teste girerken testHistory'yi sıfırla ve yeni sorularla doldur
-                testHistory = [];
-                currentTestQuestionIndex = -1; // İlk soruyu almak için
-                prepareTestWords(); // Test kelimelerini karıştır
-                generateTestQuestion(true); // İlk testi başlat
+                startTest();
             }
         }
 
@@ -838,6 +909,7 @@
             }
             localStorage.setItem('userName', name);
             document.getElementById('user-name').innerText = name;
+            document.getElementById('user-name-results').innerText = name;
             switchScreen('menu');
         }
 
@@ -860,13 +932,24 @@
         function playSound(audioId) {
             stopAllSounds();
             const audio = document.getElementById(audioId);
-            if (audio && audio.src && audio.src !== window.location.href) { // src'nin geçerli olup olmadığını kontrol et
-                audio.play().catch(e => console.warn(`Ses çalma hatası (${audioId}):`, e));
+            if (audio) {
+                audio.play().catch(e => {
+                    console.warn(`Ses çalma hatası (${audioId}):`, e);
+                    // Eğer ses dosyası hatası olursa, Text-to-Speech dene
+                    if ('speechSynthesis' in window) {
+                        const text = audioId.replace('_sound', '').replace(/_/g, ' '); // ID'den kelimeyi al ve boşlukları düzelt
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'en-US'; // İngilizce telaffuz için
+                        window.speechSynthesis.speak(utterance);
+                    } else {
+                        console.warn("SpeechSynthesis desteklenmiyor.");
+                    }
+                });
                 playingAudio = audio;
             } else {
-                console.warn(`Ses dosyası bulunamadı veya geçersiz: ${audioId}. Metin okuma denemesi.`);
+                console.warn(`Ses dosyası bulunamadı veya ID yanlış: ${audioId}. Metin okuma denemesi.`);
                 if ('speechSynthesis' in window) {
-                    const text = audioId.replace('_sound', '');
+                    const text = audioId.replace('_sound', '').replace(/_/g, ' ');
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'en-US';
                     window.speechSynthesis.speak(utterance);
@@ -905,6 +988,7 @@
                 } else if (type === 'incorrect') {
                     playSound('incorrect_sound');
                 }
+                // Geri bildirimi ve sesleri bir süre sonra temizle
                 setTimeout(() => {
                     feedbackElement.innerText = '';
                     feedbackElement.className = 'feedback';
@@ -914,7 +998,7 @@
 
         // Kelime Öğrenme Bölümü
         function loadWordForLearning() {
-            const word = words[currentWordIndex];
+            const word = wordsListForApp()[currentWordIndex];
             const flipCard = document.getElementById('learn-flip-card');
             flipCard.classList.remove('flipped');
             document.getElementById('english-word').innerText = word.english;
@@ -923,12 +1007,13 @@
         }
 
         function playCurrentWordSound() {
-            playSound(words[currentWordIndex].sound);
+            playSound(wordsListForApp()[currentWordIndex].sound);
         }
 
         function nextWord() {
             currentWordIndex = (currentWordIndex + 1);
-            if (currentWordIndex >= words.length) {
+            const wordList = wordsListForApp();
+            if (currentWordIndex >= wordList.length) {
                 currentWordIndex = 0;
             }
             loadWordForLearning();
@@ -937,7 +1022,7 @@
         function previousWord() {
             currentWordIndex = (currentWordIndex - 1);
             if (currentWordIndex < 0) {
-                currentWordIndex = words.length - 1;
+                currentWordIndex = wordsListForApp().length - 1;
             }
             loadWordForLearning();
         }
@@ -947,6 +1032,11 @@
         }
 
         // Kelime Testi Bölümü
+        let testQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        const numberOfQuestions = 20; // Toplam soru sayısı
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -955,121 +1045,178 @@
             return array;
         }
 
-        function prepareTestWords() {
-            // Test için kelimelerin bir kopyasını al ve karıştır
-            testWords = shuffleArray([...words]);
+        function selectRandomWordsForTest(allWords, count) {
+            if (allWords.length < count) {
+                console.warn("Test için yeterli kelime yok. Mevcut tüm kelimeler kullanılacak.");
+                return shuffleArray([...allWords]);
+            }
+            const shuffled = [...allWords].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
         }
 
-        function generateTestQuestion(isNext = false) {
-            document.getElementById('test-feedback').innerText = ''; // Geri bildirimi temizle
-            const optionsDiv = document.getElementById('test-options');
-            optionsDiv.innerHTML = ''; // Önceki seçenekleri temizle
+        function generateTestQuestions() {
+            const allWords = wordsListForApp();
+            const selectedWords = selectRandomWordsForTest(allWords, numberOfQuestions);
+            testQuestions = selectedWords.map(word => {
+                const correctOption = word.english;
+                // Doğru cevap dışındaki kelimelerden 3 yanlış seçenek seç
+                let incorrectOptions = allWords
+                    .filter(w => w.english !== correctOption)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3)
+                    .map(w => w.english);
 
-            // Butonları tekrar aktif hale getir
-            document.querySelectorAll('#test-options button').forEach(button => {
-                button.disabled = false;
-                button.style.backgroundColor = ''; // Rengi sıfırla
-                button.style.borderColor = ''; // Sınırı sıfırla
-            });
-
-            if (isNext) {
-                currentTestQuestionIndex++;
-                // Eğer tüm kelimeler bitmişse veya 200 kelimeden azsa döngüyü başa sar
-                if (currentTestQuestionIndex >= testWords.length) {
-                    currentTestQuestionIndex = 0;
-                    prepareTestWords(); // Yeni bir tur için kelimeleri tekrar karıştır
-                }
-            } else { // Geri gelindiğinde veya ilk yüklemede
-                if (currentTestQuestionIndex < 0) currentTestQuestionIndex = 0; // İlk kelimeye ayarla
-                if (currentTestQuestionIndex >= testWords.length) currentTestQuestionIndex = testWords.length -1;
-            }
-
-            currentTestWord = testWords[currentTestQuestionIndex];
-            document.getElementById('test-turkish-word').innerText = currentTestWord.turkish;
-            playCurrentTestWordSound();
-
-            // Yanlış seçenekler için havuz oluştur
-            let wrongOptions = words.filter(word => word.english !== currentTestWord.english);
-
-            // Rastgele 3 yanlış seçenek seç (doğru cevap ile birlikte 4 seçenek olacak)
-            // Yeterli yanlış seçenek yoksa tüm kelimeleri kullan
-            let selectedOptions = [];
-            if (wrongOptions.length >= 3) {
-                // wrongOptions'ı karıştır ve ilk 3'ünü al
-                wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
-                selectedOptions = wrongOptions;
-            } else {
-                // Eğer 3 yanlış seçenek yoksa, mümkün olan tüm yanlışları al
-                selectedOptions = [...wrongOptions];
-                // Eksik kalan yerleri diğer kelimelerle tamamla, ancak doğru kelimeyi tekrarlama
-                while (selectedOptions.length < 3 && selectedOptions.length < words.length -1) {
-                    const randomWord = words[Math.floor(Math.random() * words.length)];
-                    if (randomWord.english !== currentTestWord.english && !selectedOptions.some(opt => opt.english === randomWord.english)) {
-                        selectedOptions.push(randomWord);
+                // Eğer 3 yanlış seçenek yoksa, tekrar eden kelimeleri kontrol ederek ekle
+                while (incorrectOptions.length < 3 && allWords.length > incorrectOptions.length + 1) {
+                    const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+                    if (randomWord.english !== correctOption && !incorrectOptions.includes(randomWord.english)) {
+                        incorrectOptions.push(randomWord.english);
                     }
                 }
+                
+                const options = [...incorrectOptions, correctOption].sort(() => 0.5 - Math.random());
+                return {
+                    word: word, // Bu, Türkçe kelime ve ses ID'si için
+                    options: options, // İngilizce şıklar
+                    correctAnswer: correctOption // Doğru İngilizce kelime
+                };
+            });
+        }
+
+        function startTest() {
+            generateTestQuestions();
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('total-questions').innerText = numberOfQuestions; // Toplam soru sayısını güncelle
+            loadCurrentQuestion();
+            updateProgress();
+            enableOptions(); // Test her başladığında seçenekleri etkinleştir
+            document.getElementById('prev-test-btn').disabled = true; // İlk soruda önceki butonunu devre dışı bırak
+            document.getElementById('next-test-btn').innerText = "Cevapla ve İlerle ➡️"; // Buton metnini sıfırla
+            document.getElementById('test-feedback').innerText = ''; // Geri bildirimi temizle
+        }
+
+        function loadCurrentQuestion() {
+            document.getElementById('test-feedback').innerText = ''; // Yeni soru yüklenince geri bildirimi temizle
+            if (currentQuestionIndex < numberOfQuestions) {
+                const question = testQuestions[currentQuestionIndex];
+                document.getElementById('test-turkish-word').innerText = question.word.turkish;
+                playCurrentTestWordSoundForDisplay(); // Sorunun kelimesini otomatik çal
+                
+                const optionsDiv = document.getElementById('test-options');
+                optionsDiv.innerHTML = ''; // Önceki seçenekleri temizle
+
+                question.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.innerText = option;
+                    button.onclick = () => selectAnswer(option);
+                    optionsDiv.appendChild(button);
+                });
+                
+                document.getElementById('prev-test-btn').disabled = currentQuestionIndex === 0;
+                document.getElementById('next-test-btn').innerText = "Cevapla ve İlerle ➡️";
+                enableOptions(); // Yeni soru yüklenirken seçenekleri tekrar etkinleştir
+            } else {
+                showTestResults();
+            }
+        }
+
+        function playCurrentTestWordSoundForDisplay() {
+            // Sadece test sorusunun kelimesinin sesini çal
+            if (testQuestions && testQuestions.length > currentQuestionIndex) {
+                playSound(testQuestions[currentQuestionIndex].word.sound);
+            }
+        }
+
+        let selectedAnswerValue = null; // Kullanıcının seçtiği cevabı tutar
+
+        function selectAnswer(answer) {
+            selectedAnswerValue = answer;
+            const options = document.querySelectorAll('#test-options button');
+            options.forEach(button => {
+                button.classList.remove('selected');
+            });
+            // Seçilen butona 'selected' sınıfını ekle
+            const clickedButton = Array.from(options).find(button => button.innerText === answer);
+            if (clickedButton) {
+                clickedButton.classList.add('selected');
+            }
+        }
+
+        function checkAnswerAndNext() {
+            if (selectedAnswerValue === null) {
+                showFeedback('Lütfen bir cevap seçin!', 'incorrect', 'test-feedback', 1000);
+                return;
+            }
+
+            const currentQuestion = testQuestions[currentQuestionIndex];
+            const isCorrect = selectedAnswerValue === currentQuestion.correctAnswer;
+
+            const options = document.querySelectorAll('#test-options button');
+            options.forEach(button => {
+                if (button.innerText === currentQuestion.correctAnswer) {
+                    button.classList.add('correct'); // Doğru cevabı her zaman yeşil yap
+                } else if (button.innerText === selectedAnswerValue && !isCorrect) {
+                    button.classList.add('incorrect'); // Yanlış seçileni kırmızı yap
+                }
+                button.disabled = true; // Tüm şıkları devre dışı bırak
+            });
+
+            if (isCorrect) {
+                score++;
+                showFeedback('Doğru! Harikasın!', 'correct', 'test-feedback');
+            } else {
+                showFeedback(`Yanlış. Doğru cevap: ${currentQuestion.correctAnswer}`, 'incorrect', 'test-feedback');
             }
             
-            selectedOptions.push(currentTestWord); // Doğru cevabı ekle
+            selectedAnswerValue = null; // Seçimi sıfırla
 
-            // Seçenekleri karıştır
-            selectedOptions = shuffleArray(selectedOptions);
-
-            selectedOptions.forEach(option => {
-                const button = document.createElement('button');
-                button.innerText = option.english;
-                button.onclick = () => checkTestAnswer(option, button);
-                optionsDiv.appendChild(button);
-            });
-        }
-
-        function playCurrentTestWordSound() {
-            playSound(currentTestWord.sound);
-        }
-
-        function checkTestAnswer(selectedOption, clickedButton) {
-            const allButtons = document.querySelectorAll('#test-options button');
-            allButtons.forEach(button => button.disabled = true);
-
-            if (selectedOption.english === currentTestWord.english) {
-                showFeedback('Doğru! Harikasın!', 'correct', 'test-feedback');
-                clickedButton.style.backgroundColor = '#8BC34A'; // Daha açık yeşil (şıkların orijinal rengi değil)
-                clickedButton.style.borderColor = '#4CAF50';
-                setTimeout(() => {
-                    generateTestQuestion(true);
-                }, 1500);
-            } else {
-                showFeedback(`Yanlış. Doğru cevap: ${currentTestWord.english}`, 'incorrect', 'test-feedback');
-                clickedButton.style.backgroundColor = '#EF5350'; // Daha açık kırmızı
-                clickedButton.style.borderColor = '#F44336';
-                
-                // Doğru cevabı da işaretle
-                allButtons.forEach(button => {
-                    if (button.innerText === currentTestWord.english) {
-                        button.style.backgroundColor = '#8BC34A';
-                        button.style.borderColor = '#4CAF50';
-                    }
-                });
-                setTimeout(() => {
-                    generateTestQuestion(true);
-                }, 1500);
-            }
+            // Sonraki soruya geçmek veya testi bitirmek için bekle
+            setTimeout(() => {
+                currentQuestionIndex++;
+                updateProgress();
+                loadCurrentQuestion();
+            }, 1500); // 1.5 saniye sonra geç
         }
 
         function previousTestQuestion() {
-            if (currentTestQuestionIndex > 0) {
-                currentTestQuestionIndex--;
-                generateTestQuestion(false); // isNext false olduğu için geçmişten yükler
-            } else {
-                showFeedback('İlk sorudasın!', 'incorrect', 'test-feedback', 1000);
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadCurrentQuestion();
+                updateProgress();
+            }
+            document.getElementById('test-feedback').innerText = ''; // Geri bildirimi temizle
+        }
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((currentQuestionIndex) / numberOfQuestions) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Testin bitip bitmediğini kontrol et
+            if (currentQuestionIndex >= numberOfQuestions) {
+                showTestResults();
             }
         }
 
+        function showTestResults() {
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('total-questions').innerText = numberOfQuestions;
+            switchScreen('test-results');
+        }
+
+        function restartTest() {
+            startTest();
+            switchScreen('test');
+        }
+
         window.onload = () => {
-            addAudioElements();
+            addAudioElementsToPage(); // Sayfa yüklendiğinde sesleri ekle
+
             let storedName = localStorage.getItem('userName');
             if (storedName) {
                 document.getElementById('user-name').innerText = storedName;
+                document.getElementById('user-name-results').innerText = storedName;
                 switchScreen('menu');
             } else {
                 switchScreen('login');
@@ -1080,7 +1227,7 @@
                 setAllVolumes(savedVolume);
                 document.getElementById('masterVolume').value = savedVolume;
             } else {
-                localStorage.setItem('masterVolume', '1');
+                localStorage.setItem('masterVolume', '1'); // Varsayılan ses seviyesini ayarla
             }
         };
 
