@@ -7,59 +7,81 @@
   <style>
     /* === GENEL & RESET === */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Comic Sans MS', cursive, sans-serif; background: #f0f8ff; }
+    body { font-family: Arial, sans-serif; background: #f0f8ff; }
     button, select { cursor: pointer; }
 
-    /* === GÖRÜNÜM KUTUSU === */
+    /* === KAPSAYICI === */
     #app { max-width: 480px; margin: auto; padding: 20px; }
 
-    /* === EKRAN TÜRLERİ === */
+    /* === EKRANLAR === */
     .screen { display: none; }
     .active { display: block; }
 
     /* === GİRİŞ EKRANI === */
     #screen-login { text-align: center; margin-top: 50px; }
-    #screen-login input { width: 80%; padding: 10px; font-size: 18px; border-radius: 8px; border: 1px solid #ccc; }
-    #screen-login button { margin-top: 15px; padding: 10px 30px; background: #1e90ff; color: #fff; border: none; border-radius: 8px; }
+    #screen-login input {
+      width: 80%; padding: 12px; font-size: 20px;
+      border-radius: 8px; border: 1px solid #ccc;
+    }
+    #screen-login button {
+      margin-top: 20px; padding: 12px 40px;
+      background: #1e90ff; color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 18px;
+    }
 
-    /* === ANA MENÜ & SEVİYE SEÇİM === */
-    #screen-menu h1 { margin-bottom: 10px; color: #333; }
-    .category-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; }
+    /* === ANA MENÜ === */
+    #screen-menu h1 { margin-bottom: 10px; color: #333; font-size: 24px; }
+    #level-filter {
+      margin: 15px 0; width: 100%; padding: 10px;
+      font-size: 18px; border-radius: 8px; border: 1px solid #ccc;
+    }
+    .category-list {
+      display: flex; flex-wrap: wrap;
+      gap: 10px; justify-content: center;
+    }
     .category-item {
-      flex: 1 1 45%;
-      padding: 15px 10px;
-      background: #ffebcd;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 16px;
+      flex: 1 1 45%; padding: 15px;
+      background: #ffebcd; border-radius: 12px;
+      text-align: center; font-size: 18px;
       border: 2px solid #ffa500;
     }
-    #level-filter { margin-top: 15px; width: 100%; padding: 8px; font-size: 16px; border-radius: 8px; }
 
     /* === HARFLER BÖLÜMÜ === */
-    #screen-letters h2 { margin: 20px 0 10px; color: #4e342e; }
-    .letters-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    #screen-letters h2 { margin: 20px 0 10px; font-size: 22px; color: #4e342e; }
+    .letters-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+    }
     .letter-card {
-      background: #fff3e0;
-      border: 3px solid #ff9800;
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      transition: transform .2s;
+      background: #fff3e0; border: 3px solid #ff9800;
+      border-radius: 12px; padding: 10px;
+      text-align: center; transition: transform .2s;
     }
     .letter-card:hover { transform: scale(1.05); }
-    .letter-card img { width: 50px; height: 50px; }
-    .letter-card span { display: block; margin-top: 8px; font-size: 28px; color: #e65100; }
+    .letter-card img { width: 60px; height: 60px; }
+    .letter-card span {
+      display: block; margin-top: 8px;
+      font-size: 32px; color: #e65100; font-weight: bold;
+    }
 
-    /* === DİĞER BÖLÜMLER ŞABLONU === */
+    /* === ŞABLON BÖLÜMLER === */
     .content-section { padding: 15px; }
-    .content-section h2 { margin-bottom: 10px; }
-    .placeholder { color: #888; font-style: italic; }
+    .content-section h2 { font-size: 22px; margin-bottom: 10px; }
+    .placeholder {
+      color: #888; font-style: italic; font-size: 18px;
+    }
 
-    /* === NAV BUTONLARI === */
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-    .nav-buttons button { background: #1e90ff; color: #fff; padding: 8px 12px; border: none; border-radius: 8px; }
-
+    /* === NAV BUTONLAR === */
+    .nav-buttons {
+      display: flex; justify-content: space-between;
+      margin-top: 20px;
+    }
+    .nav-buttons button {
+      background: #1e90ff; color: #fff;
+      padding: 10px 16px; border: none;
+      border-radius: 8px; font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -68,13 +90,13 @@
     <!-- GİRİŞ EKRANI -->
     <div id="screen-login" class="screen active">
       <h1>Okuma Yolculuğum</h1>
-      <p>Adını yazıp başla!</p>
+      <p style="font-size:18px;">Adını yazıp başla!</p>
       <input type="text" id="username" placeholder="Adın"/>
       <br/>
       <button onclick="login()">Başla</button>
     </div>
 
-    <!-- ANA MENÜ ve SEVİYE SEÇİM -->
+    <!-- ANA MENÜ -->
     <div id="screen-menu" class="screen">
       <h1>Hoş geldin, <span id="user-name"></span>!</h1>
       <select id="level-filter" onchange="applyFilter()">
@@ -100,7 +122,7 @@
     <div id="screen-letters" class="screen">
       <h2>🔤 Harfler</h2>
       <div class="letters-grid" id="letters-grid">
-        <!-- Örnek Kartlar -->
+        <!-- Örnek: A ve B -->
         <div class="letter-card" data-level="easy" onclick="playSound('A')">
           <img src="https://cdn-icons-png.flaticon.com/512/3884/3884401.png" alt="A"/>
           <span>A</span>
@@ -109,22 +131,22 @@
           <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="B"/>
           <span>B</span>
         </div>
-        <!-- Tüm harfler A-Z burada aynı formatta yer almalı -->
+        <!-- Tüm A–Z harflerini aynı formatta ekleyebilirsin -->
       </div>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
       </div>
-      <!-- Ses dosyaları -->
+      <!-- Harf sesleri -->
       <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
       <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
-      <!-- Diğer harf sesleri benzer şekilde eklenmeli -->
+      <!-- Diğer harf seslerini de ekleyin -->
     </div>
 
     <!-- HECE & KELİME BÖLÜMÜ (Şablon) -->
     <div id="screen-syllables" class="screen content-section">
       <h2>🧩 Hece &amp; Kelime</h2>
-      <p class="placeholder">Burada hece eşleştirme ve kelime tamamlama aktiviteleri olacak.</p>
+      <p class="placeholder">Hece eşleştirme ve kelime tamamlama aktiviteleri burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -144,7 +166,7 @@
     <!-- SAYILAR BÖLÜMÜ (Şablon) -->
     <div id="screen-numbers" class="screen content-section">
       <h2>🔢 Sayılar</h2>
-      <p class="placeholder">Sayma, toplama-çıkarma oyunları burada olacak.</p>
+      <p class="placeholder">Sayma ve temel işlemler oyunları burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -154,7 +176,7 @@
     <!-- ŞEKİLLER & RENKLER BÖLÜMÜ (Şablon) -->
     <div id="screen-shapes" class="screen content-section">
       <h2>🎨 Şekiller &amp; Renkler</h2>
-      <p class="placeholder">Şekil tanıma ve boyama aktiviteleri burada olacak.</p>
+      <p class="placeholder">Şekil tanıma ve renk eşleştirme aktiviteleri burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -164,7 +186,7 @@
     <!-- ZIT KAVRAMLAR BÖLÜMÜ (Şablon) -->
     <div id="screen-opposites" class="screen content-section">
       <h2>🎭 Zıt Kavramlar</h2>
-      <p class="placeholder">Büyük-küçük, uzun-kısa eşleştirme aktiviteleri olacak.</p>
+      <p class="placeholder">Büyük-küçük, uzun-kısa oyunları burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -174,7 +196,7 @@
     <!-- DUYGULAR BÖLÜMÜ (Şablon) -->
     <div id="screen-emotions" class="screen content-section">
       <h2>😊 Duygular</h2>
-      <p class="placeholder">Emoji tarzı çizimler ve sesli anlatım burada olacak.</p>
+      <p class="placeholder">Emoji çizimleri ve sesli anlatımlar burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -184,7 +206,7 @@
     <!-- OYUNLAR BÖLÜMÜ (Şablon) -->
     <div id="screen-games" class="screen content-section">
       <h2>🎮 Oyunlar</h2>
-      <p class="placeholder">Baloncuk patlatma, eşleştirme gibi mini oyunlar.</p>
+      <p class="placeholder">Baloncuk patlatma ve eşleştirme mini oyunları burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
         <button onclick="nextSection()">Sonraki</button>
@@ -194,7 +216,7 @@
     <!-- OKUMA METİNLERİ BÖLÜMÜ (Şablon) -->
     <div id="screen-stories" class="screen content-section">
       <h2>📖 Okuma Metinleri</h2>
-      <p class="placeholder">Resimli kısa hikâyeler ve sesli okuma.</p>
+      <p class="placeholder">Resimli hikâyeler ve sesli okuma aktiviteleri burada olacak.</p>
       <div class="nav-buttons">
         <button onclick="goMenu()">Ana Menü</button>
       </div>
@@ -203,7 +225,7 @@
   </div>
 
   <script>
-    let sections = ['letters', 'syllables', 'sentences', 'numbers', 'shapes', 'opposites', 'emotions', 'games', 'stories'];
+    const sections = ['letters','syllables','sentences','numbers','shapes','opposites','emotions','games','stories'];
     let currentIdx = 0;
 
     function login() {
@@ -240,13 +262,11 @@
       });
     }
 
-    // Ses oynatma
     function playSound(id) {
-      const a = document.getElementById(id);
-      if (a) { a.currentTime = 0; a.play(); }
+      const audio = document.getElementById(id);
+      if (audio) { audio.currentTime = 0; audio.play(); }
     }
 
-    // Otomatik login
     window.onload = () => {
       const saved = localStorage.getItem('userName');
       if (saved) {
