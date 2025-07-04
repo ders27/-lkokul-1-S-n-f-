@@ -224,7 +224,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
-        /* Kelime Kartı Stili */
+        /* Kelime Kartı Stili (Öğrenme ve Test İçin) */
         .word-card {
             background-color: #FFFDE7; /* Açık sarı arka plan */
             border: 3px solid #FFAB00;
@@ -234,26 +234,68 @@
             max-width: 400px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
             animation: bounceIn 0.6s ease-out;
+            perspective: 1000px; /* Flip efekti için */
         }
 
-        .word-card p {
-            font-size: 2.8em; /* Daha büyük kelimeler */
-            font-weight: bold;
-            color: #FF5722; /* Turuncu-Kırmızı kelime */
+        /* Kelime Kartı Flip Efekti */
+        .flip-container {
+            width: 100%;
+            height: 180px; /* Kart yüksekliği */
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
             margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
-        
-        .word-card button {
+
+        .flip-container.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flipper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #FF5722;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            background-color: #FFFDE7;
+            border: 3px solid #FFAB00;
+            box-sizing: border-box;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background-color: #CCE5FF; /* Açık mavi arka plan */
+            color: #2196F3;
+            font-size: 2em; /* Türkçe anlam daha küçük olabilir */
+            padding: 10px; /* İçerik taşmasını önlemek için */
+        }
+
+        .word-card button.listen-button {
             background-color: #2196F3; /* Mavi dinle butonu */
             padding: 15px 35px;
             font-size: 1.5em;
+            margin-top: 15px; /* Kelime kartından biraz boşluk */
         }
-        .word-card button:hover {
+        .word-card button.listen-button:hover {
             background-color: #42A5F5;
         }
 
-        /* Test Bölümü */
+        /* Test Bölümü Seçenekleri */
         .test-options {
             display: grid;
             grid-template-columns: 1fr 1fr; /* İki sütun */
@@ -281,9 +323,22 @@
             font-size: 1.6em;
             font-weight: bold;
             animation: bounceIn 0.5s ease-out;
+            min-height: 1.6em; /* Boşken de yer kaplaması için */
         }
-        .feedback.correct { color: #2E7D32; /* Koyu Yeşil */ }
-        .feedback.incorrect { color: #D32F2F; /* Koyu Kırmızı */ }
+        .feedback.correct { 
+            color: #2E7D32; /* Koyu Yeşil */ 
+            background-color: #E8F5E9; /* Açık yeşil arka plan */
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #4CAF50;
+        }
+        .feedback.incorrect { 
+            color: #D32F2F; /* Koyu Kırmızı */ 
+            background-color: #FFEBEE; /* Açık kırmızı arka plan */
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #F44336;
+        }
 
         @keyframes bounceIn {
             0% { transform: scale(0.5); opacity: 0; }
@@ -340,12 +395,18 @@
             .word-card p {
                 font-size: 2em;
             }
-            .word-card button {
+            .word-card button.listen-button {
                 font-size: 1.2em;
                 padding: 12px 25px;
             }
             .test-options {
                 grid-template-columns: 1fr; /* Küçük ekranlarda tek sütun */
+            }
+            .front, .back {
+                font-size: 2.2em;
+            }
+            .back {
+                font-size: 1.6em;
             }
         }
     </style>
@@ -384,13 +445,18 @@
         <div id="screen-learn" class="screen">
             <h2>📖 Kelime Öğren</h2>
             <div class="word-card">
-                <p id="english-word"></p>
-                <p id="turkish-meaning" style="font-size: 1.8em; color: #555;"></p>
-                <button onclick="playCurrentWordSound()">Dinle 🔊</button>
+                <div class="flip-container" id="learn-flip-card" onclick="flipCard()">
+                    <div class="flipper">
+                        <div class="front" id="english-word"></div>
+                        <div class="back" id="turkish-meaning"></div>
+                    </div>
+                </div>
+                <button class="listen-button" onclick="playCurrentWordSound()">Dinle 🔊</button>
             </div>
             <div class="nav-buttons">
                 <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextWord()">Sonraki Kelime</button>
+                <button onclick="previousWord()">⬅️ Önceki</button>
+                <button onclick="nextWord()">Sonraki ➡️</button>
             </div>
         </div>
 
@@ -398,19 +464,21 @@
             <h2>📝 Kelime Testi</h2>
             <div class="word-card">
                 <p id="test-turkish-word" style="font-size: 2.2em;"></p>
-                <button onclick="playCurrentTestWordSound()">Dinle 🔊</button>
+                <button class="listen-button" onclick="playCurrentTestWordSound()">Dinle 🔊</button>
             </div>
             <div class="test-options" id="test-options">
                 </div>
             <p id="test-feedback" class="feedback"></p>
             <div class="nav-buttons">
                 <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="generateTestQuestion()">Sonraki Soru</button>
-            </div>
+                <button onclick="previousTestQuestion()">⬅️ Önceki</button>
+                <button onclick="generateTestQuestion(true)">Sonraki ➡️</button> </div>
         </div>
         
         <div id="audio-container" style="display:none;">
-            <audio id="correct-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3"></audio> <audio id="incorrect-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3"></audio> </div>
+            <audio id="correct_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio> 
+            <audio id="incorrect_sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio> 
+        </div>
 
     </div>
 
@@ -419,8 +487,10 @@
 
         // Genel Değişkenler
         let playingAudio = null;
-        let currentWordIndex = 0;
+        let currentWordIndex = 0; // Kelime öğrenme için
+        let currentTestQuestionIndex = 0; // Test için
         let currentTestWord = null;
+        let testHistory = []; // Test sorularının geçmişi
 
         // En Basit 200 İngilizce Kelime Örneği (Sadece ilk birkaçını ekledim, tamamını sen ekleyebilirsin)
         // Her kelime için: { english: "İngilizce Kelime", turkish: "Türkçe Anlamı", sound: "sesDosyasiIDsi" }
@@ -431,7 +501,7 @@
             { english: "Hello", turkish: "Merhaba", sound: "hello_sound" },
             { english: "Goodbye", turkish: "Güle güle", sound: "goodbye_sound" },
             { english: "Please", turkish: "Lütfen", sound: "please_sound" },
-            { english: "Thank you", turkish: "Teşekkür ederim", sound: "thankyou_sound" },
+            { english: "Thank you", turkish: "Teşekkür ederim", sound: "thank_you_sound" },
             { english: "Yes", turkish: "Evet", sound: "yes_sound" },
             { english: "No", turkish: "Hayır", sound: "no_sound" },
             { english: "Cat", turkish: "Kedi", sound: "cat_sound" },
@@ -458,10 +528,287 @@
             { english: "One", turkish: "Bir", sound: "one_sound" },
             { english: "Two", turkish: "İki", sound: "two_sound" },
             { english: "Three", turkish: "Üç", sound: "three_sound" },
+            { english: "Four", turkish: "Dört", sound: "four_sound" },
+            { english: "Five", turkish: "Beş", sound: "five_sound" },
+            { english: "Six", turkish: "Altı", sound: "six_sound" },
+            { english: "Seven", turkish: "Yedi", sound: "seven_sound" },
+            { english: "Eight", turkish: "Sekiz", sound: "eight_sound" },
+            { english: "Nine", turkish: "Dokuz", sound: "nine_sound" },
+            { english: "Ten", turkish: "On", sound: "ten_sound" },
+            { english: "Hello", turkish: "Merhaba", sound: "hello_sound" },
+            { english: "Goodbye", turkish: "Güle güle", sound: "goodbye_sound" },
+            { english: "Please", turkish: "Lütfen", sound: "please_sound" },
+            { english: "Thank you", turkish: "Teşekkür ederim", sound: "thank_you_sound" },
+            { english: "Yes", turkish: "Evet", sound: "yes_sound" },
+            { english: "No", turkish: "Hayır", sound: "no_sound" },
+            { english: "Cat", turkish: "Kedi", sound: "cat_sound" },
+            { english: "Dog", turkish: "Köpek", sound: "dog_sound" },
+            { english: "Book", turkish: "Kitap", sound: "book_sound" },
+            { english: "Water", turkish: "Su", sound: "water_sound" },
+            { english: "Food", turkish: "Yemek", sound: "food_sound" },
+            { english: "House", turkish: "Ev", sound: "house_sound" },
+            { english: "Car", turkish: "Araba", sound: "car_sound" },
+            { english: "Run", turkish: "Koşmak", sound: "run_sound" },
+            { english: "Walk", turkish: "Yürümek", sound: "walk_sound" },
+            { english: "Eat", turkish: "Yemek yemek", sound: "eat_sound" },
+            { english: "Drink", turkish: "İçmek", sound: "drink_sound" },
+            { english: "Happy", turkish: "Mutlu", sound: "happy_sound" },
+            { english: "Sad", turkish: "Üzgün", sound: "sad_sound" },
+            { english: "Big", turkish: "Büyük", sound: "big_sound" },
+            { english: "Small", turkish: "Küçük", sound: "small_sound" },
+            { english: "Red", turkish: "Kırmızı", sound: "red_sound" },
+            { english: "Blue", turkish: "Mavi", sound: "blue_sound" },
+            { english: "Green", turkish: "Yeşil", sound: "green_sound" },
+            { english: "Sun", turkish: "Güneş", sound: "sun_sound" },
+            { english: "Moon", turkish: "Ay", sound: "moon_sound" },
+            { english: "Star", turkish: "Yıldız", sound: "star_sound" },
+            { english: "One", turkish: "Bir", sound: "one_sound" },
+            { english: "Two", turkish: "İki", sound: "two_sound" },
+            { english: "Three", turkish: "Üç", sound: "three_sound" },
+            { english: "Four", turkish: "Dört", sound: "four_sound" },
+            { english: "Five", turkish: "Beş", sound: "five_sound" },
+            { english: "Six", turkish: "Altı", sound: "six_sound" },
+            { english: "Seven", turkish: "Yedi", sound: "seven_sound" },
+            { english: "Eight", turkish: "Sekiz", sound: "eight_sound" },
+            { english: "Nine", turkish: "Dokuz", sound: "nine_sound" },
+            { english: "Ten", turkish: "On", sound: "ten_sound" },
+            { english: "Apple", turkish: "Elma", sound: "apple_sound" },
+            { english: "Banana", turkish: "Muz", sound: "banana_sound" },
+            { english: "Orange", turkish: "Portakal", sound: "orange_sound" },
+            { english: "Grape", turkish: "Üzüm", sound: "grape_sound" },
+            { english: "Milk", turkish: "Süt", sound: "milk_sound" },
+            { english: "Bread", turkish: "Ekmek", sound: "bread_sound" },
+            { english: "Chair", turkish: "Sandalye", sound: "chair_sound" },
+            { english: "Table", turkish: "Masa", sound: "table_sound" },
+            { english: "Bed", turkish: "Yatak", sound: "bed_sound" },
+            { english: "Door", turkish: "Kapı", sound: "door_sound" },
+            { english: "Window", turkish: "Pencere", sound: "window_sound" },
+            { english: "Tree", turkish: "Ağaç", sound: "tree_sound" },
+            { english: "Flower", turkish: "Çiçek", sound: "flower_sound" },
+            { english: "Bird", turkish: "Kuş", sound: "bird_sound" },
+            { english: "Fish", turkish: "Balık", sound: "fish_sound" },
+            { english: "Boy", turkish: "Erkek çocuk", sound: "boy_sound" },
+            { english: "Girl", turkish: "Kız çocuk", sound: "girl_sound" },
+            { english: "Man", turkish: "Adam", sound: "man_sound" },
+            { english: "Woman", turkish: "Kadın", sound: "woman_sound" },
+            { english: "Family", turkish: "Aile", sound: "family_sound" },
+            { english: "Friend", turkish: "Arkadaş", sound: "friend_sound" },
+            { english: "School", turkish: "Okul", sound: "school_sound" },
+            { english: "Teacher", turkish: "Öğretmen", sound: "teacher_sound" },
+            { english: "Student", turkish: "Öğrenci", sound: "student_sound" },
+            { english: "Play", turkish: "Oynamak", sound: "play_sound" },
+            { english: "Sing", turkish: "Şarkı söylemek", sound: "sing_sound" },
+            { english: "Dance", turkish: "Dans etmek", sound: "dance_sound" },
+            { english: "Read", turkish: "Okumak", sound: "read_sound" },
+            { english: "Write", turkish: "Yazmak", sound: "write_sound" },
+            { english: "Draw", turkish: "Çizmek", sound: "draw_sound" },
+            { english: "Listen", turkish: "Dinlemek", sound: "listen_sound" },
+            { english: "Look", turkish: "Bakmak", sound: "look_sound" },
+            { english: "See", turkish: "Görmek", sound: "see_sound" },
+            { english: "Hear", turkish: "Duymak", sound: "hear_sound" },
+            { english: "Talk", turkish: "Konuşmak", sound: "talk_sound" },
+            { english: "Say", turkish: "Söylemek", sound: "say_sound" },
+            { english: "Ask", turkish: "Sormak", sound: "ask_sound" },
+            { english: "Answer", turkish: "Cevaplamak", sound: "answer_sound" },
+            { english: "Go", turkish: "Gitmek", sound: "go_sound" },
+            { english: "Come", turkish: "Gelmek", sound: "come_sound" },
+            { english: "Stand", turkish: "Durmak (ayakta)", sound: "stand_sound" },
+            { english: "Sit", turkish: "Oturmak", sound: "sit_sound" },
+            { english: "Open", turkish: "Açmak", sound: "open_sound" },
+            { english: "Close", turkish: "Kapatmak", sound: "close_sound" },
+            { english: "Start", turkish: "Başlamak", sound: "start_sound" },
+            { english: "Finish", turkish: "Bitirmek", sound: "finish_sound" },
+            { english: "Like", turkish: "Sevmek", sound: "like_sound" },
+            { english: "Love", turkish: "Aşktan sevmek", sound: "love_sound" },
+            { english: "Hate", turkish: "Nefret etmek", sound: "hate_sound" },
+            { english: "Know", turkish: "Bilmek", sound: "know_sound" },
+            { english: "Think", turkish: "Düşünmek", sound: "think_sound" },
+            { english: "Feel", turkish: "Hissetmek", sound: "feel_sound" },
+            { english: "Want", turkish: "İstemek", sound: "want_sound" },
+            { english: "Need", turkish: "İhtiyaç duymak", sound: "need_sound" },
+            { english: "Give", turkish: "Vermek", sound: "give_sound" },
+            { english: "Take", turkish: "Almak", sound: "take_sound" },
+            { english: "Make", turkish: "Yapmak", sound: "make_sound" },
+            { english: "Do", turkish: "Yapmak", sound: "do_sound" },
+            { english: "Have", turkish: "Sahip olmak", sound: "have_sound" },
+            { english: "Get", turkish: "Almak, elde etmek", sound: "get_sound" },
+            { english: "Put", turkish: "Koymak", sound: "put_sound" },
+            { english: "Bring", turkish: "Getirmek", sound: "bring_sound" },
+            { english: "Find", turkish: "Bulmak", sound: "find_sound" },
+            { english: "Lose", turkish: "Kaybetmek", sound: "lose_sound" },
+            { english: "Show", turkish: "Göstermek", sound: "show_sound" },
+            { english: "Tell", turkish: "Anlatmak", sound: "tell_sound" },
+            { english: "Call", turkish: "Aramak (telefonla/seslenmek)", sound: "call_sound" },
+            { english: "Wait", turkish: "Beklemek", sound: "wait_sound" },
+            { english: "Help", turkish: "Yardım etmek", sound: "help_sound" },
+            { english: "Work", turkish: "Çalışmak", sound: "work_sound" },
+            { english: "Play", turkish: "Oyun oynamak", sound: "play_sound" },
+            { english: "Stop", turkish: "Durmak", sound: "stop_sound" },
+            { english: "Look", turkish: "Bakmak", sound: "look_sound" },
+            { english: "See", turkish: "Görmek", sound: "see_sound" },
+            { english: "Hear", turkish: "Duymak", sound: "hear_sound" },
+            { english: "Read", turkish: "Okumak", sound: "read_sound" },
+            { english: "Write", turkish: "Yazmak", sound: "write_sound" },
+            { english: "Learn", turkish: "Öğrenmek", sound: "learn_sound" },
+            { english: "Teach", turkish: "Öğretmek", sound: "teach_sound" },
+            { english: "Come", turkish: "Gelmek", sound: "come_sound" },
+            { english: "Go", turkish: "Gitmek", sound: "go_sound" },
+            { english: "Up", turkish: "Yukarı", sound: "up_sound" },
+            { english: "Down", turkish: "Aşağı", sound: "down_sound" },
+            { english: "In", turkish: "İçinde", sound: "in_sound" },
+            { english: "Out", turkish: "Dışında", sound: "out_sound" },
+            { english: "On", turkish: "Üzerinde", sound: "on_sound" },
+            { english: "Off", turkish: "Kapalı", sound: "off_sound" },
+            { english: "Under", turkish: "Altında", sound: "under_sound" },
+            { english: "Over", turkish: "Üzerinde (temas yok)", sound: "over_sound" },
+            { english: "Near", turkish: "Yakın", sound: "near_sound" },
+            { english: "Far", turkish: "Uzak", sound: "far_sound" },
+            { english: "Good", turkish: "İyi", sound: "good_sound" },
+            { english: "Bad", turkish: "Kötü", sound: "bad_sound" },
+            { english: "New", turkish: "Yeni", sound: "new_sound" },
+            { english: "Old", turkish: "Eski", sound: "old_sound" },
+            { english: "Hot", turkish: "Sıcak", sound: "hot_sound" },
+            { english: "Cold", turkish: "Soğuk", sound: "cold_sound" },
+            { english: "Full", turkish: "Dolu", sound: "full_sound" },
+            { english: "Empty", turkish: "Boş", sound: "empty_sound" },
+            { english: "Fast", turkish: "Hızlı", sound: "fast_sound" },
+            { english: "Slow", turkish: "Yavaş", sound: "slow_sound" },
+            { english: "Clean", turkish: "Temiz", sound: "clean_sound" },
+            { english: "Dirty", turkish: "Kirli", sound: "dirty_sound" },
+            { english: "Loud", turkish: "Yüksek sesli", sound: "loud_sound" },
+            { english: "Quiet", turkish: "Sessiz", sound: "quiet_sound" },
+            { english: "Light", turkish: "Hafif", sound: "light_sound" },
+            { english: "Heavy", turkish: "Ağır", sound: "heavy_sound" },
+            { english: "Easy", turkish: "Kolay", sound: "easy_sound" },
+            { english: "Hard", turkish: "Zor", sound: "hard_sound" },
+            { english: "Right", turkish: "Doğru / Sağ", sound: "right_sound" },
+            { english: "Left", turkish: "Sol", sound: "left_sound" },
+            { english: "First", turkish: "İlk", sound: "first_sound" },
+            { english: "Last", turkish: "Son", sound: "last_sound" },
+            { english: "Many", turkish: "Çok (sayılabilir)", sound: "many_sound" },
+            { english: "Much", turkish: "Çok (sayılamaz)", sound: "much_sound" },
+            { english: "Few", turkish: "Az (sayılabilir)", sound: "few_sound" },
+            { english: "Little", turkish: "Az (sayılamaz)", sound: "little_sound" },
+            { english: "Some", turkish: "Bazı, biraz", sound: "some_sound" },
+            { english: "Any", turkish: "Hiç, herhangi", sound: "any_sound" },
+            { english: "All", turkish: "Hepsi", sound: "all_sound" },
+            { english: "None", turkish: "Hiçbiri", sound: "none_sound" },
+            { english: "Every", turkish: "Her", sound: "every_sound" },
+            { english: "Each", turkish: "Her biri", sound: "each_sound" },
+            { english: "Other", turkish: "Diğer", sound: "other_sound" },
+            { english: "Another", turkish: "Başka bir", sound: "another_sound" },
+            { english: "Same", turkish: "Aynı", sound: "same_sound" },
+            { english: "Different", turkish: "Farklı", sound: "different_sound" },
+            { english: "True", turkish: "Doğru", sound: "true_sound" },
+            { english: "False", turkish: "Yanlış", sound: "false_sound" },
+            { english: "About", turkish: "Hakkında, yaklaşık", sound: "about_sound" },
+            { english: "After", turkish: "Sonra", sound: "after_sound" },
+            { english: "Before", turkish: "Önce", sound: "before_sound" },
+            { english: "Between", turkish: "Arasında (iki şey)", sound: "between_sound" },
+            { english: "Among", turkish: "Arasında (çok şey)", sound: "among_sound" },
+            { english: "Through", turkish: "İçinden", sound: "through_sound" },
+            { english: "Across", turkish: "Karşıdan karşıya", sound: "across_sound" },
+            { english: "Around", turkish: "Etrafında", sound: "around_sound" },
+            { english: "Into", turkish: "İçine doğru", sound: "into_sound" },
+            { english: "Out of", turkish: "Dışına", sound: "out_of_sound" },
+            { english: "From", turkish: "Den, dan", sound: "from_sound" },
+            { english: "To", turkish: "E, a", sound: "to_sound" },
+            { english: "With", turkish: "İle birlikte", sound: "with_sound" },
+            { english: "Without", turkish: "Sız, siz", sound: "without_sound" },
+            { english: "By", turkish: "Yanında, tarafından", sound: "by_sound" },
+            { english: "For", turkish: "İçin", sound: "for_sound" },
+            { english: "Of", turkish: "Nın, nin", sound: "of_sound" },
+            { english: "At", turkish: "De, da (nokta)", sound: "at_sound" },
+            { english: "In", turkish: "İçinde (geniş alan)", sound: "in_sound" },
+            { english: "On", turkish: "Üzerinde (yüzey)", sound: "on_sound" },
+            { english: "But", turkish: "Ama, fakat", sound: "but_sound" },
+            { english: "And", turkish: "Ve", sound: "and_sound" },
+            { english: "Or", turkish: "Veya", sound: "or_sound" },
+            { english: "So", turkish: "Bu yüzden", sound: "so_sound" },
+            { english: "Because", turkish: "Çünkü", sound: "because_sound" },
+            { english: "If", turkish: "Eğer", sound: "if_sound" },
+            { english: "When", turkish: "Ne zaman", sound: "when_sound" },
+            { english: "Where", turkish: "Nerede", sound: "where_sound" },
+            { english: "What", turkish: "Ne", sound: "what_sound" },
+            { english: "Who", turkish: "Kim", sound: "who_sound" },
+            { english: "Why", turkish: "Neden", sound: "why_sound" },
+            { english: "How", turkish: "Nasıl", sound: "how_sound" },
+            { english: "Then", turkish: "Sonra, o zaman", sound: "then_sound" },
+            { english: "Now", turkish: "Şimdi", sound: "now_sound" },
+            { english: "Always", turkish: "Her zaman", sound: "always_sound" },
+            { english: "Never", turkish: "Asla", sound: "never_sound" },
+            { english: "Often", turkish: "Sık sık", sound: "often_sound" },
+            { english: "Sometimes", turkish: "Bazen", sound: "sometimes_sound" },
+            { english: "Usually", turkish: "Genellikle", sound: "usually_sound" },
+            { english: "Always", turkish: "Her zaman", sound: "always_sound" },
+            { english: "Never", turkish: "Asla", sound: "never_sound" },
+            { english: "Often", turkish: "Sık sık", sound: "often_sound" },
+            { english: "Sometimes", turkish: "Bazen", sound: "sometimes_sound" },
+            { english: "Usually", turkish: "Genellikle", sound: "usually_sound" },
+            { english: "Tomorrow", turkish: "Yarın", sound: "tomorrow_sound" },
+            { english: "Today", turkish: "Bugün", sound: "today_sound" },
+            { english: "Yesterday", turkish: "Dün", sound: "yesterday_sound" },
+            { english: "Morning", turkish: "Sabah", sound: "morning_sound" },
+            { english: "Afternoon", turkish: "Öğleden sonra", sound: "afternoon_sound" },
+            { english: "Evening", turkish: "Akşam", sound: "evening_sound" },
+            { english: "Night", turkish: "Gece", sound: "night_sound" },
+            { english: "Day", turkish: "Gün", sound: "day_sound" },
+            { english: "Week", turkish: "Hafta", sound: "week_sound" },
+            { english: "Month", turkish: "Ay", sound: "month_sound" },
+            { english: "Year", turkish: "Yıl", sound: "year_sound" },
+            { english: "Time", turkish: "Zaman", sound: "time_sound" },
+            { english: "Minute", turkish: "Dakika", sound: "minute_sound" },
+            { english: "Hour", turkish: "Saat", sound: "hour_sound" },
+            { english: "Second", turkish: "Saniye", sound: "second_sound" },
+            { english: "Color", turkish: "Renk", sound: "color_sound" },
+            { english: "Shape", turkish: "Şekil", sound: "shape_sound" },
+            { english: "Size", turkish: "Boyut", sound: "size_sound" },
+            { english: "Number", turkish: "Sayı", sound: "number_sound" },
+            { english: "Letter", turkish: "Harf", sound: "letter_sound" },
+            { english: "Word", turkish: "Kelime", sound: "word_sound" },
+            { english: "Sentence", turkish: "Cümle", sound: "sentence_sound" },
+            { english: "Question", turkish: "Soru", sound: "question_sound" },
+            { english: "Answer", turkish: "Cevap", sound: "answer_sound" },
+            { english: "Problem", turkish: "Problem", sound: "problem_sound" },
+            { english: "Solution", turkish: "Çözüm", sound: "solution_sound" },
+            { english: "Idea", turkish: "Fikir", sound: "idea_sound" },
+            { english: "Way", turkish: "Yol", sound: "way_sound" },
+            { english: "Thing", turkish: "Şey", sound: "thing_sound" },
+            { english: "People", turkish: "İnsanlar", sound: "people_sound" },
+            { english: "Child", turkish: "Çocuk", sound: "child_sound" },
+            { english: "Parent", turkish: "Ebeveyn", sound: "parent_sound" },
+            { english: "Brother", turkish: "Erkek kardeş", sound: "brother_sound" },
+            { english: "Sister", turkish: "Kız kardeş", sound: "sister_sound" },
+            { english: "Sun", turkish: "Güneş", sound: "sun_sound" },
+            { english: "Moon", turkish: "Ay", sound: "moon_sound" },
+            { english: "Star", turkish: "Yıldız", sound: "star_sound" },
+            { english: "Sky", turkish: "Gökyüzü", sound: "sky_sound" },
+            { english: "Cloud", turkish: "Bulut", sound: "cloud_sound" },
+            { english: "Rain", turkish: "Yağmur", sound: "rain_sound" },
+            { english: "Snow", turkish: "Kar", sound: "snow_sound" },
+            { english: "Wind", turkish: "Rüzgar", sound: "wind_sound" },
+            { english: "Ice", turkish: "Buz", sound: "ice_sound" },
+            { english: "Fire", turkish: "Ateş", sound: "fire_sound" },
+            { english: "Air", turkish: "Hava", sound: "air_sound" },
+            { english: "Earth", turkish: "Dünya", sound: "earth_sound" },
+            { english: "Sea", turkish: "Deniz", sound: "sea_sound" },
+            { english: "River", turkish: "Nehir", sound: "river_sound" },
+            { english: "Lake", turkish: "Göl", sound: "lake_sound" },
+            { english: "Mountain", turkish: "Dağ", sound: "mountain_sound" },
+            { english: "Hill", turkish: "Tepe", sound: "hill_sound" },
+            { english: "Valley", turkish: "Vadi", sound: "valley_sound" },
+            { english: "Forest", turkish: "Orman", sound: "forest_sound" },
+            { english: "Grass", turkish: "Çim", sound: "grass_sound" },
+            { english: "Road", turkish: "Yol", sound: "road_sound" },
+            { english: "Street", turkish: "Cadde", sound: "street_sound" },
+            { english: "Town", turkish: "Kasaba", sound: "town_sound" },
+            { english: "City", turkish: "Şehir", sound: "city_sound" },
+            { english: "Country", turkish: "Ülke", sound: "country_sound" },
+            { english: "World", turkish: "Dünya", sound: "world_sound" }
             // ... Buraya en temel 200 kelimeyi tamamlayabilirsin
         ];
 
-        // Ses dosyalarını dinamik olarak ekle (SoundHelix'ten geçici örnekler)
+        // Ses dosyalarını dinamik olarak ekle (Boş URL'ler, senin doldurman gerekiyor)
         function addAudioElements() {
             const audioContainer = document.getElementById('audio-container');
             words.forEach(word => {
@@ -471,8 +818,8 @@
                     audio.id = word.sound;
                     // *** BURAYI KENDİ SES DOSYALARININ URL'LERİ İLE DEĞİŞTİRMELİSİN ***
                     // Örnek: `audio.src = \`sesler/${word.sound}.mp3\`;`
-                    // Geçici olarak SoundHelix'ten farklı şarkılar kullanıyorum
-                    audio.src = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${(Math.floor(Math.random() * 30) + 1)}.mp3`;
+                    // Geçici olarak boş bırakıyorum, kullanıcı kendi seslerini eklemeli.
+                    audio.src = `sounds/${word.sound}.mp3`; // Varsayılan olarak 'sounds' klasörü varsayımı
                     audioContainer.appendChild(audio);
                 }
             });
@@ -492,9 +839,12 @@
             stopAllSounds(); // Ekran değiştiğinde tüm sesleri durdur
 
             if (screenId === 'learn') {
+                currentWordIndex = 0; // Öğrenme ekranına gelince ilk kelimeye dön
                 loadWordForLearning();
             } else if (screenId === 'test') {
-                generateTestQuestion();
+                currentTestQuestionIndex = 0; // Test ekranına gelince ilk soruya dön
+                testHistory = []; // Test geçmişini sıfırla
+                generateTestQuestion(); // İlk testi başlat
             }
         }
 
@@ -533,7 +883,14 @@
                 audio.play().catch(e => console.error("Ses çalma hatası:", e));
                 playingAudio = audio;
             } else {
-                console.warn(`Ses dosyası bulunamadı: ${audioId}`);
+                console.warn(`Ses dosyası bulunamadı: ${audioId}. Lütfen 'sounds/${audioId}.mp3' yolunu kontrol edin ve ses dosyasını ekleyin.`);
+                // Alternatif olarak, tarayıcının yerleşik seslendirme API'sini kullanabiliriz
+                if ('speechSynthesis' in window) {
+                    const text = audioId.replace('_sound', ''); // _sound kısmını kaldır
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US'; // İngilizce telaffuz
+                    window.speechSynthesis.speak(utterance);
+                }
             }
         }
 
@@ -558,15 +915,15 @@
         }
 
         // Geri Bildirim Fonksiyonu
-        function showFeedback(message, type, elementId, duration = 2000) {
+        function showFeedback(message, type, elementId, duration = 1500) {
             const feedbackElement = elementId ? document.getElementById(elementId) : null;
             if (feedbackElement) {
                 feedbackElement.innerText = message;
                 feedbackElement.className = 'feedback ' + type;
                 if (type === 'correct') {
-                    playSound('correct-sound');
+                    playSound('correct_sound');
                 } else if (type === 'incorrect') {
-                    playSound('incorrect-sound');
+                    playSound('incorrect_sound');
                 }
                 setTimeout(() => {
                     feedbackElement.innerText = '';
@@ -578,6 +935,8 @@
         // Kelime Öğrenme Bölümü
         function loadWordForLearning() {
             const word = words[currentWordIndex];
+            const flipCard = document.getElementById('learn-flip-card');
+            flipCard.classList.remove('flipped'); // Her yeni kelimede kartı sıfırla
             document.getElementById('english-word').innerText = word.english;
             document.getElementById('turkish-meaning').innerText = word.turkish;
             playCurrentWordSound(); // Kelime yüklenince sesini çal
@@ -588,19 +947,53 @@
         }
 
         function nextWord() {
-            currentWordIndex = (currentWordIndex + 1) % words.length;
+            currentWordIndex = (currentWordIndex + 1);
+            if (currentWordIndex >= words.length) {
+                currentWordIndex = 0; // Liste sonuna gelince başa dön
+            }
             loadWordForLearning();
         }
 
+        function previousWord() {
+            currentWordIndex = (currentWordIndex - 1);
+            if (currentWordIndex < 0) {
+                currentWordIndex = words.length - 1; // Liste başına gelince sona dön
+            }
+            loadWordForLearning();
+        }
+
+        function flipCard() {
+            document.getElementById('learn-flip-card').classList.toggle('flipped');
+        }
+
         // Kelime Testi Bölümü
-        function generateTestQuestion() {
-            document.getElementById('test-feedback').innerText = '';
+        function generateTestQuestion(isNext = false) {
+            document.getElementById('test-feedback').innerText = ''; // Geri bildirimi temizle
             const optionsDiv = document.getElementById('test-options');
             optionsDiv.innerHTML = ''; // Önceki seçenekleri temizle
 
-            // Rastgele bir kelime seç
-            const randomIndex = Math.floor(Math.random() * words.length);
-            currentTestWord = words[randomIndex];
+            let question;
+
+            if (isNext) { // "Sonraki" butonuna basıldıysa veya otomatik geçişse yeni soru
+                // Test geçmişini güncelleyebiliriz, ancak şimdilik sadece ileri git
+                currentTestQuestionIndex++;
+                if (currentTestQuestionIndex >= words.length) {
+                    currentTestQuestionIndex = 0; // Başa dön
+                    // İstersen burada testi bitirme veya yeniden başlatma mesajı verebilirsin
+                }
+                question = words[currentTestQuestionIndex];
+                testHistory.push(question); // Geçmişe ekle
+            } else if (testHistory.length > 0 && currentTestQuestionIndex < testHistory.length) {
+                // Geri gelindiğinde geçmişten yükle
+                question = testHistory[currentTestQuestionIndex];
+            } else { // İlk soru veya geçmiş yoksa rastgele yeni soru
+                const randomIndex = Math.floor(Math.random() * words.length);
+                question = words[randomIndex];
+                testHistory.push(question); // Geçmişe ekle
+                currentTestQuestionIndex = testHistory.length - 1;
+            }
+
+            currentTestWord = question;
             document.getElementById('test-turkish-word').innerText = currentTestWord.turkish;
             playCurrentTestWordSound(); // Sorunun sesini çal
 
@@ -617,7 +1010,7 @@
             selectedOptions.forEach(option => {
                 const button = document.createElement('button');
                 button.innerText = option.english;
-                button.onclick = () => checkTestAnswer(option);
+                button.onclick = () => checkTestAnswer(option, button);
                 optionsDiv.appendChild(button);
             });
         }
@@ -628,14 +1021,39 @@
             playSound(currentTestWord.sound);
         }
 
-        function checkTestAnswer(selectedOption) {
+        function checkTestAnswer(selectedOption, clickedButton) {
+            const allButtons = document.querySelectorAll('#test-options button');
+            allButtons.forEach(button => button.disabled = true); // Tüm butonları pasif yap
+
             if (selectedOption.english === currentTestWord.english) {
                 showFeedback('Doğru! Harikasın!', 'correct', 'test-feedback');
+                clickedButton.style.backgroundColor = '#4CAF50'; // Yeşil yap
+                setTimeout(() => {
+                    generateTestQuestion(true); // Otomatik sonraki soruya geç
+                }, 1500); // 1.5 saniye sonra geç
             } else {
                 showFeedback(`Yanlış. Doğru cevap: ${currentTestWord.english}`, 'incorrect', 'test-feedback');
+                clickedButton.style.backgroundColor = '#F44336'; // Kırmızı yap
+                // Doğru cevabı da işaretleyebiliriz
+                allButtons.forEach(button => {
+                    if (button.innerText === currentTestWord.english) {
+                        button.style.backgroundColor = '#4CAF50';
+                    }
+                });
+                setTimeout(() => {
+                    generateTestQuestion(true); // 1.5 saniye sonra sonraki soruya geç
+                }, 1500);
             }
-            // Kısa bir süre sonra yeni soruya geçmek istersen:
-            // setTimeout(generateTestQuestion, 2000);
+        }
+
+        function previousTestQuestion() {
+            if (currentTestQuestionIndex > 0) {
+                currentTestQuestionIndex--;
+                // Geçmişten soruyu yükle
+                generateTestQuestion(); // isNext false olduğu için geçmişten yükler
+            } else {
+                showFeedback('İlk sorudasın!', 'incorrect', 'test-feedback', 1000);
+            }
         }
 
 
