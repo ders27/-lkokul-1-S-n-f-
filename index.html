@@ -108,6 +108,105 @@
             background-size: 20px auto;
         }
 
+        /* Ses Ayarları Düğmesi */
+        #sound-settings-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #4db6ac; /* Açık Teal */
+            padding: 8px 12px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        /* Ses Ayarları Modalı */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: left;
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .volume-control {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-control label {
+            margin-right: 10px;
+            font-size: 1.1em;
+            color: #004d40;
+        }
+
+        .volume-control input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: #b2dfdb;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .volume-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00796b;
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .volume-control input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #00796b;
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
         .category-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -393,6 +492,19 @@
 </head>
 <body>
     <div id="app">
+        <button id="sound-settings-btn" onclick="openSoundSettings()">🔊 Ses Ayarları</button>
+
+        <div id="soundSettingsModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeSoundSettings()">&times;</span>
+                <h2>Ses Ayarları</h2>
+                <div class="volume-control">
+                    <label for="masterVolume">Genel Ses Seviyesi:</label>
+                    <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="1" oninput="setAllVolumes(this.value)">
+                </div>
+            </div>
+        </div>
+
         <div id="screen-login" class="screen active">
             <h1>Okuma Yolculuğum</h1>
             <p>Adın:</p>
@@ -672,7 +784,7 @@
             </div>
         </div>
 
-        <div style="display:none;">
+        <div id="audio-container" style="display:none;">
             <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
             <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
             <audio id="C" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg"></audio>
@@ -725,6 +837,7 @@
         const sections = ['letters', 'syllables', 'sentences', 'numbers', 'shapes', 'opposites', 'emotions', 'games', 'stories'];
         const levels = ['all', 'easy', 'medium', 'hard'];
         let currentSectionIndex = 0;
+        let playingAudio = null; // Şu an çalan ses dosyasını tutar
 
         // Harf Verileri (Türk Alfabesi) - Resimler ve Sesler ile güncellendi
         const turkishAlphabet = [
@@ -766,6 +879,7 @@
                 screen.classList.remove('active');
             });
             document.getElementById('screen-' + screenId).classList.add('active');
+            stopAllSounds(); // Ekran değiştiğinde tüm sesleri durdur
         }
 
         function login() {
@@ -793,12 +907,22 @@
             switchScreen(sections[currentSectionIndex]);
         }
 
-        // Seslendirme Fonksiyonu
+        // Seslendirme Fonksiyonları
+        function stopAllSounds() {
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+            playingAudio = null; // Çalan ses bilgisini sıfırla
+        }
+
         function playSound(audioId) {
+            stopAllSounds(); // Yeni bir ses çalmadan önce tüm sesleri durdur
+
             const audio = document.getElementById(audioId);
             if (audio) {
-                audio.currentTime = 0; // Sesin baştan başlamasını sağlar
                 audio.play().catch(e => console.error("Ses çalma hatası:", e));
+                playingAudio = audio; // Çalan ses dosyasını kaydet
             } else {
                 console.warn(`Ses dosyası bulunamadı: ${audioId}`);
                 showFeedback(audioId + ' sesi yok!', 'incorrect', null); // Ses yoksa kullanıcıya bildir
@@ -806,10 +930,12 @@
         }
 
         function playStory(storyId) {
+            stopAllSounds(); // Yeni bir hikaye çalmadan önce tüm sesleri durdur
+
             const audio = document.getElementById(storyId);
             if (audio) {
-                audio.currentTime = 0;
                 audio.play().catch(e => console.error("Hikaye çalma hatası:", e));
+                playingAudio = audio;
             }
         }
 
@@ -818,7 +944,31 @@
             if (audio) {
                 audio.pause();
                 audio.currentTime = 0;
+                if (playingAudio === audio) {
+                    playingAudio = null;
+                }
             }
+        }
+
+        // Ses Ayarları Modal Fonksiyonları
+        function openSoundSettings() {
+            document.getElementById('soundSettingsModal').style.display = 'flex';
+            // Kayıtlı ses seviyesini yükle
+            const savedVolume = localStorage.getItem('masterVolume');
+            if (savedVolume !== null) {
+                document.getElementById('masterVolume').value = savedVolume;
+            }
+        }
+
+        function closeSoundSettings() {
+            document.getElementById('soundSettingsModal').style.display = 'none';
+        }
+
+        function setAllVolumes(volume) {
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.volume = volume;
+            });
+            localStorage.setItem('masterVolume', volume); // Ses seviyesini kaydet
         }
 
         // Geri Bildirim Fonksiyonu (Daha Gelişmiş)
@@ -966,6 +1116,7 @@
             document.getElementById('score').innerText = score;
             document.getElementById('bubble-game-area').innerHTML = ''; // Eski baloncukları temizle
             bubbleInterval = setInterval(createBubble, 1000); // Her saniye yeni baloncuk
+            
             // Oyun süresi ekleyebiliriz (örn. 30 saniye sonra durdur)
             setTimeout(() => {
                 stopGame();
@@ -1016,6 +1167,16 @@
                 switchScreen('login'); // İsim kayıtlı değilse giriş ekranını göster
             }
             generateLetterCards(); // Harf kartlarını oluştur
+            
+            // Kayıtlı ses seviyesini tüm ses elemanlarına uygula
+            const savedVolume = localStorage.getItem('masterVolume');
+            if (savedVolume !== null) {
+                setAllVolumes(savedVolume);
+                document.getElementById('masterVolume').value = savedVolume;
+            } else {
+                // Eğer kayıtlı bir ses seviyesi yoksa varsayılanı (1) kaydet
+                localStorage.setItem('masterVolume', '1');
+            }
         };
 
         /* JavaScript Sonu */
