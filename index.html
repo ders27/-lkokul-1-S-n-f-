@@ -573,7 +573,7 @@
                 <div id="progress-bar"></div>
             </div>
             <div class="word-card">
-                <p id="test-turkish-word" style="font-size: 2em;"></p>
+                <p id="test-english-word" style="font-size: 2em;"></p>
                 <button class="listen-button" onclick="playCurrentTestWordSoundForDisplay()">Dinle 🔊</button>
             </div>
             <div class="test-options" id="test-options">
@@ -769,7 +769,7 @@
             { english: "Every", turkish: "Her", sound: "every_sound" },
             { english: "Each", turkish: "Her biri", sound: "each_sound" },
             { english: "Other", turkish: "Diğer", sound: "other_sound" },
-            { english: "Another", turkish: "Başka bir", sound: "another_another_sound" },
+            { english: "Another", turkish: "Başka bir", sound: "another_sound" },
             { english: "Same", turkish: "Aynı", sound: "same_sound" },
             { english: "Different", turkish: "Farklı", sound: "different_sound" },
             { english: "True", turkish: "Doğru", sound: "true_sound" },
@@ -873,7 +873,8 @@
             { english: "City", turkish: "Şehir", sound: "city_sound" },
             { english: "Country", turkish: "Ülke", sound: "country_sound" },
             { english: "World", turkish: "Dünya", sound: "world_sound" }
-            // Buraya 200 kelimeyi tamamlaman gerekiyor!
+            // Buraya 200 kelimeyi tamamlaman gerekiyor! Eğer 200'den azsa,
+            // 'selectRandomWordsForTest' fonksiyonu mevcut tüm kelimeleri kullanmaya çalışır.
         ];
 
         // Bu fonksiyon, uygulama genelinde kelime listesine erişmek için kullanılır.
@@ -1058,27 +1059,26 @@
             const allWords = wordsListForApp();
             const selectedWords = selectRandomWordsForTest(allWords, numberOfQuestions);
             testQuestions = selectedWords.map(word => {
-                const correctOption = word.english;
-                // Doğru cevap dışındaki kelimelerden 3 yanlış seçenek seç
-                let incorrectOptions = allWords
-                    .filter(w => w.english !== correctOption)
+                const correctTurkishOption = word.turkish;
+                let incorrectTurkishOptions = allWords
+                    .filter(w => w.turkish !== correctTurkishOption)
                     .sort(() => 0.5 - Math.random())
                     .slice(0, 3)
-                    .map(w => w.english);
+                    .map(w => w.turkish);
 
                 // Eğer 3 yanlış seçenek yoksa, tekrar eden kelimeleri kontrol ederek ekle
-                while (incorrectOptions.length < 3 && allWords.length > incorrectOptions.length + 1) {
+                while (incorrectTurkishOptions.length < 3 && allWords.length > incorrectTurkishOptions.length + 1) {
                     const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-                    if (randomWord.english !== correctOption && !incorrectOptions.includes(randomWord.english)) {
-                        incorrectOptions.push(randomWord.english);
+                    if (randomWord.turkish !== correctTurkishOption && !incorrectTurkishOptions.includes(randomWord.turkish)) {
+                        incorrectTurkishOptions.push(randomWord.turkish);
                     }
                 }
                 
-                const options = [...incorrectOptions, correctOption].sort(() => 0.5 - Math.random());
+                const options = [...incorrectTurkishOptions, correctTurkishOption].sort(() => 0.5 - Math.random());
                 return {
-                    word: word, // Bu, Türkçe kelime ve ses ID'si için
-                    options: options, // İngilizce şıklar
-                    correctAnswer: correctOption // Doğru İngilizce kelime
+                    word: word, // Bu, İngilizce kelime ve ses ID'si için
+                    options: options, // Türkçe şıklar
+                    correctAnswer: correctTurkishOption // Doğru Türkçe kelime
                 };
             });
         }
@@ -1100,8 +1100,9 @@
             document.getElementById('test-feedback').innerText = ''; // Yeni soru yüklenince geri bildirimi temizle
             if (currentQuestionIndex < numberOfQuestions) {
                 const question = testQuestions[currentQuestionIndex];
-                document.getElementById('test-turkish-word').innerText = question.word.turkish;
-                playCurrentTestWordSoundForDisplay(); // Sorunun kelimesini otomatik çal
+                // Soru artık İngilizce kelime olacak
+                document.getElementById('test-english-word').innerText = question.word.english;
+                playCurrentTestWordSoundForDisplay(); // Sorunun İngilizce sesini çal
                 
                 const optionsDiv = document.getElementById('test-options');
                 optionsDiv.innerHTML = ''; // Önceki seçenekleri temizle
@@ -1122,7 +1123,7 @@
         }
 
         function playCurrentTestWordSoundForDisplay() {
-            // Sadece test sorusunun kelimesinin sesini çal
+            // Sadece test sorusunun İngilizce kelimesinin sesini çal
             if (testQuestions && testQuestions.length > currentQuestionIndex) {
                 playSound(testQuestions[currentQuestionIndex].word.sound);
             }
