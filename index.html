@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Okuma Yolculuğum</title>
+    <title>Okuma Yolculuğum Plus</title>
     <style>
         /* CSS Başlangıcı */
         body {
@@ -27,6 +27,7 @@
             padding: 25px;
             box-sizing: border-box;
             text-align: center;
+            position: relative; /* Ses ayarları butonu için */
         }
 
         .screen {
@@ -487,6 +488,23 @@
         .story-controls button:hover {
             background-color: #1b5e20;
         }
+
+        /* Harf Yazma Alanı */
+        #drawing-canvas {
+            border: 2px solid #00796b;
+            background-color: #fff;
+            cursor: crosshair;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .drawing-controls button {
+            margin: 10px 5px;
+            background-color: #4db6ac;
+        }
+        .drawing-controls button:hover {
+            background-color: #26a69a;
+        }
+
         /* CSS Sonu */
     </style>
 </head>
@@ -506,7 +524,7 @@
         </div>
 
         <div id="screen-login" class="screen active">
-            <h1>Okuma Yolculuğum</h1>
+            <h1>Okuma Yolculuğum Plus</h1>
             <p>Adın:</p>
             <input type="text" id="username" placeholder="Adını buraya yaz">
             <button onclick="login()">Başla</button>
@@ -549,6 +567,14 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/2927/2927329.png" alt="Duygular">
                     <span>😊 Duygular</span>
                 </div>
+                <div class="category-item" onclick="openSection('dictation')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927236.png" alt="Dikte">
+                    <span>✍️ Dikte</span>
+                </div>
+                <div class="category-item" onclick="openSection('letter-tracing')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2927/2927361.png" alt="Harf Yazma">
+                    <span>✏️ Harf Yazma</span>
+                </div>
                 <div class="category-item" onclick="openSection('games')">
                     <img src="https://cdn-icons-png.flaticon.com/512/2927/2927324.png" alt="Oyunlar">
                     <span>🎮 Oyunlar</span>
@@ -584,602 +610,4 @@
 
             <div class="challenge-container" style="margin-top: 30px;">
                 <p>Kelime Tamamlama: Eksik harfi bul ve kelimeyi tamamla!</p>
-                <p style="font-size: 1.5em; font-weight: bold; margin: 15px 0;">ELM_</p>
-                <div class="syllables-grid">
-                    <button onclick="checkWord('ELMA')">A</button>
-                    <button onclick="checkWord('ELME')">E</button>
-                    <button onclick="checkWord('ELMI')">I</button>
-                </div>
-                <p id="word-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-sentences" class="screen content-section">
-            <h2>📚 Cümleler</h2>
-            <div class="challenge-container">
-                <p>Aşağıdaki cümleyi dinle ve ne hakkında olduğunu anla.</p>
-                <p style="font-size: 1.3em; font-weight: bold; color: #00796b;">"Kedi süt içer."</p>
-                <button onclick="playSentence('s1')">Dinle</button>
-            </div>
-
-            <div class="challenge-container" style="margin-top: 30px;">
-                <p>Bu cümlede kimin süt içtiğini bul:</p>
-                <button onclick="checkSentenceAnswer('Kedi')">Kedi</button>
-                <button onclick="checkSentenceAnswer('Köpek')">Köpek</button>
-                <button onclick="checkSentenceAnswer('Kuş')">Kuş</button>
-                <p id="sentence-feedback" class="feedback"></p>
-            </div>
-            
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-numbers" class="screen content-section">
-            <h2>🔢 Sayılar</h2>
-            <p>Aşağıdaki sayıları öğrenelim ve dinleyelim:</p>
-            <div class="numbers-grid number-buttons">
-                <button onclick="playSound('n1')">1</button>
-                <button onclick="playSound('n2')">2</button>
-                <button onclick="playSound('n3')">3</button>
-                <button onclick="playSound('n4')">4</button>
-                <button onclick="playSound('n5')">5</button>
-                <button onclick="playSound('n6')">6</button>
-                <button onclick="playSound('n7')">7</button>
-                <button onclick="playSound('n8')">8</button>
-                <button onclick="playSound('n9')">9</button>
-                <button onclick="playSound('n10')">10</button>
-            </div>
-            
-            <div class="challenge-container">
-                <p>Resimdeki elmaların sayısını bul:</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/123/123300.png" alt="Üç Elma" style="width:150px; margin: 15px 0;">
-                <p style="font-size: 1.3em; font-weight: bold;">Kaç elma var?</p>
-                <button onclick="checkNumber(3)">3</button>
-                <button onclick="checkNumber(4)">4</button>
-                <button onclick="checkNumber(2)">2</button>
-                <p id="number-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-shapes" class="screen content-section">
-            <h2>🎨 Şekiller & Renkler</h2>
-            <p>Farklı şekilleri tanıyalım:</p>
-            <div class="shapes-grid">
-                <div class="shape-card" onclick="playSound('circle')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" alt="Daire"><span>Daire</span>
-                </div>
-                <div class="shape-card" onclick="playSound('square')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" alt="Kare"><span>Kare</span>
-                </div>
-                <div class="shape-card" onclick="playSound('triangle')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/616/616601.png" alt="Üçgen"><span>Üçgen</span>
-                </div>
-            </div>
-
-            <div class="challenge-container shape-challenge">
-                <p>Aşağıdaki şekillerden **Daire** olanı bul:</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/616/616572.png" alt="Kare" onclick="checkShape('Kare')"/>
-                <img src="https://cdn-icons-png.flaticon.com/512/616/616558.png" alt="Daire" onclick="checkShape('Daire')"/>
-                <p id="shape-feedback" class="feedback"></p>
-            </div>
-
-            <div class="challenge-container color-challenge" style="margin-top: 30px;">
-                <p>Aşağıdaki renklerden **Kırmızı** olanı bul:</p>
-                <button style="background:blue;" onclick="checkColor('blue')"></button>
-                <button style="background:red;" onclick="checkColor('red')"></button>
-                <button style="background:green;" onclick="checkColor('green')"></button>
-                <p id="color-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-opposites" class="screen content-section">
-            <h2>🎭 Zıt Kavramlar</h2>
-            <p>Aşağıdaki zıt kavramları öğrenelim:</p>
-            <div class="challenge-container opposites-challenge">
-                <div onclick="playSound('buyuk')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/388/388480.png" class="large-icon" alt="Büyük Fil">
-                    <p>Büyük</p>
-                </div>
-                <div onclick="playSound('kucuk')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/388/388481.png" class="large-icon" alt="Küçük Fare">
-                    <p>Küçük</p>
-                </div>
-            </div>
-
-            <div class="challenge-container opposites-challenge" style="margin-top: 30px;">
-                <p>Aşağıdakilerden **BÜYÜK** olanı seç:</p>
-                <button onclick="checkOpposite('BÜYÜK')">BÜYÜK</button>
-                <button onclick="checkOpposite('küçük')">küçük</button>
-                <p id="opposite-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-emotions" class="screen content-section">
-            <h2>😊 Duygular</h2>
-            <p>Nasıl hissediyorsun? Resimlere tıklayarak duyguları öğrenelim:</p>
-            <div class="emotion-selection">
-                <button onclick="playSound('mutlu')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" alt="Mutlu">
-                    <span>Mutlu</span>
-                </button>
-                <button onclick="playSound('uzgun')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742753.png" alt="Üzgün">
-                    <span>Üzgün</span>
-                </button>
-                <button onclick="playSound('kizgin')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/742/742756.png" alt="Kızgın">
-                    <span>Kızgın</span>
-                </button>
-            </div>
-
-            <div class="challenge-container" style="margin-top: 30px;">
-                <p>Resimdeki kişinin duygusu nedir?</p>
-                <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png" style="width: 100px; margin: 15px 0;" alt="Mutlu yüz"/>
-                <button onclick="checkEmotion('Mutlu')">Mutlu</button>
-                <button onclick="checkEmotion('Kızgın')">Kızgın</button>
-                <p id="emotion-feedback" class="feedback"></p>
-            </div>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-games" class="screen content-section">
-            <h2>🎮 Oyunlar</h2>
-            <h3>Baloncuk Patlatma Oyunu</h3>
-            <p>Baloncuklara tıklayarak onları patlat ve puan kazan!</p>
-            <div id="bubble-game-area">
-                </div>
-            <p style="font-weight: bold; margin-top: 15px;">Puan: <span id="score">0</span></p>
-            <button onclick="startGame()">Oyunu Başlat</button>
-
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-                <button onclick="nextSection()">Sonraki</button>
-            </div>
-        </div>
-
-        <div id="screen-stories" class="screen content-section">
-            <h2>📖 Okuma Metinleri</h2>
-            <div class="story-text">
-                <h3>Küçük Ayı ve Balık</h3>
-                <p>
-                    Küçük Ayı, güneşli bir sabah erkenden uyandı. Karnı çok açtı ve kahvaltıda lezzetli balıklar yemek istiyordu.
-                    Hemen olta takımını aldı ve göletin yolunu tuttu. Gölete vardığında suyun ne kadar berrak olduğunu fark etti.
-                    Biraz bekledikten sonra oltasına küçük bir balık takıldı. Küçük Ayı çok sevindi ama sonra balığın ne kadar küçük olduğunu gördü.
-                    "Senin büyümen için biraz daha zamana ihtiyacın var," dedi ve balığı dikkatlice suya geri bıraktı.
-                    Evine dönerken yolda tatlı bir bal arısı kovanı buldu ve afiyetle bal yedi. Küçük Ayı, bazen başkalarını düşünmenin daha önemli olduğunu öğrendi.
-                </p>
-            </div>
-            <div class="story-controls">
-                <button onclick="playStory('story1')">Dinle</button>
-                <button onclick="stopStory()">Durdur</button>
-            </div>
-            <div class="nav-buttons">
-                <button onclick="goMenu()">Ana Menü</button>
-            </div>
-        </div>
-
-        <div id="audio-container" style="display:none;">
-            <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
-            <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
-            <audio id="C" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Turkish_alphabet_C.ogg"></audio>
-            <audio id="Ç" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_%C3%87.ogg"></audio>
-            <audio id="D" src="https://upload.wikimedia.org/wikipedia/commons/8/84/Turkish_alphabet_D.ogg"></audio>
-            <audio id="E" src="https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_E.ogg"></audio>
-            <audio id="F" src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Turkish_alphabet_F.ogg"></audio>
-            <audio id="G" src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Turkish_alphabet_G.ogg"></audio>
-            <audio id="Ğ" src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Turkish_alphabet_%C4%9E.ogg"></audio>
-            <audio id="H" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Turkish_alphabet_H.ogg"></audio>
-            <audio id="I" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Turkish_alphabet_I.ogg"></audio>
-            <audio id="İ" src="https://upload.wikimedia.org/wikipedia/commons/0/02/Turkish_alphabet_%C4%B0.ogg"></audio>
-            <audio id="J" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Turkish_alphabet_J.ogg"></audio>
-            <audio id="K" src="https://upload.wikimedia.org/wikipedia/commons/5/52/Turkish_alphabet_K.ogg"></audio>
-            <audio id="L" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Turkish_alphabet_L.ogg"></audio>
-            <audio id="M" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_M.ogg"></audio>
-            <audio id="N" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Turkish_alphabet_N.ogg"></audio>
-            <audio id="O" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Turkish_alphabet_O.ogg"></audio>
-            <audio id="Ö" src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Turkish_alphabet_%C3%96.ogg"></audio>
-            <audio id="P" src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Turkish_alphabet_P.ogg"></audio>
-            <audio id="R" src="https://upload.wikimedia.org/wikipedia/commons/1/17/Turkish_alphabet_R.ogg"></audio>
-            <audio id="S" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Turkish_alphabet_S.ogg"></audio>
-            <audio id="Ş" src="https://upload.wikimedia.org/wikipedia/commons/d/da/Turkish_alphabet_%C5%9E.ogg"></audio>
-            <audio id="T" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Turkish_alphabet_T.ogg"></audio>
-            <audio id="U" src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Turkish_alphabet_U.ogg"></audio>
-            <audio id="Ü" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Turkish_alphabet_%C3%9C.ogg"></audio>
-            <audio id="V" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Turkish_alphabet_V.ogg"></audio>
-            <audio id="Y" src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Turkish_alphabet_Y.ogg"></audio>
-            <audio id="Z" src="https://upload.wikimedia.org/wikipedia/commons/2/23/Turkish_alphabet_Z.ogg"></audio>
-
-            <audio id="n1" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/one--_tr_1.mp3"></audio>
-            <audio id="n2" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/two--_tr_1.mp3"></audio>
-            <audio id="n3" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/three--_tr_1.mp3"></audio>
-            <audio id="n4" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/four--_tr_1.mp3"></audio>
-            <audio id="n5" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/five--_tr_1.mp3"></audio>
-            <audio id="n6" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/six--_tr_1.mp3"></audio>
-            <audio id="n7" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/seven--_tr_1.mp3"></audio>
-            <audio id="n8" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/eight--_tr_1.mp3"></audio>
-            <audio id="n9" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/nine--_tr_1.mp3"></audio>
-            <audio id="n10" src="https://ssl.gstatic.com/dictionary/static/sounds/20200429/ten--_tr_1.mp3"></audio>
-
-            <audio id="s1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio> <audio id="circle" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio> <audio id="square" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio> <audio id="triangle" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"></audio> <audio id="buyuk" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"></audio> <audio id="kucuk" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"></audio> <audio id="mutlu" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"></audio> <audio id="uzgun" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio> <audio id="kizgin" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"></audio> <audio id="story1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"></audio> <audio id="correct-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3"></audio> <audio id="incorrect-sound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3"></audio> </div>
-
-    </div>
-
-    <script>
-        /* JavaScript Başlangıcı */
-
-        // Genel Değişkenler ve Veriler
-        const sections = ['letters', 'syllables', 'sentences', 'numbers', 'shapes', 'opposites', 'emotions', 'games', 'stories'];
-        const levels = ['all', 'easy', 'medium', 'hard'];
-        let currentSectionIndex = 0;
-        let playingAudio = null; // Şu an çalan ses dosyasını tutar
-
-        // Harf Verileri (Türk Alfabesi) - Resimler ve Sesler ile güncellendi
-        const turkishAlphabet = [
-            { char: 'A', img: 'https://cdn-icons-png.flaticon.com/512/3884/3884401.png', sound: 'A', level: 'easy' },
-            { char: 'B', img: 'https://cdn-icons-png.flaticon.com/512/135/135620.png', sound: 'B', level: 'easy' },
-            { char: 'C', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864514.png', sound: 'C', level: 'medium' },
-            { char: 'Ç', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807666.png', sound: 'Ç', level: 'medium' },
-            { char: 'D', img: 'https://cdn-icons-png.flaticon.com/512/2913/2913627.png', sound: 'D', level: 'easy' },
-            { char: 'E', img: 'https://cdn-icons-png.flaticon.com/512/6076/6076840.png', sound: 'E', level: 'easy' },
-            { char: 'F', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864517.png', sound: 'F', level: 'medium' },
-            { char: 'G', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864520.png', sound: 'G', level: 'medium' },
-            { char: 'Ğ', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807667.png', sound: 'Ğ', level: 'hard' },
-            { char: 'H', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864523.png', sound: 'H', level: 'medium' },
-            { char: 'I', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864526.png', sound: 'I', level: 'hard' }, // Noktasız I
-            { char: 'İ', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864529.png', sound: 'İ', level: 'easy' }, // Noktalı İ
-            { char: 'J', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864532.png', sound: 'J', level: 'hard' },
-            { char: 'K', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864535.png', sound: 'K', level: 'easy' },
-            { char: 'L', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864538.png', sound: 'L', level: 'easy' },
-            { char: 'M', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864541.png', sound: 'M', level: 'easy' },
-            { char: 'N', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864544.png', sound: 'N', level: 'easy' },
-            { char: 'O', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864547.png', sound: 'O', level: 'easy' },
-            { char: 'Ö', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807668.png', sound: 'Ö', level: 'medium' },
-            { char: 'P', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864550.png', sound: 'P', level: 'easy' },
-            { char: 'R', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864553.png', sound: 'R', level: 'easy' },
-            { char: 'S', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864556.png', sound: 'S', level: 'easy' },
-            { char: 'Ş', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807669.png', sound: 'Ş', level: 'medium' },
-            { char: 'T', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864559.png', sound: 'T', level: 'easy' },
-            { char: 'U', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864562.png', sound: 'U', level: 'easy' },
-            { char: 'Ü', img: 'https://cdn-icons-png.flaticon.com/512/6807/6807670.png', sound: 'Ü', level: 'medium' },
-            { char: 'V', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864565.png', sound: 'V', level: 'medium' },
-            { char: 'Y', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864568.png', sound: 'Y', level: 'medium' },
-            { char: 'Z', img: 'https://cdn-icons-png.flaticon.com/512/1864/1864571.png', sound: 'Z', level: 'medium' },
-        ];
-
-
-        // Ekranları Yönetme Fonksiyonları
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            document.getElementById('screen-' + screenId).classList.add('active');
-            stopAllSounds(); // Ekran değiştiğinde tüm sesleri durdur
-        }
-
-        function login() {
-            let name = document.getElementById('username').value.trim();
-            if (!name) {
-                alert('Lütfen adınızı girin!');
-                return;
-            }
-            localStorage.setItem('userName', name);
-            document.getElementById('user-name').innerText = name;
-            switchScreen('menu');
-        }
-
-        function openSection(sectionName) {
-            currentSectionIndex = sections.indexOf(sectionName);
-            switchScreen(sectionName);
-        }
-
-        function goMenu() {
-            switchScreen('menu');
-        }
-
-        function nextSection() {
-            currentSectionIndex = (currentSectionIndex + 1) % sections.length;
-            switchScreen(sections[currentSectionIndex]);
-        }
-
-        // Seslendirme Fonksiyonları
-        function stopAllSounds() {
-            document.querySelectorAll('audio').forEach(audio => {
-                audio.pause();
-                audio.currentTime = 0;
-            });
-            playingAudio = null; // Çalan ses bilgisini sıfırla
-        }
-
-        function playSound(audioId) {
-            stopAllSounds(); // Yeni bir ses çalmadan önce tüm sesleri durdur
-
-            const audio = document.getElementById(audioId);
-            if (audio) {
-                audio.play().catch(e => console.error("Ses çalma hatası:", e));
-                playingAudio = audio; // Çalan ses dosyasını kaydet
-            } else {
-                console.warn(`Ses dosyası bulunamadı: ${audioId}`);
-                showFeedback(audioId + ' sesi yok!', 'incorrect', null); // Ses yoksa kullanıcıya bildir
-            }
-        }
-
-        function playStory(storyId) {
-            stopAllSounds(); // Yeni bir hikaye çalmadan önce tüm sesleri durdur
-
-            const audio = document.getElementById(storyId);
-            if (audio) {
-                audio.play().catch(e => console.error("Hikaye çalma hatası:", e));
-                playingAudio = audio;
-            }
-        }
-
-        function stopStory() {
-            const audio = document.getElementById('story1'); // Hikaye ID'si sabit
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
-                if (playingAudio === audio) {
-                    playingAudio = null;
-                }
-            }
-        }
-
-        // Ses Ayarları Modal Fonksiyonları
-        function openSoundSettings() {
-            document.getElementById('soundSettingsModal').style.display = 'flex';
-            // Kayıtlı ses seviyesini yükle
-            const savedVolume = localStorage.getItem('masterVolume');
-            if (savedVolume !== null) {
-                document.getElementById('masterVolume').value = savedVolume;
-            }
-        }
-
-        function closeSoundSettings() {
-            document.getElementById('soundSettingsModal').style.display = 'none';
-        }
-
-        function setAllVolumes(volume) {
-            document.querySelectorAll('audio').forEach(audio => {
-                audio.volume = volume;
-            });
-            localStorage.setItem('masterVolume', volume); // Ses seviyesini kaydet
-        }
-
-        // Geri Bildirim Fonksiyonu (Daha Gelişmiş)
-        function showFeedback(message, type, elementId) {
-            const feedbackElement = elementId ? document.getElementById(elementId) : null;
-            if (feedbackElement) {
-                feedbackElement.innerText = message;
-                feedbackElement.className = 'feedback ' + type;
-                if (type === 'correct') {
-                    playSound('correct-sound');
-                } else {
-                    playSound('incorrect-sound');
-                }
-                setTimeout(() => {
-                    feedbackElement.innerText = '';
-                    feedbackElement.className = 'feedback';
-                }, 2000); // 2 saniye sonra geri bildirimi temizle
-            }
-        }
-
-        // Harfler Bölümü Fonksiyonları
-        function generateLetterCards() {
-            const lettersGrid = document.getElementById('letters-grid');
-            lettersGrid.innerHTML = ''; // Mevcut içeriği temizle
-            turkishAlphabet.forEach(letter => {
-                const card = document.createElement('div');
-                card.className = 'letter-card';
-                card.dataset.level = letter.level;
-                card.onclick = () => playSound(letter.sound); // Harfin sesini çal
-                card.innerHTML = `
-                    <img src="${letter.img}" alt="${letter.char}"/>
-                    <span>${letter.char}</span>
-                `;
-                lettersGrid.appendChild(card);
-            });
-            applyFilter(); // Kartlar oluşturulduktan sonra filtreyi uygula
-        }
-
-        function applyFilter() {
-            let filter = document.getElementById('level-filter').value;
-            document.querySelectorAll('.letter-card').forEach(card => {
-                if (filter === 'all' || card.dataset.level === filter) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // Hece & Kelime Bölümü Fonksiyonları
-        function checkSyllable(selectedSyllable) {
-            const correctSyllable = 'BA'; // Örnek olarak sabit
-            if (selectedSyllable === correctSyllable) {
-                showFeedback('Doğru! Harikasın!', 'correct', 'syllable-feedback');
-                playSound(selectedSyllable); // Doğru hecenin sesini çal
-            } else {
-                showFeedback('Yanlış cevap. Tekrar dene.', 'incorrect', 'syllable-feedback');
-            }
-        }
-
-        function checkWord(selectedChar) {
-            const correctAnswer = 'ELMA';
-            const currentWord = 'ELM_'; // Metindeki kelime
-            const completedWord = currentWord.replace('_', selectedChar);
-
-            if (completedWord === correctAnswer) {
-                showFeedback('Tebrikler! Doğru kelime: ' + correctAnswer, 'correct', 'word-feedback');
-                playSound('ELMA'); // Kelimenin sesini çal (eğer varsa)
-            } else {
-                showFeedback('Yanlış. Başka bir harf dene.', 'incorrect', 'word-feedback');
-            }
-        }
-
-        // Cümleler Bölümü Fonksiyonları
-        function playSentence(sentenceId) {
-            playSound(sentenceId);
-        }
-
-        function checkSentenceAnswer(answer) {
-            if (answer === 'Kedi') {
-                showFeedback('Doğru! Kedi süt içer.', 'correct', 'sentence-feedback');
-            } else {
-                showFeedback('Yanlış. Cümleyi tekrar dinle.', 'incorrect', 'sentence-feedback');
-            }
-        }
-
-        // Sayılar Bölümü Fonksiyonları
-        function checkNumber(selectedNumber) {
-            const correctNumber = 3; // Resimdeki elma sayısı
-            if (selectedNumber === correctNumber) {
-                showFeedback('Doğru! ' + correctNumber + ' elma var.', 'correct', 'number-feedback');
-            } else {
-                showFeedback('Yanlış. Sayıları tekrar say.', 'incorrect', 'number-feedback');
-            }
-        }
-
-        // Şekiller & Renkler Bölümü Fonksiyonları
-        function checkShape(selectedShape) {
-            const correctShape = 'Daire';
-            if (selectedShape === correctShape) {
-                showFeedback('Doğru! Bu bir ' + correctShape + '.', 'correct', 'shape-feedback');
-            } else {
-                showFeedback('Yanlış. Tekrar dene.', 'incorrect', 'shape-feedback');
-            }
-        }
-
-        function checkColor(selectedColor) {
-            const correctColor = 'red';
-            if (selectedColor === correctColor) {
-                showFeedback('Doğru! Bu renk Kırmızı.', 'correct', 'color-feedback');
-            } else {
-                showFeedback('Yanlış. Dikkatli bak.', 'incorrect', 'color-feedback');
-            }
-        }
-
-        // Zıt Kavramlar Bölümü Fonksiyonları
-        function checkOpposite(selectedConcept) {
-            const correctConcept = 'BÜYÜK';
-            if (selectedConcept === correctConcept) {
-                showFeedback('Doğru!', 'correct', 'opposite-feedback');
-            } else {
-                showFeedback('Yanlış. Tekrar düşün.', 'incorrect', 'opposite-feedback');
-            }
-        }
-
-        // Duygular Bölümü Fonksiyonları
-        function checkEmotion(selectedEmotion) {
-            const correctEmotion = 'Mutlu'; // Resimdeki duygu
-            if (selectedEmotion === correctEmotion) {
-                showFeedback('Doğru! O mutlu görünüyor.', 'correct', 'emotion-feedback');
-            } else {
-                showFeedback('Yanlış. Tekrar dene.', 'incorrect', 'emotion-feedback');
-            }
-        }
-
-        // Oyunlar Bölümü - Baloncuk Patlatma Oyunu
-        let score = 0;
-        let bubbleInterval;
-        let gameActive = false;
-
-        function startGame() {
-            if (gameActive) return;
-            gameActive = true;
-            score = 0;
-            document.getElementById('score').innerText = score;
-            document.getElementById('bubble-game-area').innerHTML = ''; // Eski baloncukları temizle
-            bubbleInterval = setInterval(createBubble, 1000); // Her saniye yeni baloncuk
-            
-            // Oyun süresi ekleyebiliriz (örn. 30 saniye sonra durdur)
-            setTimeout(() => {
-                stopGame();
-                alert(`Oyun Bitti! Puanınız: ${score}`);
-            }, 30000); // 30 saniye sonra oyunu durdur
-        }
-
-        function stopGame() {
-            clearInterval(bubbleInterval);
-            gameActive = false;
-        }
-
-        function createBubble() {
-            const gameArea = document.getElementById('bubble-game-area');
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 40 + 40; // 40px ile 80px arası boyut
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * (gameArea.offsetWidth - size) + 'px';
-            bubble.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4-7 saniye arası animasyon süresi
-            bubble.innerText = '💥'; // Baloncuk sembolü
-
-            bubble.onclick = () => {
-                if (!gameActive) return;
-                score++;
-                document.getElementById('score').innerText = score;
-                bubble.remove(); // Patlayan baloncuk silinsin
-                playSound('correct-sound'); // Patlama sesi
-            };
-
-            gameArea.appendChild(bubble);
-
-            // Ekran dışına çıkan baloncukları temizle
-            bubble.addEventListener('animationend', () => {
-                bubble.remove();
-            });
-        }
-
-
-        // Sayfa yüklendiğinde çalışacak kodlar
-        window.onload = () => {
-            let storedName = localStorage.getItem('userName');
-            if (storedName) {
-                document.getElementById('user-name').innerText = storedName;
-                switchScreen('menu'); // Eğer isim kayıtlıysa doğrudan menüye git
-            } else {
-                switchScreen('login'); // İsim kayıtlı değilse giriş ekranını göster
-            }
-            generateLetterCards(); // Harf kartlarını oluştur
-            
-            // Kayıtlı ses seviyesini tüm ses elemanlarına uygula
-            const savedVolume = localStorage.getItem('masterVolume');
-            if (savedVolume !== null) {
-                setAllVolumes(savedVolume);
-                document.getElementById('masterVolume').value = savedVolume;
-            } else {
-                // Eğer kayıtlı bir ses seviyesi yoksa varsayılanı (1) kaydet
-                localStorage.setItem('masterVolume', '1');
-            }
-        };
-
-        /* JavaScript Sonu */
-    </script>
-</body>
-</html>
+                <p style="font-size
