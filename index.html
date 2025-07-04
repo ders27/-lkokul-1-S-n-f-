@@ -1,114 +1,259 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Okuma Yolculuğum</title>
   <style>
-    body {
-      font-family: 'Comic Sans MS', sans-serif;
-      background-color: #fcefee;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+    /* === GENEL & RESET === */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Comic Sans MS', cursive, sans-serif; background: #f0f8ff; }
+    button, select { cursor: pointer; }
 
-    #app {
-      padding: 30px;
-    }
+    /* === GÖRÜNÜM KUTUSU === */
+    #app { max-width: 480px; margin: auto; padding: 20px; }
 
-    .ekran {
-      display: none;
-    }
+    /* === EKRAN TÜRLERİ === */
+    .screen { display: none; }
+    .active { display: block; }
 
-    .aktif {
-      display: block;
-    }
+    /* === GİRİŞ EKRANI === */
+    #screen-login { text-align: center; margin-top: 50px; }
+    #screen-login input { width: 80%; padding: 10px; font-size: 18px; border-radius: 8px; border: 1px solid #ccc; }
+    #screen-login button { margin-top: 15px; padding: 10px 30px; background: #1e90ff; color: #fff; border: none; border-radius: 8px; }
 
-    input[type="text"] {
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background-color: #ff7f50;
-      color: white;
-      cursor: pointer;
-    }
-
-    h1 {
-      color: #d14;
-    }
-
-    .kategori {
-      margin: 10px auto;
-      padding: 15px;
-      background-color: #ffecd2;
+    /* === ANA MENÜ & SEVİYE SEÇİM === */
+    #screen-menu h1 { margin-bottom: 10px; color: #333; }
+    .category-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; }
+    .category-item {
+      flex: 1 1 45%;
+      padding: 15px 10px;
+      background: #ffebcd;
       border-radius: 12px;
-      width: 90%;
-      max-width: 300px;
-      font-size: 20px;
+      text-align: center;
+      font-size: 16px;
+      border: 2px solid #ffa500;
     }
+    #level-filter { margin-top: 15px; width: 100%; padding: 8px; font-size: 16px; border-radius: 8px; }
+
+    /* === HARFLER BÖLÜMÜ === */
+    #screen-letters h2 { margin: 20px 0 10px; color: #4e342e; }
+    .letters-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .letter-card {
+      background: #fff3e0;
+      border: 3px solid #ff9800;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      transition: transform .2s;
+    }
+    .letter-card:hover { transform: scale(1.05); }
+    .letter-card img { width: 50px; height: 50px; }
+    .letter-card span { display: block; margin-top: 8px; font-size: 28px; color: #e65100; }
+
+    /* === DİĞER BÖLÜMLER ŞABLONU === */
+    .content-section { padding: 15px; }
+    .content-section h2 { margin-bottom: 10px; }
+    .placeholder { color: #888; font-style: italic; }
+
+    /* === NAV BUTONLARI === */
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    .nav-buttons button { background: #1e90ff; color: #fff; padding: 8px 12px; border: none; border-radius: 8px; }
+
   </style>
 </head>
 <body>
   <div id="app">
-    
-    <!-- Giriş Ekranı -->
-    <div id="girisEkrani" class="ekran aktif">
+
+    <!-- GİRİŞ EKRANI -->
+    <div id="screen-login" class="screen active">
       <h1>Okuma Yolculuğum</h1>
-      <p>Adını yaz ve başla!</p>
-      <input type="text" id="username" placeholder="Adın" />
-      <br>
-      <button onclick="startApp()">Başla</button>
+      <p>Adını yazıp başla!</p>
+      <input type="text" id="username" placeholder="Adın"/>
+      <br/>
+      <button onclick="login()">Başla</button>
     </div>
 
-    <!-- Ana Menü -->
-    <div id="anaMenu" class="ekran">
-      <h1>Hoş geldin, <span id="userDisplay"></span>!</h1>
-      <p>Bir kategori seç:</p>
-      <div class="kategori">🔤 Harfler</div>
-      <div class="kategori">🧩 Hece - Kelime</div>
-      <div class="kategori">📚 Cümleler</div>
-      <div class="kategori">🔢 Sayılar</div>
-      <div class="kategori">🎨 Şekiller - Renkler</div>
-      <div class="kategori">🎭 Zıt Kavramlar</div>
-      <div class="kategori">😊 Duygular</div>
-      <div class="kategori">🎮 Oyunlar</div>
-      <div class="kategori">📖 Okuma Metinleri</div>
+    <!-- ANA MENÜ ve SEVİYE SEÇİM -->
+    <div id="screen-menu" class="screen">
+      <h1>Hoş geldin, <span id="user-name"></span>!</h1>
+      <select id="level-filter" onchange="applyFilter()">
+        <option value="all">Seviye: Tümü</option>
+        <option value="easy">Kolay</option>
+        <option value="medium">Orta</option>
+        <option value="hard">Zor</option>
+      </select>
+      <div class="category-list">
+        <div class="category-item" onclick="openSection('letters')">🔤 Harfler</div>
+        <div class="category-item" onclick="openSection('syllables')">🧩 Hece &amp; Kelime</div>
+        <div class="category-item" onclick="openSection('sentences')">📚 Cümleler</div>
+        <div class="category-item" onclick="openSection('numbers')">🔢 Sayılar</div>
+        <div class="category-item" onclick="openSection('shapes')">🎨 Şekiller &amp; Renkler</div>
+        <div class="category-item" onclick="openSection('opposites')">🎭 Zıt Kavramlar</div>
+        <div class="category-item" onclick="openSection('emotions')">😊 Duygular</div>
+        <div class="category-item" onclick="openSection('games')">🎮 Oyunlar</div>
+        <div class="category-item" onclick="openSection('stories')">📖 Okuma Metinleri</div>
+      </div>
+    </div>
+
+    <!-- HARFLER BÖLÜMÜ -->
+    <div id="screen-letters" class="screen">
+      <h2>🔤 Harfler</h2>
+      <div class="letters-grid" id="letters-grid">
+        <!-- Örnek Kartlar -->
+        <div class="letter-card" data-level="easy" onclick="playSound('A')">
+          <img src="https://cdn-icons-png.flaticon.com/512/3884/3884401.png" alt="A"/>
+          <span>A</span>
+        </div>
+        <div class="letter-card" data-level="easy" onclick="playSound('B')">
+          <img src="https://cdn-icons-png.flaticon.com/512/135/135620.png" alt="B"/>
+          <span>B</span>
+        </div>
+        <!-- Tüm harfler A-Z burada aynı formatta yer almalı -->
+      </div>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+      <!-- Ses dosyaları -->
+      <audio id="A" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Turkish_alphabet_A.ogg"></audio>
+      <audio id="B" src="https://upload.wikimedia.org/wikipedia/commons/b/be/Turkish_alphabet_B.ogg"></audio>
+      <!-- Diğer harf sesleri benzer şekilde eklenmeli -->
+    </div>
+
+    <!-- HECE & KELİME BÖLÜMÜ (Şablon) -->
+    <div id="screen-syllables" class="screen content-section">
+      <h2>🧩 Hece &amp; Kelime</h2>
+      <p class="placeholder">Burada hece eşleştirme ve kelime tamamlama aktiviteleri olacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- CÜMLELER BÖLÜMÜ (Şablon) -->
+    <div id="screen-sentences" class="screen content-section">
+      <h2>📚 Cümleler</h2>
+      <p class="placeholder">Resimli cümleler ve okuma-anlama soruları burada yer alacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- SAYILAR BÖLÜMÜ (Şablon) -->
+    <div id="screen-numbers" class="screen content-section">
+      <h2>🔢 Sayılar</h2>
+      <p class="placeholder">Sayma, toplama-çıkarma oyunları burada olacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- ŞEKİLLER & RENKLER BÖLÜMÜ (Şablon) -->
+    <div id="screen-shapes" class="screen content-section">
+      <h2>🎨 Şekiller &amp; Renkler</h2>
+      <p class="placeholder">Şekil tanıma ve boyama aktiviteleri burada olacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- ZIT KAVRAMLAR BÖLÜMÜ (Şablon) -->
+    <div id="screen-opposites" class="screen content-section">
+      <h2>🎭 Zıt Kavramlar</h2>
+      <p class="placeholder">Büyük-küçük, uzun-kısa eşleştirme aktiviteleri olacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- DUYGULAR BÖLÜMÜ (Şablon) -->
+    <div id="screen-emotions" class="screen content-section">
+      <h2>😊 Duygular</h2>
+      <p class="placeholder">Emoji tarzı çizimler ve sesli anlatım burada olacak.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- OYUNLAR BÖLÜMÜ (Şablon) -->
+    <div id="screen-games" class="screen content-section">
+      <h2>🎮 Oyunlar</h2>
+      <p class="placeholder">Baloncuk patlatma, eşleştirme gibi mini oyunlar.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+        <button onclick="nextSection()">Sonraki</button>
+      </div>
+    </div>
+
+    <!-- OKUMA METİNLERİ BÖLÜMÜ (Şablon) -->
+    <div id="screen-stories" class="screen content-section">
+      <h2>📖 Okuma Metinleri</h2>
+      <p class="placeholder">Resimli kısa hikâyeler ve sesli okuma.</p>
+      <div class="nav-buttons">
+        <button onclick="goMenu()">Ana Menü</button>
+      </div>
     </div>
 
   </div>
 
   <script>
-    function startApp() {
-      const username = document.getElementById("username").value.trim();
-      if (username === "") {
-        alert("Lütfen adını yaz.");
-        return;
-      }
-      localStorage.setItem("okuyucuAdi", username);
-      document.getElementById("userDisplay").innerText = username;
-      document.getElementById("girisEkrani").classList.remove("aktif");
-      document.getElementById("anaMenu").classList.add("aktif");
+    let sections = ['letters', 'syllables', 'sentences', 'numbers', 'shapes', 'opposites', 'emotions', 'games', 'stories'];
+    let currentIdx = 0;
+
+    function login() {
+      const name = document.getElementById('username').value.trim();
+      if (!name) return alert('Lütfen adını gir!');
+      localStorage.setItem('userName', name);
+      document.getElementById('user-name').innerText = name;
+      switchScreen('menu');
     }
 
-    // Sayfa yüklendiğinde önceki kullanıcı adı varsa otomatik geç
-    window.onload = function () {
-      const savedName = localStorage.getItem("okuyucuAdi");
-      if (savedName) {
-        document.getElementById("userDisplay").innerText = savedName;
-        document.getElementById("girisEkrani").classList.remove("aktif");
-        document.getElementById("anaMenu").classList.add("aktif");
-      }
+    function switchScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
     }
+
+    function openSection(section) {
+      currentIdx = sections.indexOf(section);
+      switchScreen(section);
+    }
+
+    function goMenu() {
+      switchScreen('menu');
+    }
+
+    function nextSection() {
+      currentIdx = (currentIdx + 1) % sections.length;
+      switchScreen(sections[currentIdx]);
+    }
+
+    function applyFilter() {
+      const level = document.getElementById('level-filter').value;
+      document.querySelectorAll('.letter-card').forEach(card => {
+        card.style.display = (level==='all' || card.dataset.level===level) ? '' : 'none';
+      });
+    }
+
+    // Ses oynatma
+    function playSound(id) {
+      const a = document.getElementById(id);
+      if (a) { a.currentTime = 0; a.play(); }
+    }
+
+    // Otomatik login
+    window.onload = () => {
+      const saved = localStorage.getItem('userName');
+      if (saved) {
+        document.getElementById('user-name').innerText = saved;
+        switchScreen('menu');
+      }
+    };
   </script>
 </body>
 </html>
